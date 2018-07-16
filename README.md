@@ -4,7 +4,7 @@
 
 
 [![npm version](https://badge.fury.io/js/%40ng-forms%2Ffile-upload.svg)](https://www.npmjs.com/package/@ng-forms/file-upload)
-[![Build Status](https://travis-ci.org/pIvan/file-upload.svg?branch=master)](https://travis-ci.org/pIvan/file-upload)
+[![Build Status](https://travis-ci.com/pIvan/file-upload.svg?branch=master)](https://travis-ci.org/pIvan/file-upload)
 
 # Demo
 more detailed instructions can be found
