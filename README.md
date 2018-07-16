@@ -1,9 +1,9 @@
-# @forms/file-upload
+# @ng-forms/file-upload
 > Angular module used for file upload.
 
 
 
-[![npm version](https://badge.fury.io/js/%40forms%2Ffile-upload.svg)](https://www.npmjs.com/package/@forms/file-upload)
+[![npm version](https://badge.fury.io/js/%40ng-forms%2Ffile-upload.svg)](https://www.npmjs.com/package/@ng-forms/file-upload)
 [![Build Status](https://travis-ci.org/pIvan/file-upload.svg?branch=master)](https://travis-ci.org/pIvan/file-upload)
 
 # Demo
@@ -23,13 +23,13 @@ more detailed instructions can be found
 
 
 ```shell
-npm install @forms/file-upload
+npm install @ng-forms/file-upload
 ```
 
 Use the following snippet inside your app module: 
 ```shell
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
-import { FileUploadModule } from '@forms/file-upload';
+import { FileUploadModule } from '@ng-forms/file-upload';
 ...
 ...
 
@@ -47,7 +47,7 @@ export class AppModule {}
 
 Use the following snippet inside your component: 
 ```shell
-import { FileUploadControl, FileUploadValidators } from '@forms/file-upload';
+import { FileUploadControl, FileUploadValidators } from '@ng-forms/file-upload';
 
 
 @Component({
@@ -65,7 +65,7 @@ export class AppComponent {
 
 With angular reactive form you can use the following snippet: 
 ```shell
-import { FileUploadValidators } from '@forms/file-upload';
+import { FileUploadValidators } from '@ng-forms/file-upload';
 
 
 @Component({
@@ -114,7 +114,7 @@ export class AppComponent {
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
-[Angular CLI](https://github.com/angular/angular-cli) must be installed before building @forms/file-upload project.
+[Angular CLI](https://github.com/angular/angular-cli) must be installed before building @ng-forms/file-upload project.
 
 ```shell
 npm install -g @angular/cli
@@ -138,7 +138,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
 
-[Angular CLI](https://github.com/angular/angular-cli) must be installed before testing @forms/file-upload project.
+[Angular CLI](https://github.com/angular/angular-cli) must be installed before testing @ng-forms/file-upload project.
 
 ```shell
 npm install -g @angular/cli
@@ -162,4 +162,4 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 
 ## Licensing
 
-@forms/file-upload is freely distributable under the terms of the [MIT license](https://github.com/pIvan/file-upload/blob/master/LICENSE).
+@ng-forms/file-upload is freely distributable under the terms of the [MIT license](https://github.com/pIvan/file-upload/blob/master/LICENSE).
