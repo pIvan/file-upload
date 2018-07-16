@@ -16,6 +16,7 @@
             "outputPath": "docs",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/file-upload/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
