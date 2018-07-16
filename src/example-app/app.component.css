@@ -1,0 +1,8 @@
+img {
+    max-width: 200px;
+}
+
+file-upload.ng-touched.ng-invalid {
+    outline-color: #ff0000;
+    background-color: #fdf4f4;
+}
