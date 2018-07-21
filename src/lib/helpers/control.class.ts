@@ -60,11 +60,9 @@ export class FileUploadControl {
     }
 
     public addFile(file: File): this {
-        if (!this.files.has(file)) {
-            this.files.add(file);
-            this.valueChanges.next(Array.from(this.files.values()));
-            this.validate();
-        }
+        this.files.add(file);
+        this.valueChanges.next(Array.from(this.files.values()));
+        this.validate();
         return this;
     }
 
@@ -76,8 +74,19 @@ export class FileUploadControl {
     }
 
     public addFiles(files: FileList): this {
-        Array.from(files).forEach(file => this.addFile(file));
+        this.addMultipleFiles(Array.from(files));
         return this;
+    }
+
+    /** 
+     * @internal 
+     * used to prevent valueChanges emit more times
+     * when multiple files are uploaded
+     */
+    private addMultipleFiles(files: Array<File>): void {
+        files.forEach(file => this.files.add(file));
+        this.valueChanges.next(Array.from(this.files.values()));
+        this.validate();
     }
 
     public get valid(): boolean {
@@ -110,7 +119,7 @@ export class FileUploadControl {
         this.files.clear();
 
         if(files instanceof Array) {
-            files.forEach(file => this.addFile(file));
+            this.addMultipleFiles(files);
         } else {
             throw Error(`FormControl.setValue was provided with wrong argument type, ${files} was provided instead Array<File>`);
         }

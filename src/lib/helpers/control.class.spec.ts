@@ -43,6 +43,22 @@ describe('FileUploadControl', () => {
         expect(valueChanges).toHaveBeenCalled();
     });
 
+    it('should emit value changes only two times, initial and on change', () => {
+        const valueChanges = jasmine.createSpy();
+
+        control.valueChanges.subscribe(valueChanges);
+
+        const file1 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
+        
+        control.setValue([file1, file2, file3]);
+
+        expect(valueChanges).toHaveBeenCalled();
+        expect(valueChanges).toHaveBeenCalledTimes(2);
+        expect(control.size).toBe(3);
+    });
+
     it('should emit status changes', () => {
         const statusChanges = jasmine.createSpy();
         control.statusChanges.subscribe(statusChanges);

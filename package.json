@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/file-upload",
   "bugs": "https://github.com/pIvan/file-upload/issues",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -11,12 +11,14 @@
     "file-upload",
     "drag & drop",
     "drag and drop",
-    "drag and drop file-upload",
+    "file upload",
+    "forms",
     "angular 5",
     "angular 6",
     "rxjs 6",
     "angular form",
-    "JavaScript"
+    "JavaScript",
+    "TypeScript"
   ],
   "scripts": {
     "ng": "ng",
@@ -27,7 +29,7 @@
     "e2e": "ng e2e",
     "clean": "rm -rf dist",
     "build:git:demo": "ng build --prod",
-    "build:library": "npm run test && ng-packagr -p ng-package.json && npm run build:git:demo",
+    "build:library": "ng test && ng-packagr -p ng-package.json && npm run build:git:demo",
     "build:publish": "npm publish dist/lib/ --access public --tag=latest"
   },
   "repository": {
