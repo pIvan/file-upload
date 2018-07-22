@@ -226,4 +226,112 @@ export class AppComponent &#123; &#125;</pre>
     </div>
     <br>
 
+    <div class="card">
+        <div class="card-header">List of all built-in methods</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>statusChanges</td>
+                        <td><code>Getter.Observable</code></td>
+                        <td>Used to observe component status change</td>
+                    </tr>
+                    <tr>
+                        <td>valueChanges</td>
+                        <td><code>Getter.Observable</code></td>
+                        <td>Used to observe value change, subscription initially return last emitted value</td>
+                    </tr>
+                    <tr>
+                        <td>setValidators</td>
+                        <td><code>Function</code></td>
+                        <td>Method used to set validators functions, signature is same as @angular validators</td>
+                    </tr>
+                    <tr>
+                        <td>addFile</td>
+                        <td><code>Function</code></td>
+                        <td>Used to add File object to existing File list</td>
+                    </tr>
+                    <tr>
+                        <td>removeFile</td>
+                        <td><code>Function</code></td>
+                        <td>Used to remove File object from existing File list</td>
+                    </tr>
+                    <tr>
+                        <td>addFiles</td>
+                        <td><code>Function</code></td>
+                        <td>Used to add multiple File objects</td>
+                    </tr>
+                    <tr>
+                        <td>valid</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Used to get current validity status</td>
+                    </tr>
+                    <tr>
+                        <td>invalid</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>same as `valid`</td>
+                    </tr>
+                    <tr>
+                        <td>getError</td>
+                        <td><code>Function</code></td>
+                        <td>return list of validation errors</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td><code>Getter.Number</code></td>
+                        <td>return list length</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td><code>Getter.Array</code></td>
+                        <td>return list of Files</td>
+                    </tr>
+                    <tr>
+                        <td>setValue</td>
+                        <td><code>Function</code></td>
+                        <td>Set component value, same as FormControl.setValue()</td>
+                    </tr>
+                    <tr>
+                        <td>clear</td>
+                        <td><code>Function</code></td>
+                        <td>Remove all files</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Check is component disabled</td>
+                    </tr>
+                    <tr>
+                        <td>enable</td>
+                        <td><code>Function</code></td>
+                        <td>Enable/Disable file upload</td>
+                    </tr>
+                    <tr>
+                        <td>disable</td>
+                        <td><code>Function</code></td>
+                        <td>Disable/Enable file upload</td>
+                    </tr>
+                    <tr>
+                        <td>isListVisible</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Check is built-in list visible</td>
+                    </tr>
+                    <tr>
+                        <td>setListVisibility</td>
+                        <td><code>Function</code></td>
+                        <td>Hide/Show built-in list</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
 </div>
