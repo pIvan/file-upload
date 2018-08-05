@@ -12,8 +12,10 @@ import { CommonModule } from '@angular/common';
 import { FileUploadComponent } from './components/file-upload.component';
 import { FileUploadListItemComponent } from './components/file-upload-list-item.component';
 import { FileUploadIconComponent } from './components/file-upload-icon.component';
+import { FileUploadAttributeComponent } from './components/file-upload-attr.component';
 
 import { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
+
 
 export { FileUploadControl } from './helpers/control.class';
 export { FileUploadValidators, ValidationErrors, ValidatorFn } from './helpers/validators.class';
@@ -30,12 +32,15 @@ export { FileUploadTypes } from './helpers/file-types.class';
         FileUploadListItemComponent,
         FileUploadIconComponent,
 
+        FileUploadAttributeComponent,
+
         FileSizeValidator,
         FilesLimitValidator,
         FilesAcceptValidator
     ],
     exports: [
         FileUploadComponent,
+        FileUploadAttributeComponent,
 
         FileSizeValidator,
         FilesLimitValidator,

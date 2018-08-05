@@ -12,7 +12,8 @@ import {
     ViewChild,
     ChangeDetectionStrategy,
     ContentChild,
-    forwardRef
+    forwardRef,
+    ChangeDetectorRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -22,8 +23,8 @@ import { IsNullOrEmpty } from './../helpers/helpers.class';
 import { FileUploadService } from './../services/file-upload.service';
 import { Subscription } from 'rxjs';
 
-const DRAGOVER = 'dragover';
-const TOUCHED = 'ng-touched';
+export const DRAGOVER = 'dragover';
+export const TOUCHED = 'ng-touched';
 
 @Component({
     selector: `file-upload`,
@@ -66,7 +67,8 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         public fileUploadService: FileUploadService,
         private hostElementRef: ElementRef,
         private renderer: Renderer2,
-        @Inject(DOCUMENT) private document
+        @Inject(DOCUMENT) private document,
+        private cdr: ChangeDetectorRef
     ) {}
 
     public ngOnInit() {
@@ -80,6 +82,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     }
 
     public ngOnDestroy(): void {
+        this.cdr.detach();
         this.hooks.forEach((hook) => hook());
         this.hooks.length = 0;
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
@@ -117,6 +120,10 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
 
         this.subscriptions.push(
             this.control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
+        );
+
+        this.subscriptions.push(
+            this.control.valueChanges.subscribe((files) => this.cdr.markForCheck())
         );
     }
 

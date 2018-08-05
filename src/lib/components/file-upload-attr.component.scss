@@ -1,0 +1,48 @@
+:host {
+    position: relative;
+    display: block;
+}
+
+:host .overlay {
+    display: none;
+    background: rgba(255,255,255,.8);
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+:host(.dragover:not(.disabled)) .overlay {
+    display: block;
+}
+
+.icon {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    margin: 0 auto 10px;
+}
+
+:host /deep/ .icon svg {
+    fill: #80a9d2;
+}
+
+.upload-input {
+    pointer-events: none;
+    cursor: pointer;
+    display: inline-block;
+    color: #80a9d2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    -webkit-transition: all .15s ease-in-out;
+    -moz-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+}
