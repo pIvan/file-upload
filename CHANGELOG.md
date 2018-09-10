@@ -1,4 +1,11 @@
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/pIvan/file-upload/commit/f6ea5346162f07d4fe6ea533ea5c64f3322fde1d) (2018-09-10)
+
+### Features
+* **`minSize="0" max="6200"`:**
+* **`FileUploadValidators.sizeRange({ minSize?, maxSize? })`:** support for template and reactive form range file size validation
+
 <a name="1.1.0"></a>
 ## [1.1.0](https://github.com/pIvan/file-upload/commit/2fe72c637e08b552cc45f2a3396d3f0b5f8ff5c9) (2018-08-05)
 

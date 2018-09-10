@@ -12,12 +12,13 @@ file-upload.ng-touched.ng-invalid {
     min-height: 200px;
     border: 1px solid rgba(0,0,0,.125);
 }
-.message-wrapper svg {
+
+.file-list svg {
     display: inline-block;
     height: 16px;
     width: 16px;
 }
 
-.message-wrapper .file-list {
+.file-list {
     padding: 10px 0 5px;
 }
