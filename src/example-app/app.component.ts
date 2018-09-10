@@ -1,8 +1,8 @@
-import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
-import { FileUploadControl, FileUploadValidators } from '@ng-forms/file-upload';
+import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload';
 
 
 @Component({

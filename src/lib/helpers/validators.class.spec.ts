@@ -16,6 +16,24 @@ describe('FileUploadValidators', () => {
         expect(control.valid).toBe(true);
     });
 
+    it('file size should be in range', () => {
+        const control = new FileUploadControl();
+        const file = new File([""], "filename.txt", {type: "text/plain"});
+        control.addFile(file);
+
+        control.setValidators(FileUploadValidators.sizeRange({ minSize: 10, maxSize: 4000 }));
+        expect(control.valid).toBe(false);
+    });
+
+    it('file size should be greater', () => {
+        const control = new FileUploadControl();
+        const file = new File([""], "filename.txt", {type: "text/plain"});
+        control.addFile(file);
+
+        control.setValidators(FileUploadValidators.sizeRange({ minSize: 10 }));
+        expect(control.valid).toBe(false);
+    });
+
     it('should test file extension', () => {
         control.setValidators(FileUploadValidators.accept(['.txt']));
         expect(control.valid).toBe(true);

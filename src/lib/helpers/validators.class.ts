@@ -13,9 +13,9 @@ export interface ValidatorFn {
 /**
  * function used to check file size
  */
-const checkFileSize = (file: File, maxSize: number): ValidationErrors | null => {
-    return file.size > maxSize ?
-        {maxSize, actual: file.size, file} : null;
+const checkFileSize = (file: File, maxSize: number, minSize: number = 0): ValidationErrors | null => {
+    return (!IsNullOrEmpty(maxSize) && file.size > maxSize) || file.size < minSize ?
+        {maxSize, minSize, actual: file.size, file} : null;
 }
 
 const FILE_EXT_REG = /(^[.]\w*)$/gm;
@@ -66,6 +66,24 @@ export class FileUploadValidators {
 
             return toLargeFiles.length > 0 ?
                     {'fileSize': toLargeFiles} : null;
+        };
+    }
+
+    /**
+     * Compare the File size in bytes with max and min size limits
+     * @dynamic
+     */
+    public static sizeRange({ minSize, maxSize }: { minSize?: number; maxSize?: number }): ValidatorFn {
+        return (control: AbstractControl | FileUploadControl): {sizeRange: Array<ValidationErrors>} => {
+            const files: Array<File> = control.value;
+            if (IsNullOrEmpty(files)) { return null; }
+            checkValueType(files);
+
+            const sizeMismatch = files.map((file) => checkFileSize(file, maxSize, minSize))
+                                        .filter((error) => error);
+
+            return sizeMismatch.length > 0 ?
+                    {'sizeRange': sizeMismatch} : null;
         };
     }
 

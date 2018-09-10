@@ -17,7 +17,7 @@
       "dom"
     ],
     "paths": {
-      "@ng-forms/file-upload": [ "lib/public_api" ]
+      "@iplab/ngx-file-upload": [ "lib/public_api" ]
     }
   },
   "angularCompilerOptions": {

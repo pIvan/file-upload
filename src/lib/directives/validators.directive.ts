@@ -1,6 +1,7 @@
 import { Directive, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { ValidationErrors, ValidatorFn, FileUploadValidators } from './../helpers/validators.class';
+import { IsNullOrEmpty } from './../helpers/helpers.class';
 
 
 /**
@@ -12,36 +13,51 @@ import { ValidationErrors, ValidatorFn, FileUploadValidators } from './../helper
  * ```
  * <file-upload name="files" ngModel filesize="830000"></file-upload>
  * <file-upload name="files" ngModel [filesize]="830000"></file-upload>
+ * <file-upload name="files" ngModel minSize="0" max="6200"></file-upload>
  * ```
  *
  */
 @Directive({
-    selector: '[filesize][formControlName],[filesize][formControl],[filesize][ngModel]',
+    selector: `[filesize][formControlName],[filesize][formControl],[filesize][ngModel],
+    [minsize][formControlName],[minsize][formControl],[minsize][ngModel],
+    [maxsize][formControlName],[maxsize][formControl],[maxsize][ngModel]`,
     providers: [{
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => FileSizeValidator),
         multi: true
     }],
-    host: {'[attr.filesize]': 'filesize ? filesize : null'}
+    host: {
+        '[attr.filesize]': 'filesize ? filesize : null',
+        '[attr.minsize]': 'minsize ? minsize : null',
+        '[attr.maxsize]': 'maxsize ? maxsize : null'
+    }
 })
 export class FileSizeValidator implements Validator, OnChanges {
     
     @Input()
     private filesize: string|number;
 
+    @Input()
+    private minsize: string|number;
+    
+    @Input()
+    private maxsize: string|number;
+
     private validator: ValidatorFn;
 
     private onChange: () => void;
   
     public ngOnChanges(changes: SimpleChanges): void {
-        if ('filesize' in changes) {
+        if ('filesize' in changes 
+            || 'maxsize' in changes 
+            || 'minsize' in changes) {
           this._createValidator();
           if (this.onChange) this.onChange();
         }
     }
 
     public validate(c: AbstractControl): ValidationErrors|null {
-        return this.filesize != null ? this.validator(c) : null;
+        return this.validator(c);
     }
   
     public registerOnValidatorChange(fn: () => void): void {
@@ -49,7 +65,16 @@ export class FileSizeValidator implements Validator, OnChanges {
     }
 
     private _createValidator(): void {
-        this.validator = FileUploadValidators.fileSize(typeof this.filesize === 'string' ? parseInt(this.filesize, 10) : this.filesize);
+        let maxSize = null;        
+        if (!IsNullOrEmpty(this.maxsize)) {
+            maxSize = typeof this.maxsize === 'string' ? parseInt(this.maxsize, 10) : this.maxsize;
+        } else if(!IsNullOrEmpty(this.filesize)) {
+            maxSize = typeof this.filesize === 'string' ? parseInt(this.filesize, 10) : this.filesize;
+        }
+
+        const minSize = typeof this.minsize === 'string' ? parseInt(this.minsize, 10) : this.minsize;
+
+        this.validator = FileUploadValidators.sizeRange({ maxSize, minSize });
     }
 }
 

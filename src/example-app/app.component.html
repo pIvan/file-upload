@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="display-4">@ng-forms/file-upload</h1>
+                <h1 class="display-4">@iplab/ngx-file-upload</h1>
                 <br>
                 <a href="https://github.com/pIvan/file-upload" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">GitHub</a>
             </div>
@@ -22,7 +22,7 @@
             </ol>
             <p style="padding:0 0 0 40px"><b>or</b></p>
             <ol>
-                <li>npm install @ng-forms/file-upload --save</li>
+                <li>npm install @iplab/ngx-file-upload --save</li>
                 <li>ng serve --open</li>
             </ol>
         </div>
@@ -35,9 +35,9 @@
         <div class="card-block">
             <p>To install this component to an external project, follow the procedure:</p>
             <ol>
-                <li><code>npm install @ng-forms/file-upload --save</code></li>
+                <li><code>npm install @iplab/ngx-file-upload --save</code></li>
                 <li><pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '@angular/forms';
-import &#123; FileUploadModule &#125; from '@ng-forms/file-upload';
+import &#123; FileUploadModule &#125; from '@iplab/ngx-file-upload';
 ...
 ...
 
@@ -61,7 +61,7 @@ export class AppModule &#123;&#125;</pre>
     <div class="card">
         <div class="card-header">Reactive Forms</div>
         <div class="card-block">
-            <pre class="prettify">import &#123; FileUploadValidators &#125; from '@ng-forms/file-upload';
+            <pre class="prettify">import &#123; FileUploadValidators &#125; from '@iplab/ngx-file-upload';
           
 
 @Component(&#123;
@@ -127,13 +127,16 @@ export class AppComponent &#123;
         <br>
 
         <form #demoForm2="ngForm">
-            <file-upload [(ngModel)]="uploadedFiles" [filesize]="100000" [disabled]="isDisabled" name="uploadFiles"></file-upload>
+            <file-upload [(ngModel)]="uploadedFiles" minsize="20" [disabled]="isDisabled" name="uploadFiles"></file-upload>
         </form>
         <br>
         <p>Custom form validation is also available over related directives</p>
         <pre class="prettify">
 &lt;file-upload ngModel [filesize]="100000" name="files"&gt;&lt;/file-upload&gt;
 &lt;file-upload ngModel filesize="100000" name="files"&gt;&lt;/file-upload&gt;
+
+&lt;file-upload ngModel [minsize]="20" [maxsize]="10000" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel minsize="20" maxsize="10000" name="files"&gt;&lt;/file-upload&gt;
 
 &lt;file-upload ngModel [fileslimit]="2" name="files"&gt;&lt;/file-upload&gt;
 &lt;file-upload ngModel fileslimit="2" name="files"&gt;&lt;/file-upload&gt;
@@ -151,7 +154,7 @@ To specify more than one value, separate the values with a comma
     <div class="card">
         <div class="card-header">Stand alone</div>
         <div class="card-block">
-            <pre class="prettify">import &#123; FileUploadControl, FileUploadValidators &#125; from '@ng-forms/file-upload';
+            <pre class="prettify">import &#123; FileUploadControl, FileUploadValidators &#125; from '@iplab/ngx-file-upload';
                          
 
 @Component(&#123;
