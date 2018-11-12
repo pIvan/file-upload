@@ -35,13 +35,13 @@ import { IsNullOrEmpty } from './../helpers/helpers.class';
 export class FileSizeValidator implements Validator, OnChanges {
     
     @Input()
-    private filesize: string|number;
+    public filesize: string|number;
 
     @Input()
-    private minsize: string|number;
+    public minsize: string|number;
     
     @Input()
-    private maxsize: string|number;
+    public maxsize: string|number;
 
     private validator: ValidatorFn;
 
@@ -103,7 +103,7 @@ export class FileSizeValidator implements Validator, OnChanges {
 export class FilesLimitValidator implements Validator, OnChanges {
     
     @Input()
-    private fileslimit: string|number;
+    public fileslimit: string|number;
 
     private validator: ValidatorFn;
 
@@ -156,7 +156,7 @@ export class FilesLimitValidator implements Validator, OnChanges {
 export class FilesAcceptValidator implements Validator, OnChanges {
     
     @Input()
-    private accept: string;
+    public accept: string;
 
     private validator: ValidatorFn;
 
