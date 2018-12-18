@@ -33,7 +33,7 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './fil
     `
 })
 export class FileUploadComponentHost {
-    
+
     /**
      * custom control
      */

@@ -193,7 +193,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
       * model -> view changes
       */
     public writeValue(files: any): void {
-        if (!IsNullOrEmpty(files)) {
+        if (files != null) {
             this.control.setValue(files);
         }
     }

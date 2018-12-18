@@ -12,13 +12,13 @@ import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload'
 })
 export class AppComponent implements AfterViewInit {
 
-  public fileUploadControl = new FileUploadControl(FileUploadValidators.fileSize(80000));
+  public readonly fileUploadControl = new FileUploadControl(FileUploadValidators.fileSize(80000));
   
-  public fileUploadWithTemplate = new FileUploadControl();
+  public readonly fileUploadWithTemplate = new FileUploadControl();
 
-  public filesControl = new FormControl(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
+  public readonly filesControl = new FormControl(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
 
-  public demoForm = new FormGroup({
+  public readonly demoForm = new FormGroup({
     files: this.filesControl
   });
 
@@ -43,5 +43,17 @@ export class AppComponent implements AfterViewInit {
 
   public toggleListVisibility(): void {
     this.fileUploadControl.setListVisibility(!this.fileUploadControl.isListVisible);
+  }
+
+  public clearReactive(): void {
+    this.filesControl.setValue([]);
+  }
+
+  public clearTemplateDriven(): void {
+    this.uploadedFiles = [];
+  }
+
+  public clearStandAlone(): void {
+    this.fileUploadControl.clear();
   }
 }

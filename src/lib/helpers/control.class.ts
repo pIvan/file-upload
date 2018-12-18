@@ -78,8 +78,8 @@ export class FileUploadControl {
         return this;
     }
 
-    /** 
-     * @internal 
+    /**
+     * @internal
      * used to prevent valueChanges emit more times
      * when multiple files are uploaded
      */
@@ -94,7 +94,7 @@ export class FileUploadControl {
     }
 
     public get invalid(): boolean {
-        return this.errors.length > 0 || this.status === STATUS.DISABLED
+        return this.errors.length > 0 || this.status === STATUS.DISABLED;
     }
 
     public getError(): Array<ValidationErrors> {
@@ -118,7 +118,7 @@ export class FileUploadControl {
     public setValue(files: Array<File>): this {
         this.files.clear();
 
-        if(files instanceof Array) {
+        if (files instanceof Array) {
             this.addMultipleFiles(files);
         } else {
             throw Error(`FormControl.setValue was provided with wrong argument type, ${files} was provided instead Array<File>`);

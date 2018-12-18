@@ -86,14 +86,18 @@ export class AppComponent &#123;
          */
     &#125;
 
-    public toggleStatus() &#123;
+    public toggleStatus(): void &#123;
         this.filesControl.disabled ? this.filesControl.enable() : this.filesControl.disable();
+    &#125;
+
+    public clear(): void &#123;
+        this.filesControl.setValue([]);
     &#125;
 
 &#125;</pre>
             <h5>Example:</h5>
 
-            <button (click)="toggleStatus()" class="btn btn-secondary">{{ filesControl.disabled ? 'Enable' : 'Disable' }}</button>
+            <button (click)="toggleStatus()" class="btn btn-secondary">{{ filesControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="clearReactive()" class="btn btn-secondary">Clear</button>
             <br>
             <br>
             <span>Is valid: {{ filesControl.valid }}</span>
@@ -120,9 +124,13 @@ export class AppComponent &#123;
     
     public uploadedFiles: Array&lt;File&gt; = [];
 
+    public clear(): void &#123;
+        this.uploadedFiles = [];
+    &#125;
+
 &#125;</pre>
         <h5>Example:</h5>
-        <button (click)="isDisabled=!isDisabled" class="btn btn-secondary">{{ isDisabled ? 'Enable' : 'Disable' }}</button>
+        <button (click)="isDisabled=!isDisabled" class="btn btn-secondary">{{ isDisabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="clearTemplateDriven()" class="btn btn-secondary">Clear</button>
         <br>
         <br>
 
@@ -172,10 +180,14 @@ export class AppComponent &#123;
     public toggleListVisibility() &#123;
         this.fileUploadControl.setListVisibility(!this.fileUploadControl.isListVisible);
     &#125;
+
+    public clear(): void &#123;
+        this.fileUploadControl.clear();
+    &#125;
         
 &#125;</pre>
             <h5>Example:</h5>
-            <button (click)="toggleStandAloneStatus()" class="btn btn-secondary">{{ fileUploadControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="toggleListVisibility()" class="btn btn-secondary">{{ fileUploadControl.isListVisible ? 'Hide files list' : 'Show files list' }}</button>
+            <button (click)="toggleStandAloneStatus()" class="btn btn-secondary">{{ fileUploadControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="toggleListVisibility()" class="btn btn-secondary">{{ fileUploadControl.isListVisible ? 'Hide files list' : 'Show files list' }}</button> &nbsp; <button (click)="clearStandAlone()" class="btn btn-secondary">Clear</button>
             <br>
             <br>
             <span>Is valid: {{ fileUploadControl.valid }}</span>

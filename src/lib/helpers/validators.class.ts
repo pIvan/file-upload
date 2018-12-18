@@ -28,11 +28,11 @@ const FILE_EXT_REG = /(^[.]\w*)$/gm;
 const checkFileType = (file: File, allowedTypes: Array<string>): ValidationErrors | null => {
     const fileExtension = file.name.slice((file.name.lastIndexOf(".") - 1 >>> 0) + 1);
     let isValid = false;
-    for(let i = 0; i < allowedTypes.length; i++ ) {
-        let type = allowedTypes[i];
+    for (let i = 0; i < allowedTypes.length; i++ ) {
+        const type = allowedTypes[i];
 
         isValid = FILE_EXT_REG.test(type) ? type === fileExtension : new RegExp(type).test(file.type);
-        if(isValid) {
+        if (isValid) {
             break;
         }
     }

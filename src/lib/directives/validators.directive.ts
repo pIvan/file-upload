@@ -33,39 +33,41 @@ import { IsNullOrEmpty } from './../helpers/helpers.class';
     }
 })
 export class FileSizeValidator implements Validator, OnChanges {
-    
+
     @Input()
     public filesize: string|number;
 
     @Input()
     public minsize: string|number;
-    
+
     @Input()
     public maxsize: string|number;
 
     private validator: ValidatorFn;
 
     private onChange: () => void;
-  
+
     public ngOnChanges(changes: SimpleChanges): void {
         if ('filesize' in changes 
             || 'maxsize' in changes 
             || 'minsize' in changes) {
           this._createValidator();
-          if (this.onChange) this.onChange();
+          if (this.onChange) {
+              this.onChange();
+          }
         }
     }
 
     public validate(c: AbstractControl): ValidationErrors|null {
         return this.validator(c);
     }
-  
+
     public registerOnValidatorChange(fn: () => void): void {
         this.onChange = fn; 
     }
 
     private _createValidator(): void {
-        let maxSize = null;        
+        let maxSize = null;
         if (!IsNullOrEmpty(this.maxsize)) {
             maxSize = typeof this.maxsize === 'string' ? parseInt(this.maxsize, 10) : this.maxsize;
         } else if(!IsNullOrEmpty(this.filesize)) {
@@ -101,25 +103,27 @@ export class FileSizeValidator implements Validator, OnChanges {
     host: {'[attr.fileslimit]': 'fileslimit ? fileslimit : null'}
 })
 export class FilesLimitValidator implements Validator, OnChanges {
-    
+
     @Input()
     public fileslimit: string|number;
 
     private validator: ValidatorFn;
 
     private onChange: () => void;
-  
+
     public ngOnChanges(changes: SimpleChanges): void {
         if ('fileslimit' in changes) {
           this._createValidator();
-          if (this.onChange) this.onChange();
+          if (this.onChange) {
+            this.onChange();
+          }
         }
     }
 
     public validate(c: AbstractControl): ValidationErrors|null {
         return this.fileslimit != null ? this.validator(c) : null;
     }
-  
+
     public registerOnValidatorChange(fn: () => void): void {
         this.onChange = fn; 
     }
@@ -154,27 +158,29 @@ export class FilesLimitValidator implements Validator, OnChanges {
     host: {'[attr.accept]': 'accept ? accept : null'}
 })
 export class FilesAcceptValidator implements Validator, OnChanges {
-    
+
     @Input()
     public accept: string;
 
     private validator: ValidatorFn;
 
     private onChange: () => void;
-  
+
     public ngOnChanges(changes: SimpleChanges): void {
         if ('accept' in changes) {
           this._createValidator();
-          if (this.onChange) this.onChange();
+          if (this.onChange) {
+              this.onChange();
+          }
         }
     }
 
     public validate(c: AbstractControl): ValidationErrors|null {
         return this.accept != null ? this.validator(c) : null;
     }
-  
+
     public registerOnValidatorChange(fn: () => void): void {
-        this.onChange = fn; 
+        this.onChange = fn;
     }
 
     private _createValidator(): void {
