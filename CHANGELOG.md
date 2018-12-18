@@ -1,4 +1,10 @@
 
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/pIvan/file-upload/commit/1f47712fd47795e3e6667e75d72424f2f3a0b659) (2018-12-18)
+
+### Bug Fixes
+* value clearing in combination with Reactive and Template-driven forms
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/pIvan/file-upload/commit/f6ea5346162f07d4fe6ea533ea5c64f3322fde1d) (2018-09-10)
 
