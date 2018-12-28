@@ -1,4 +1,13 @@
 
+<a name="1.1.4"></a>
+## [1.1.4](https://github.com/pIvan/file-upload/commit/33c6156aa7a43e8f763ab88a00086f5df759410c) (2018-12-28)
+
+### Features
+* **list append and file drop animation**
+
+### Bug Fixes
+* **validation and value change event** execution order
+
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/pIvan/file-upload/commit/1f47712fd47795e3e6667e75d72424f2f3a0b659) (2018-12-18)
 
