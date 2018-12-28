@@ -17,11 +17,14 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { AnimationEvent } from '@angular/animations';
+import { Subscription } from 'rxjs';
 
 import { FileUploadControl } from './../helpers/control.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 import { FileUploadService } from './../services/file-upload.service';
-import { Subscription } from 'rxjs';
+import { InsertAnimation } from './../animations/insert.animation';
+import { ZoomAnimation } from './../animations/zoom.animation';
 
 export const DRAGOVER = 'dragover';
 export const TOUCHED = 'ng-touched';
@@ -30,7 +33,7 @@ export const TOUCHED = 'ng-touched';
     selector: `file-upload`,
     templateUrl: `./file-upload.component.html`,
     styleUrls: [`./file-upload.component.scss`],
-    providers: [ 
+    providers: [
         FileUploadService,
         {
             provide: NG_VALUE_ACCESSOR,
@@ -38,7 +41,11 @@ export const TOUCHED = 'ng-touched';
             multi: true
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        ZoomAnimation,
+        InsertAnimation
+    ]
 })
 export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
@@ -58,6 +65,10 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         $implicit: this.fileUploadService.isFileDragDropAvailable(),
         isFileDragDropAvailable: this.fileUploadService.isFileDragDropAvailable()
     };
+
+    /** animation fields */
+    public zoomText: 'zoomOut' | 'zoomIn' | 'static' = 'static';
+    public listVisible: boolean = false;
 
     private hooks: Array<Function> = [];
 
@@ -123,7 +134,11 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         );
 
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((files) => this.cdr.markForCheck())
+            this.control.valueChanges.subscribe((files) => this.renderView())
+        );
+
+        this.subscriptions.push(
+            this.control.listVisibilityChanges.subscribe((status) => this.toggleListVisibility())
         );
     }
 
@@ -140,6 +155,32 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     private preventDragEvents(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    private renderView(): void {
+        if(!this.listVisible){
+            this.zoomText = this.control.isListVisible && this.control.size > 0 ? 'zoomOut' : 'static';
+        }
+        this.cdr.markForCheck();
+    }
+
+    private showList(): void {
+        if(this.zoomText !== 'static'){
+            this.listVisible = true;
+        }
+    }
+
+    private hideList(): void {
+        this.listVisible = false;
+    }
+
+    private toggleListVisibility(): void {
+        this.listVisible = this.control.isListVisible && this.control.size > 0;
+        if(this.listVisible) {
+            this.renderer.addClass(this.hostElementRef.nativeElement, 'list-visible');
+            this.zoomText = 'static';
+        }
+        this.cdr.markForCheck();
     }
 
     /**
@@ -218,5 +259,34 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
 
     public setDisabledState(isDisabled: boolean): void {
         this.control.disable(isDisabled);
+    }
+
+    public zoomAnimationDone(event: AnimationEvent): void {
+        if(this.control.isListVisible && this.control.size > 0) {
+            this.showList();
+        } else {
+            this.hideList();
+        }
+
+        if(event.fromState === 'static' && event.toState === 'zoomOut'){
+            this.renderer.addClass(this.hostElementRef.nativeElement, 'hide-text');
+        } else {
+            this.renderer.removeClass(this.hostElementRef.nativeElement, 'hide-text');
+        }
+
+        if(event.toState === 'zoomIn') {
+            this.zoomText = 'static';
+        }
+    }
+
+    public animationListFinished(event: AnimationEvent): void {
+        if(event.toState === 'void'){
+            this.zoomText = 'zoomIn';
+            this.renderer.removeClass(this.hostElementRef.nativeElement, 'list-visible');
+        }
+        if(event.fromState === 'void') {
+            this.zoomText = 'static';
+            this.renderer.addClass(this.hostElementRef.nativeElement, 'list-visible');
+        }
     }
 }

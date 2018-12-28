@@ -1,7 +1,5 @@
 :host,
 :host > * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -39,15 +37,8 @@
     height: 35px;
     width: 35px;
     border: 1px solid #eaeaea;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
     float: left;
-    margin-right: 20px;
-}
-
-:host(.has-files) .icon {
-    margin: 0;
 }
 
 .icon svg {
@@ -71,24 +62,19 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transform: translate(-50%,-50%);
-    -moz-transform: translate(-50%,-50%);
+    margin: 0;
     transform: translate(-50%,-50%);
-    -webkit-transition: all .15s ease-in-out;
-    -moz-transition: all .15s ease-in-out;
-    transition: all .15s ease-in-out;
 }
+
 
 :host(.disabled) .upload-input {
     cursor: not-allowed;
 }
 
-:host(.has-files) .upload-input {
+:host(.list-visible) .upload-input {
     top: 20px;
     left: 100%;
     margin-left: -20px;
-    -webkit-transform: translate(-100%, 0);
-    -moz-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
     text-align: center;
 }
@@ -96,9 +82,15 @@
 .upload-text {
     overflow: hidden;
     width: auto;
+    position: relative;
+    padding-left: 20px;
 }
 
-:host(.has-files) .upload-text {
+:host(.hide-text) .upload-input {
+    opacity: 0;
+}
+
+:host(.list-visible) .upload-text {
     display: none;
 }
 
@@ -110,10 +102,6 @@
 :host(.dragover:not(.disabled)) .icon svg,
 :host(:not(.disabled)) .upload-input:hover svg {
     fill: #80a9d2;
-}
-
-:host(:not(.disabled)) .upload-input:hover .icon {
-    border-color: #80a9d2;
 }
 
 file-upload-list-item {

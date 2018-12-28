@@ -1,6 +1,6 @@
 /*
  * l10n
- * 
+ *
  * By Ivan Pintar, http://www.pintar-ivan.com
  * Licensed under the MIT License
  * See https://github.com/pIvan/file-upload/blob/master/README.md
@@ -8,6 +8,7 @@
 import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FileUploadComponent } from './components/file-upload.component';
 import { FileUploadListItemComponent } from './components/file-upload-list-item.component';
@@ -25,7 +26,8 @@ export { FileUploadTypes } from './helpers/file-types.class';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         FileUploadComponent,

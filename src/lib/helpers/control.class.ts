@@ -61,15 +61,15 @@ export class FileUploadControl {
 
     public addFile(file: File): this {
         this.files.add(file);
-        this.valueChanges.next(Array.from(this.files.values()));
         this.validate();
+        this.valueChanges.next(Array.from(this.files.values()));
         return this;
     }
 
     public removeFile(file: File): this {
         this.files.delete(file);
-        this.valueChanges.next(Array.from(this.files.values()));
         this.validate();
+        this.valueChanges.next(Array.from(this.files.values()));
         return this;
     }
 
@@ -85,8 +85,8 @@ export class FileUploadControl {
      */
     private addMultipleFiles(files: Array<File>): void {
         files.forEach(file => this.files.add(file));
-        this.valueChanges.next(Array.from(this.files.values()));
         this.validate();
+        this.valueChanges.next(Array.from(this.files.values()));
     }
 
     public get valid(): boolean {
@@ -132,6 +132,7 @@ export class FileUploadControl {
      */
     public clear(): this {
         this.files.clear();
+        this.validate();
         this.valueChanges.next(Array.from(this.files.values()));
         return this;
     }
