@@ -1,4 +1,10 @@
 
+<a name="1.1.5"></a>
+## [1.1.4](https://github.com/pIvan/file-upload/commit/019314c61d1cf79783d61004f816a20d2bfeb8bb) (2019-01-04)
+
+### Bug Fixes
+* **BrowserModule has already been loaded error** - BrowserAnimationsModule is excluded from the library
+
 <a name="1.1.4"></a>
 ## [1.1.4](https://github.com/pIvan/file-upload/commit/33c6156aa7a43e8f763ab88a00086f5df759410c) (2018-12-28)
 
