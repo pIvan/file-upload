@@ -38,44 +38,23 @@
                 <li><code>npm install @iplab/ngx-file-upload --save</code></li>
                 <li><pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '@angular/forms';
 import &#123; FileUploadModule &#125; from '@iplab/ngx-file-upload';
-...
-...
-
-
-@NgModule(&#123;
-    imports: [
-        BrowserModule,
-        <b>ReactiveFormsModule</b> or <b>FormsModule</b> or <b>both</b> // only if component is in use with angular forms,
-        FileUploadModule
-    ],
-    bootstrap: [AppComponent]
-&#125;)
-export class AppModule &#123;&#125;</pre>
-                </li>
-            </ol>
-        </div>
-    </div>
-    <br>
-
-
-    <div class="card" id="installation">
-        <div class="card-header">Configure animations</div>
-        <div class="card-block">
-            <p>To include animation:</p>
-<pre class="prettify">...
 import &#123; BrowserAnimationsModule &#125; from '@angular/platform-browser/animations';
 ...
+...
+
 
 @NgModule(&#123;
     imports: [
         BrowserModule,
         <b>ReactiveFormsModule</b> or <b>FormsModule</b> or <b>both</b> // only if component is in use with angular forms,
         FileUploadModule,
-        <b>BrowserAnimationsModule</b>
+        <b>BrowserAnimationsModule</b> or <b>NoopAnimationsModule</b> // need to be included
     ],
     bootstrap: [AppComponent]
 &#125;)
 export class AppModule &#123;&#125;</pre>
+                </li>
+            </ol>
         </div>
     </div>
     <br>

@@ -8,7 +8,6 @@
 import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FileUploadComponent } from './components/file-upload.component';
 import { FileUploadListItemComponent } from './components/file-upload-list-item.component';
@@ -25,8 +24,7 @@ export { FileUploadTypes } from './helpers/file-types.class';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        FormsModule,
-        NoopAnimationsModule
+        FormsModule
     ],
     declarations: [
         FileUploadComponent,
