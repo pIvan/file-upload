@@ -8,7 +8,7 @@
 import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FileUploadComponent } from './components/file-upload.component';
 import { FileUploadListItemComponent } from './components/file-upload-list-item.component';
@@ -16,7 +16,6 @@ import { FileUploadIconComponent } from './components/file-upload-icon.component
 import { FileUploadAttributeComponent } from './components/file-upload-attr.component';
 
 import { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
-
 
 export { FileUploadControl } from './helpers/control.class';
 export { FileUploadValidators, ValidationErrors, ValidatorFn } from './helpers/validators.class';
@@ -27,7 +26,7 @@ export { FileUploadTypes } from './helpers/file-types.class';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        BrowserAnimationsModule
+        NoopAnimationsModule
     ],
     declarations: [
         FileUploadComponent,
