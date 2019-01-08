@@ -32,6 +32,7 @@ Use the following snippet inside your app module:
 ```shell
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 ...
 ...
 
@@ -40,7 +41,8 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
         BrowserModule,
         ReactiveFormsModule,
         FormsModule,
-        FileUploadModule
+        FileUploadModule,
+        BrowserAnimationsModule // or use NoopAnimationsModule
     ],
     bootstrap: [AppComponent]
 })

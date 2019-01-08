@@ -1,7 +1,7 @@
-import { animate, transition, trigger, style, query, stagger } from '@angular/animations';
+import { animate, transition, trigger, style, query, stagger, AnimationTriggerMetadata } from '@angular/animations';
 
 
-export const ZoomAnimation =
+export const ZoomAnimation: AnimationTriggerMetadata =
 trigger('zoomAnimation', [
     transition('static => zoomOut', [
         animate(250, style({ transform: 'translate(-50%, -50%) scale(2, 2)', opacity: 0 })),

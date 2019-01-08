@@ -1,7 +1,7 @@
-import { animate, transition, trigger, style, query, stagger } from '@angular/animations';
+import { animate, transition, trigger, style, query, stagger, AnimationTriggerMetadata } from '@angular/animations';
 
 
-export const InsertAnimation =
+export const InsertAnimation: AnimationTriggerMetadata =
 trigger('insertAnimation', [
     transition('* => *', [ // each time the binding value changes
         query(':leave', [
