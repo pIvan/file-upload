@@ -12,7 +12,7 @@ describe('FileUploadControl', () => {
     })
 
     it('should validate files', () => {
-        control.setValidators([FileUploadValidators.filesLimit(1), FileUploadValidators.fileSize(100), FileUploadValidators.accept(['text/*', '.png', 'audio/*', '.mp3'])]);
+        control.setValidators([FileUploadValidators.filesLimit(1), FileUploadValidators.fileSize(100), FileUploadValidators.accept(['.png', 'text/*', 'audio/*', '.mp3'])]);
         const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
         control.addFile(file2);
         expect(control.valid).toBe(false);

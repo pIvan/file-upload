@@ -1,5 +1,6 @@
 import { FileUploadValidators } from './validators.class';
 import { FileUploadControl } from './control.class';
+import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('FileUploadValidators', () => {
 
@@ -7,9 +8,9 @@ describe('FileUploadValidators', () => {
 
     beforeEach(() => {
         control = new FileUploadControl();
-        const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
-        control.addFile(file);
-    })
+        const txtFile = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        control.addFile(txtFile);
+    });
 
     it('file size should be limited', () => {
         control.setValidators(FileUploadValidators.fileSize(100));
@@ -44,8 +45,15 @@ describe('FileUploadValidators', () => {
         expect(control.valid).toBe(true);
     });
 
+    it('should test csv file type', fakeAsync(() => {
+        control.setValidators(FileUploadValidators.accept(['.txt', '.csv']));
+        const csvFile = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.csv", {type: "application/vnd.ms-excel"});
+        control.addFile(csvFile);
+        expect(control.valid).toBe(true);
+    }));
+
     it('should test multiple types and extensions', () => {
-        control.setValidators(FileUploadValidators.accept(['text/*', '.png', 'audio/*', '.mp3']));
+        control.setValidators(FileUploadValidators.accept(['.png', 'audio/*', 'text/*', '.mp3']));
         expect(control.valid).toBe(true);
     });
 

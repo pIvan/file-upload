@@ -16,9 +16,9 @@ export interface ValidatorFn {
 const checkFileSize = (file: File, maxSize: number, minSize: number = 0): ValidationErrors | null => {
     return (!IsNullOrEmpty(maxSize) && file.size > maxSize) || file.size < minSize ?
         {maxSize, minSize, actual: file.size, file} : null;
-}
+};
 
-const FILE_EXT_REG = /(^[.]\w*)$/gm;
+const FILE_EXT_REG = /(^[.]\w*)$/m;
 /**
  * function used to check file type
  * 
@@ -26,26 +26,23 @@ const FILE_EXT_REG = /(^[.]\w*)$/gm;
  * file_extension|audio/*|video/*|image/*|media_type
  */
 const checkFileType = (file: File, allowedTypes: Array<string>): ValidationErrors | null => {
-    const fileExtension = file.name.slice((file.name.lastIndexOf(".") - 1 >>> 0) + 1);
-    let isValid = false;
-    for (let i = 0; i < allowedTypes.length; i++ ) {
-        const type = allowedTypes[i];
+    const fileExtension = `.${file.name.split('.').pop()}`;
 
-        isValid = FILE_EXT_REG.test(type) ? type === fileExtension : new RegExp(type).test(file.type);
+    for (const type of allowedTypes ) {
+        const isValid = FILE_EXT_REG.test(type) ? type === fileExtension : new RegExp(type).test(file.type);
         if (isValid) {
-            break;
+            return null;
         }
     }
 
-    return isValid ?
-            null : {allowedTypes, actual: file.type, file};
-}
+    return {allowedTypes, actual: file.type, file};
+};
 
 const checkValueType = (value: any ): void => {
     if (!Array.isArray(value)) {
         throw Error(`FormControl.setValue was provided with wrong argument type, ${value} was provided instead Array<File>`);
     }
-}
+};
 
 // @dynamic
 export class FileUploadValidators {
@@ -127,6 +124,7 @@ export class FileUploadValidators {
             const notAllowedFiles = files.map((file) => checkFileType(file, allowedFileTypes))
                                         .filter((error) => error);
 
+            console.log('notAllowedFiles', notAllowedFiles);
             return notAllowedFiles.length > 0 ?
                 {'fileTypes': notAllowedFiles} : null;
         };
