@@ -1,9 +1,24 @@
 
+<a name="1.1.8"></a>
+## [1.1.8](https://github.com/pIvan/file-upload/commit/39bcb42675649933f3cedca0b1cf75be78ee235b) (2019-01-17)
+
+### Bug Fixes
+* **Error on multiple files validation** - Fixed error on multiple files validation caused by RegExp g modifier which save states between calling test, exec etc.
+
+
+<a name="1.1.7"></a>
+## [1.1.7](https://github.com/pIvan/file-upload/commit/6fd65a6dd8ac36e52428e118ab8408f2872256b9) (2019-01-08)
+
+### Bug Fixes
+* **ERROR in @iplab/ngx-file-upload/animations/insert.animation.d.ts(1,45): error TS1005: ',' expected.** - Fixed error with implicitly inherited interface which caused compiler error on older Angular versions
+
+
 <a name="1.1.5"></a>
-## [1.1.4](https://github.com/pIvan/file-upload/commit/019314c61d1cf79783d61004f816a20d2bfeb8bb) (2019-01-04)
+## [1.1.5](https://github.com/pIvan/file-upload/commit/019314c61d1cf79783d61004f816a20d2bfeb8bb) (2019-01-04)
 
 ### Bug Fixes
 * **BrowserModule has already been loaded error** - BrowserAnimationsModule is excluded from the library
+
 
 <a name="1.1.4"></a>
 ## [1.1.4](https://github.com/pIvan/file-upload/commit/33c6156aa7a43e8f763ab88a00086f5df759410c) (2018-12-28)
@@ -13,6 +28,7 @@
 
 ### Bug Fixes
 * **validation and value change event** execution order
+
 
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/pIvan/file-upload/commit/1f47712fd47795e3e6667e75d72424f2f3a0b659) (2018-12-18)
