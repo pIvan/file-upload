@@ -124,7 +124,6 @@ export class FileUploadValidators {
             const notAllowedFiles = files.map((file) => checkFileType(file, allowedFileTypes))
                                         .filter((error) => error);
 
-            console.log('notAllowedFiles', notAllowedFiles);
             return notAllowedFiles.length > 0 ?
                 {'fileTypes': notAllowedFiles} : null;
         };
