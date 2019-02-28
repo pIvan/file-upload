@@ -1,3 +1,8 @@
+<a name="1.1.10"></a>
+## [1.1.10](https://github.com/pIvan/file-upload/commit/f28d42dbb4d8e6bc74410c4e1cd94ce47112973c) (2019-02-28)
+
+### Bug Fixes
+* **FormData is not defined** - Fixed error with undefined FormData when creating a project with Angular Universal.
 
 <a name="1.1.8"></a>
 ## [1.1.8](https://github.com/pIvan/file-upload/commit/39bcb42675649933f3cedca0b1cf75be78ee235b) (2019-01-17)
