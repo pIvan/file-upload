@@ -158,14 +158,14 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     }
 
     private renderView(): void {
-        if(!this.listVisible){
+        if (!this.listVisible) {
             this.zoomText = this.control.isListVisible && this.control.size > 0 ? 'zoomOut' : 'static';
         }
         this.cdr.markForCheck();
     }
 
     private showList(): void {
-        if(this.zoomText !== 'static'){
+        if (this.zoomText !== 'static') {
             this.listVisible = true;
         }
     }
@@ -262,13 +262,13 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     }
 
     public zoomAnimationDone(event: AnimationEvent): void {
-        if(this.control.isListVisible && this.control.size > 0) {
+        if (this.control.isListVisible && this.control.size > 0) {
             this.showList();
         } else {
             this.hideList();
         }
 
-        if(event.fromState === 'static' && event.toState === 'zoomOut'){
+        if (event.fromState === 'static' && event.toState === 'zoomOut') {
             this.renderer.addClass(this.hostElementRef.nativeElement, 'hide-text');
         } else {
             this.renderer.removeClass(this.hostElementRef.nativeElement, 'hide-text');
@@ -280,11 +280,11 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     }
 
     public animationListFinished(event: AnimationEvent): void {
-        if(event.toState === 'void'){
+        if (event.toState === 'void') {
             this.zoomText = 'zoomIn';
             this.renderer.removeClass(this.hostElementRef.nativeElement, 'list-visible');
         }
-        if(event.fromState === 'void') {
+        if (event.fromState === 'void') {
             this.zoomText = 'static';
             this.renderer.addClass(this.hostElementRef.nativeElement, 'list-visible');
         }

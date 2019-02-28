@@ -185,6 +185,6 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
 
     private onTouch: () => void = () => {
         this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED);
-    };
+    }
 
 }
