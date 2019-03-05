@@ -13,6 +13,7 @@ import { FileUploadComponent } from './components/file-upload.component';
 import { FileUploadListItemComponent } from './components/file-upload-list-item.component';
 import { FileUploadIconComponent } from './components/file-upload-icon.component';
 import { FileUploadAttributeComponent } from './components/file-upload-attr.component';
+import { SimpleFileUploadComponent } from './components/simple-file-upload.component';
 
 import { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
 
@@ -35,7 +36,9 @@ export { FileUploadTypes } from './helpers/file-types.class';
 
         FileSizeValidator,
         FilesLimitValidator,
-        FilesAcceptValidator
+        FilesAcceptValidator,
+
+        SimpleFileUploadComponent
     ],
     exports: [
         FileUploadComponent,
@@ -43,7 +46,9 @@ export { FileUploadTypes } from './helpers/file-types.class';
 
         FileSizeValidator,
         FilesLimitValidator,
-        FilesAcceptValidator
+        FilesAcceptValidator,
+
+        SimpleFileUploadComponent
     ],
     entryComponents: [
         FileUploadComponent

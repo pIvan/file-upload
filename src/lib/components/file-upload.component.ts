@@ -30,7 +30,7 @@ export const DRAGOVER = 'dragover';
 export const TOUCHED = 'ng-touched';
 
 @Component({
-    selector: `file-upload`,
+    selector: `file-upload:not([simple])`,
     templateUrl: `./file-upload.component.html`,
     styleUrls: [`./file-upload.component.scss`],
     providers: [
