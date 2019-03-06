@@ -21,6 +21,12 @@ file-upload-icon {
     margin: 0 10px 0 0;
 }
 
+.file-info {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .remove-btn {
     font-size: 12px;
     cursor: pointer;

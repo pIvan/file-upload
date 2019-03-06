@@ -20,7 +20,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
 import { Subscription } from 'rxjs';
 
-import { FileUploadControl } from './../helpers/control.class';
+import { FileUploadControl, FileEvent } from './../helpers/control.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 import { FileUploadService } from './../services/file-upload.service';
 import { InsertAnimation } from './../animations/insert.animation';
@@ -60,6 +60,9 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
 
     @ViewChild('inputRef')
     public input: ElementRef<HTMLInputElement>;
+
+    @ViewChild('labelRef')
+    public label: ElementRef<HTMLLabelElement>;
 
     public templateContext = {
         $implicit: this.fileUploadService.isFileDragDropAvailable(),
@@ -140,6 +143,23 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         this.subscriptions.push(
             this.control.listVisibilityChanges.subscribe((status) => this.toggleListVisibility())
         );
+
+        this.subscriptions.push(
+            this.control.eventsChanges.subscribe((event: FileEvent) => this.triggerEvent(event))
+        );
+    }
+
+    private triggerEvent(event: FileEvent): void {
+        if (typeof this.label.nativeElement[event] === 'function') {
+            this.label.nativeElement[event]();
+        }
+    }
+
+    public onKeyDown(event: KeyboardEvent): void {
+        if (event.keyCode === 13 || event.keyCode === 32) {
+            event.preventDefault();
+            this.control.click();
+        }
     }
 
     private checkAndMarkAsDisabled(): void {
@@ -176,7 +196,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
 
     private toggleListVisibility(): void {
         this.listVisible = this.control.isListVisible && this.control.size > 0;
-        if(this.listVisible) {
+        if (this.listVisible) {
             this.renderer.addClass(this.hostElementRef.nativeElement, 'list-visible');
             this.zoomText = 'static';
         }
@@ -274,7 +294,7 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
             this.renderer.removeClass(this.hostElementRef.nativeElement, 'hide-text');
         }
 
-        if(event.toState === 'zoomIn') {
+        if (event.toState === 'zoomIn') {
             this.zoomText = 'static';
         }
     }

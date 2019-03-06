@@ -8,6 +8,12 @@ export enum STATUS {
     DISABLED
 }
 
+export enum FileEvent {
+    click = 'click',
+    focus = 'focus',
+    blur = 'blur'
+}
+
 export class FileUploadControl {
 
     private files: Set<File> = new Set();
@@ -21,6 +27,8 @@ export class FileUploadControl {
     private validators: Array<ValidatorFn> = [];
 
     private statusChanged: Subject<STATUS> = new Subject();
+
+    private eventsChanged: Subject<FileEvent> = new Subject();
 
     /**
      * track status `VALID`, `INVALID` or `DISABLED`
@@ -39,6 +47,11 @@ export class FileUploadControl {
      * used to trigger layout change for list visibility
      */
     public readonly listVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(this.listVisible);
+
+    /**
+     * emit an event every time user programmatically ask for certain event
+     */
+    public readonly eventsChanges: Observable<FileEvent> = this.eventsChanged.asObservable();
 
     constructor(validators?: ValidatorFn|Array<ValidatorFn>) {
         this.defineValidators(validators);
@@ -162,6 +175,21 @@ export class FileUploadControl {
         this.status = isDisabled ? STATUS.DISABLED : STATUS.VALID;
         this.validate();
         this.statusChanged.next(this.status);
+        return this;
+    }
+
+    public click(): this {
+        this.eventsChanged.next(FileEvent.click);
+        return this;
+    }
+
+    public focus(): this {
+        this.eventsChanged.next(FileEvent.focus);
+        return this;
+    }
+
+    public blur(): this {
+        this.eventsChanged.next(FileEvent.blur);
         return this;
     }
 

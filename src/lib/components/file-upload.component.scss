@@ -64,6 +64,7 @@
     left: 50%;
     margin: 0;
     transform: translate(-50%,-50%);
+    outline: none;
 }
 
 
@@ -95,12 +96,14 @@
 }
 
 :host(.dragover:not(.disabled)) .upload-input,
-:host(:not(.disabled)) .upload-input:hover {
+:host(:not(.disabled)) .upload-input:hover,
+:host(:not(.disabled)) .upload-input:focus {
     color: #80a9d2;
 }
 
 :host(.dragover:not(.disabled)) .icon svg,
-:host(:not(.disabled)) .upload-input:hover svg {
+:host(:not(.disabled)) .upload-input:hover svg,
+:host(:not(.disabled)) .upload-input:focus svg {
     fill: #80a9d2;
 }
 

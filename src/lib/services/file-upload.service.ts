@@ -4,7 +4,7 @@ import { FileUploadTypes } from './../helpers/file-types.class';
 @Injectable()
 export class FileUploadService {
 
-    private extensions: Array<'bytes' | 'KB' | 'MB' | 'GB'> = ['bytes', 'KB', 'MB', 'GB'];
+    private extensions: Array<'B' | 'KB' | 'MB' | 'GB'> = ['B', 'KB', 'MB', 'GB'];
 
     constructor(private renderer: Renderer2) {
     }

@@ -60,8 +60,6 @@ export class AppModule &#123;&#125;</pre>
     <br>
 
 
-    <!-- <file-upload simple [control]="fileUploadControl"></file-upload> -->
-
     <div class="card">
         <div class="card-header">Reactive Forms</div>
         <div class="card-block">
@@ -285,6 +283,47 @@ export class AppComponent &#123; &#125;</pre>
     </div>
     <br>
 
+
+    
+
+    <div class="card">
+            <div class="card-header">Simple - single file upload</div>
+            <div class="card-block">
+                <p>It is possible to use simple file upload, layout is similar to default browser</p>
+                <pre class="prettify" ngNonBindable>@Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload simple [control]="fileUploadControl"&gt;&lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+                <p>and in same way as is the case with standard component it is possible to change placeholder and button layout</p>
+                <pre class="prettify" ngNonBindable>@Component(&#123;
+    selector: `app-root`,
+    template: `
+        &lt;file-upload simple [control]="fileUploadControl"&gt;
+            &lt;ng-template let-control="control" #placeholder&gt;
+                &lt;ng-container *ngIf="control.size > 0; else emptyList"&gt;
+                    &lt;span class="file-name"&gt;{{ control.value[0].name }}&lt;/span&gt;
+                &lt;/ng-container&gt;
+            
+                &lt;ng-template #emptyList&gt;
+                    Choose a file...
+                &lt;/ng-template&gt;
+            &lt;/ng-template&gt;
+
+            &lt;ng-template let-control="control" #button&gt;
+                Browse for file
+            &lt;/ng-template&gt;
+        &lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+                       
+                <file-upload simple [control]="simpleFileUpload"></file-upload>
+            </div>
+        </div>
+        <br>
+
+
+
     <div class="card">
         <div class="card-header">List of all built-in methods</div>
         <div class="card-block">
@@ -386,6 +425,25 @@ export class AppComponent &#123; &#125;</pre>
                         <td>setListVisibility</td>
                         <td><code>Function</code></td>
                         <td>Hide/Show built-in list</td>
+                    </tr>
+                    <tr>
+                        <td><b>Events</b></td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td>click</td>
+                        <td><code>Function</code></td>
+                        <td>Trigger native click</td>
+                    </tr>
+                    <tr>
+                        <td>focus</td>
+                        <td><code>Function</code></td>
+                        <td>Trigger native focus</td>
+                    </tr>
+                    <tr>
+                        <td>blur</td>
+                        <td><code>Function</code></td>
+                        <td>Trigger native blur</td>
                     </tr>
                 </tbody>
             </table>

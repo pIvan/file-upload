@@ -1,23 +1,23 @@
 <div class="upload-text">
-    <ng-container *ngIf="control.size > 0; else emptyList">
-        <ng-template ngFor let-file let-i="index" [ngForOf]="control.valueChanges | async">
-            <ng-container *ngTemplateOutlet="listItem ? listItem : defaultItemTemplate; context: { $implicit: file, file: file, index: i, control: control }"></ng-container>
-        </ng-template>
-        
-        <ng-template #defaultItemTemplate let-file="file">
-            <span class="file-name">{{ file.name }}</span>
-        </ng-template>
-    </ng-container>
+    <ng-container *ngTemplateOutlet="placeholderRef ? placeholderRef : defaultPlaceholderTemplate; context: { control: control }"></ng-container>
 
-    <ng-template #emptyList>
-        Select a file...
+    <ng-template #defaultPlaceholderTemplate>
+        <ng-container *ngIf="control.size > 0; else emptyList">
+            <ng-template ngFor let-file let-i="index" [ngForOf]="control.valueChanges | async">
+                <span class="file-name">{{ file.name }}</span>
+            </ng-template>
+        </ng-container>
+    
+        <ng-template #emptyList>
+            Select a file...
+        </ng-template>
     </ng-template>
 </div>
 
-<label class="upload-button" tabindex="0">
-    <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate"></ng-container>
+<label #labelRef class="upload-button" tabindex="0" (keydown)="onKeyDown($event)">
+    <ng-container *ngTemplateOutlet="buttonRef ? buttonRef : defaultButtonTemplate; context: { control: control }"></ng-container>
 
-    <ng-template #defaultTemplate let-isFileDragDropAvailable="isFileDragDropAvailable">
+    <ng-template #defaultButtonTemplate>
         <div class="button">
             <div class="icon">
                 <svg viewBox="0 0 96 96">

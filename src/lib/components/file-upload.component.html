@@ -1,4 +1,4 @@
-<label class="upload-input" [@zoomAnimation]="zoomText" (@zoomAnimation.done)="zoomAnimationDone($event)">
+<label #labelRef class="upload-input" tabindex="0" (keydown)="onKeyDown($event)" [@zoomAnimation]="zoomText" (@zoomAnimation.done)="zoomAnimationDone($event)">
 
     <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate; context: templateContext"></ng-container>
 
@@ -29,7 +29,7 @@
         </div>
     </ng-template>
 
-    <input #inputRef type="file" class="files-input" multiple (change)="onInputChange($event)">
+    <input #inputRef type="file" class="files-input" tabindex="-1" multiple (change)="onInputChange($event)">
 </label>
 
 <div class="upload-list" *ngIf="(control.listVisibilityChanges | async) && control.size > 0 && listVisible" [@insertAnimation]="control.size" (@insertAnimation.done)="animationListFinished($event)">

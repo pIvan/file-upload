@@ -16,7 +16,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { FileUploadControl } from './../helpers/control.class';
+import { FileUploadControl, FileEvent } from './../helpers/control.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 import { FileUploadService } from './../services/file-upload.service';
 import { TOUCHED } from './file-upload.component';
@@ -40,14 +40,17 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
     @Input()
     public control: FileUploadControl = null;
 
-    @ContentChild('placeholder')
-    public templateRef: TemplateRef<any> = null;
+    @ContentChild('button')
+    public buttonRef: TemplateRef<any> = null;
 
-    @ContentChild('item')
-    public listItem: TemplateRef<any> = null;
+    @ContentChild('placeholder')
+    public placeholderRef: TemplateRef<any> = null;
 
     @ViewChild('inputRef')
     public input: ElementRef<HTMLInputElement>;
+
+    @ViewChild('labelRef')
+    public label: ElementRef<HTMLLabelElement>;
 
     private subscriptions: Array<Subscription> = [];
 
@@ -87,6 +90,10 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
     private setEvents(): void {
         this.subscriptions.push(
             this.control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
+        );
+
+        this.subscriptions.push(
+            this.control.eventsChanges.subscribe((event: FileEvent) => this.triggerEvent(event))
         );
     }
 
@@ -152,5 +159,18 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
 
     public setDisabledState(isDisabled: boolean): void {
         this.control.disable(isDisabled);
+    }
+
+    private triggerEvent(event: FileEvent): void {
+        if (typeof this.label.nativeElement[event] === 'function') {
+            this.label.nativeElement[event]();
+        }
+    }
+
+    public onKeyDown(event: KeyboardEvent): void {
+        if (event.keyCode === 13 || event.keyCode === 32) {
+            event.preventDefault();
+            this.control.click();
+        }
     }
 }

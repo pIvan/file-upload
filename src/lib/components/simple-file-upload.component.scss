@@ -10,8 +10,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-shadow: inset 0 0.2rem 0.4rem rgba(0,0,0,.05);
-    user-select: none;
+    box-shadow: inset 0 4px 7px rgba(0, 0, 0, .05);
 }
 
 :host(.disabled) {
@@ -49,6 +48,7 @@
     color: #555;
     margin: 0;
     position: relative;
+    outline: none;
 }
 
 .upload-text {
@@ -71,10 +71,12 @@
     cursor: not-allowed;
 }
 
+:host(:not(.disabled)) .upload-button:focus,
 :host(:not(.disabled)) .upload-button:hover {
     color: #80a9d2;
 }
 
+:host(:not(.disabled)) .upload-button:focus svg,
 :host(:not(.disabled)) .upload-button:hover svg {
     fill: #80a9d2;
 }

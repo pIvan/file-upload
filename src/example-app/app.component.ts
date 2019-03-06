@@ -13,10 +13,12 @@ import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload'
 export class AppComponent implements AfterViewInit {
 
   public readonly fileUploadControl = new FileUploadControl(FileUploadValidators.fileSize(80000));
-  
+
   public readonly fileUploadWithTemplate = new FileUploadControl();
 
   public readonly filesControl = new FormControl(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
+
+  public readonly simpleFileUpload = new FileUploadControl();
 
   public readonly demoForm = new FormGroup({
     files: this.filesControl
