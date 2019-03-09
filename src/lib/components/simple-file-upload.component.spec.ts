@@ -97,9 +97,9 @@ describe('FileUpload[simple]', () => {
         const buttonEl = hostComponentEl.querySelector('#reactiveForm file-upload:first-child .button-text');
 
         expect(placeholderEl).toBeDefined();
-        expect(placeholderEl.innerText).toBe('Select a file...');
+        expect(placeholderEl.innerText.trim()).toBe('Select a file...');
         expect(buttonEl).toBeDefined();
-        expect(buttonEl.innerText).toBe('Browse');
+        expect(buttonEl.innerText.trim()).toBe('Browse');
 
 
         const placeholderCustomEl = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .upload-text');
@@ -107,9 +107,9 @@ describe('FileUpload[simple]', () => {
         const notButtonCustomEl = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .button-text');
 
         expect(placeholderCustomEl).toBeDefined();
-        expect(placeholderCustomEl.innerText).toBe('Choose a file...');
+        expect(placeholderCustomEl.innerText.trim()).toBe('Choose a file...');
         expect(buttonCustomEl).toBeDefined();
-        expect(buttonCustomEl.innerText).toBe('Browse for file');
+        expect(buttonCustomEl.innerText.trim()).toBe('Browse for file');
 
         expect(notButtonCustomEl).toBe(null);
     });
