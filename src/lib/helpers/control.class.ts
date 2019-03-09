@@ -107,7 +107,7 @@ export class FileUploadControl {
     }
 
     public get invalid(): boolean {
-        return this.errors.length > 0 || this.status === STATUS.DISABLED;
+        return this.errors.length > 0;
     }
 
     public getError(): Array<ValidationErrors> {

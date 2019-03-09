@@ -230,10 +230,11 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     public onInputChange(event: Event): void {
         const input = (event.target) as HTMLInputElement;
 
-        if (!this.control.disabled) {
+        if (!this.control.disabled && input.files.length > 0) {
             this.control.addFiles(input.files);
+            this.clearInputEl();
         }
-        this.clearInputEl();
+
         this.onTouch();
     }
 

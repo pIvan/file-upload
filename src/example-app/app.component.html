@@ -300,9 +300,9 @@ export class AppComponent &#123; &#125;</pre>
     selector: `app-root`,
     template: `
         &lt;file-upload simple [control]="fileUploadControl"&gt;
-            &lt;ng-template let-control="control" #placeholder&gt;
-                &lt;ng-container *ngIf="control.size > 0; else emptyList"&gt;
-                    &lt;span class="file-name"&gt;{{ control.value[0].name }}&lt;/span&gt;
+            &lt;ng-template let-file #placeholder&gt;
+                &lt;ng-container *ngIf="file; else emptyList"&gt;
+                    {{ file.name }}
                 &lt;/ng-container&gt;
             
                 &lt;ng-template #emptyList&gt;

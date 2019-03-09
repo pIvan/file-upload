@@ -110,10 +110,11 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
     public onInputChange(event: Event): void {
         const input = (event.target) as HTMLInputElement;
 
-        if (!this.control.disabled) {
+        if (!this.control.disabled && input.files.length > 0) {
             this.control.setValue(Array.from(input.files));
+            this.clearInputEl();
         }
-        this.clearInputEl();
+
         this.onTouch();
     }
 

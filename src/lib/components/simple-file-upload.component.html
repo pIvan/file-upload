@@ -1,13 +1,11 @@
 <div class="upload-text">
-    <ng-container *ngTemplateOutlet="placeholderRef ? placeholderRef : defaultPlaceholderTemplate; context: { control: control }"></ng-container>
-
-    <ng-template #defaultPlaceholderTemplate>
-        <ng-container *ngIf="control.size > 0; else emptyList">
-            <ng-template ngFor let-file let-i="index" [ngForOf]="control.valueChanges | async">
-                <span class="file-name">{{ file.name }}</span>
-            </ng-template>
-        </ng-container>
+    <ng-template [ngIf]="control.valueChanges | async">
+        <ng-container *ngTemplateOutlet="placeholderRef ? placeholderRef : defaultPlaceholderTemplate; context: { $implicit: control.value[0], control: control, file: control.value[0] }"></ng-container>
+    </ng-template>
     
+    <ng-template #defaultPlaceholderTemplate let-file>
+        <span *ngIf="file; else emptyList" class="file-name">{{ file.name }}</span>
+
         <ng-template #emptyList>
             Select a file...
         </ng-template>

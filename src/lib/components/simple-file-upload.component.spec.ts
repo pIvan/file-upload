@@ -4,33 +4,35 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FileUploadModule, FileUploadControl, FileUploadValidators } from './file-upload.module';
+import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../file-upload.module';
 
 
 @Component({
     template: `
     <form [formGroup]="demoForm" id="reactiveForm">
-        <file-upload formControlName="files"></file-upload>
+        <file-upload simple formControlName="files"></file-upload>
 
-        <file-upload formControlName="fileUploadWithTemplate">
-            <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
-                <span *ngIf="isFileDragDropAvailable">drop or click</span>
-                <span *ngIf="!isFileDragDropAvailable">click</span>
+        <file-upload simple formControlName="fileUploadWithTemplate">
+            <ng-template let-file #placeholder>
+                <ng-container *ngIf="file; else emptyList">
+                    <span class="file-name">{{ file.name }}</span>
+                </ng-container>
+                <ng-template #emptyList>
+                    Choose a file...
+                </ng-template>
             </ng-template>
 
-            <ng-template let-i="index" let-file="file" let-control="control" #item>
-                <div class="file-info" (click)="control.removeFile(file)">
-                    <span class="file-name">{{ file.name }}</span>
-                </div>
+            <ng-template let-control="control" #button>
+                Browse for file
             </ng-template>
         </file-upload>
     </form>
 
     <form #templateDrForm="ngForm" id="templateDrivenForm">
-        <file-upload [(ngModel)]="uploadedFiles" [filesize]="100000" [disabled]="isDisabled" name="uploadFiles"></file-upload>
+        <file-upload simple [(ngModel)]="uploadedFiles" [filesize]="100000" [disabled]="isDisabled" name="uploadFiles"></file-upload>
     </form>
 
-    <file-upload id="standAlone" [control]="fileUploadControl"></file-upload>
+    <file-upload simple id="standAlone" [control]="fileUploadControl"></file-upload>
     `
 })
 export class FileUploadComponentHost {
@@ -58,60 +60,58 @@ export class FileUploadComponentHost {
 
     @ViewChild('templateDrForm')
     public templateDrForm: ElementRef;
-
-	constructor() {
-        const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
-        this.filesControl.setValue([file]);
-        this.fileUploadWithTemplate.setValue([file]);
-	}
 }
 
 
-describe('FileUpload', () => {
+describe('FileUpload[simple]', () => {
     let hostComponentEl: any;
-	let hostComp: FileUploadComponentHost;
-	let hostFixture: ComponentFixture<FileUploadComponentHost>;
+    let hostComp: FileUploadComponentHost;
+    let hostFixture: ComponentFixture<FileUploadComponentHost>;
+    const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
 
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			imports: [
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
                 ReactiveFormsModule,
                 FormsModule,
                 FileUploadModule,
                 NoopAnimationsModule
             ],
-			declarations: [FileUploadComponentHost]
-		})
+            declarations: [FileUploadComponentHost]
+        })
         .compileComponents()
         .then(() => {
             hostFixture = TestBed.createComponent(FileUploadComponentHost);
             hostComp = hostFixture.componentInstance;
             hostComponentEl = hostFixture.debugElement.nativeElement;
-            
             hostFixture.detectChanges();
         });
-	}));
+    }));
 
-	it('should create component', () => {
+    it('should create component', () => {
         expect(hostComp).toBeDefined();
     });
 
-
     it(`should set correct template`, () => {
-        const placeholderEl = hostComponentEl.querySelector('#reactiveForm file-upload:first-child .icon');
-        const placeholderCustomEl = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .upload-input span');
+        const placeholderEl = hostComponentEl.querySelector('#reactiveForm file-upload:first-child .upload-text');
+        const buttonEl = hostComponentEl.querySelector('#reactiveForm file-upload:first-child .button-text');
 
-        const itemElement = hostComponentEl.querySelector('#reactiveForm file-upload:first-child file-upload-list-item');
-        const customItemElement = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .file-info');
-        
-        // templateDrivenForm
-        // standAlone
         expect(placeholderEl).toBeDefined();
-        expect(placeholderCustomEl).toBeDefined();
-        expect(placeholderCustomEl.innerText).toEqual('drop or click');
+        expect(placeholderEl.innerText).toBe('Select a file...');
+        expect(buttonEl).toBeDefined();
+        expect(buttonEl.innerText).toBe('Browse');
 
-        expect(itemElement).toBeDefined();
-        expect(customItemElement).toBeDefined();
+
+        const placeholderCustomEl = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .upload-text');
+        const buttonCustomEl = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .upload-button');
+        const notButtonCustomEl = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) .button-text');
+
+        expect(placeholderCustomEl).toBeDefined();
+        expect(placeholderCustomEl.innerText).toBe('Choose a file...');
+        expect(buttonCustomEl).toBeDefined();
+        expect(buttonCustomEl.innerText).toBe('Browse for file');
+
+        expect(notButtonCustomEl).toBe(null);
     });
 
     it('should disable all components', fakeAsync(() => {
@@ -136,7 +136,7 @@ describe('FileUpload', () => {
         const reactiveSecond = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2)');
         const reactiveFirstInput = hostComponentEl.querySelector('#reactiveForm file-upload:first-child input');
         const reactiveSecondInput = hostComponentEl.querySelector('#reactiveForm file-upload:nth-child(2) input');
-        
+
         expect(reactiveFirst.className).toContain('disabled');
         expect(reactiveSecond.className).toContain('disabled');
         expect(reactiveFirstInput.disabled).toBe(true);
@@ -155,3 +155,4 @@ describe('FileUpload', () => {
     }));
 
 });
+
