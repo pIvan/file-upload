@@ -1,4 +1,11 @@
-<a name="1.1.10"></a>
+<a name="1.2.2"></a>
+## [1.2.2](https://github.com/pIvan/file-upload/commit/9e6ece51875a0e874eb738291e83d36ec0610fe4) (2019-04-01)
+
+### Features
+* **native accept support** - Suport for native accept attribute added, it can be used as attribute or method on `FileUploadControl`
+
+
+<a name="1.2.0"></a>
 ## [1.2.0](https://github.com/pIvan/file-upload/commit/85870eddc96aa3ec7406a6a8f45ab627fc9edee7) (2019-03-06)
 
 ### Features
