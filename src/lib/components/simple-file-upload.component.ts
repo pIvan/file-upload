@@ -4,7 +4,6 @@ import {
     OnInit,
     ElementRef,
     Renderer2,
-    OnDestroy,
     HostBinding,
     TemplateRef,
     ViewChild,
@@ -14,12 +13,11 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Subscription } from 'rxjs';
 
-import { FileUploadControl, FileEvent } from './../helpers/control.class';
-import { IsNullOrEmpty } from './../helpers/helpers.class';
+import { FileUploadControl } from './../helpers/control.class';
 import { FileUploadService } from './../services/file-upload.service';
 import { TOUCHED } from './file-upload.component';
+import { FileUploadAbstract } from './file-upload-abstract.component';
 
 @Component({
     selector: `file-upload[simple]`,
@@ -35,7 +33,7 @@ import { TOUCHED } from './file-upload.component';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class SimpleFileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
 
     @Input()
     public control: FileUploadControl = null;
@@ -52,29 +50,13 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
     @ViewChild('labelRef')
     public label: ElementRef<HTMLLabelElement>;
 
-    private subscriptions: Array<Subscription> = [];
-
     constructor(
         public fileUploadService: FileUploadService,
-        private hostElementRef: ElementRef,
-        private renderer: Renderer2,
-        private cdr: ChangeDetectorRef
-    ) {}
-
-    public ngOnInit() {
-        if (IsNullOrEmpty(this.control)) {
-            this.control = new FileUploadControl();
-        }
-
-        this.setEvents();
-        this.checkAndMarkAsDisabled();
-        this.connectToForm();
-    }
-
-    public ngOnDestroy(): void {
-        this.cdr.detach();
-        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-        this.subscriptions.length = 0;
+        hostElementRef: ElementRef,
+        renderer: Renderer2,
+        cdr: ChangeDetectorRef
+    ) {
+        super(hostElementRef, renderer, cdr);
     }
 
     @HostBinding('class.has-files')
@@ -85,26 +67,6 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
     @HostBinding('class.ng-invalid')
     public get isInvalid(): boolean {
         return !this.control.disabled && this.control.invalid;
-    }
-
-    private setEvents(): void {
-        this.subscriptions.push(
-            this.control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
-        );
-
-        this.subscriptions.push(
-            this.control.eventsChanges.subscribe((event: FileEvent) => this.triggerEvent(event))
-        );
-    }
-
-    private checkAndMarkAsDisabled(): void {
-        if (this.control.disabled) {
-            this.renderer.addClass(this.hostElementRef.nativeElement, 'disabled');
-            this.renderer.setProperty(this.input.nativeElement, 'disabled', true);
-        } else {
-            this.renderer.removeClass(this.hostElementRef.nativeElement, 'disabled');
-            this.renderer.setProperty(this.input.nativeElement, 'disabled', false);
-        }
     }
 
     public onInputChange(event: Event): void {
@@ -122,15 +84,6 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
         this.input.nativeElement.value = null;
     }
 
-    /**
-     * ControlValueAccessor implementation
-     */
-    private connectToForm(): void {
-        this.subscriptions.push(
-            this.control.valueChanges.subscribe((v) => this.onChange(v))
-        );
-    }
-
      /**
       * model -> view changes
       */
@@ -139,8 +92,6 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
             this.control.setValue(files);
         }
     }
-
-    private onChange: (v: Array<File>) => void = () => {};
 
     /**
      * register function which will be called on UI change
@@ -160,12 +111,6 @@ export class SimpleFileUploadComponent implements OnInit, OnDestroy, ControlValu
 
     public setDisabledState(isDisabled: boolean): void {
         this.control.disable(isDisabled);
-    }
-
-    private triggerEvent(event: FileEvent): void {
-        if (typeof this.label.nativeElement[event] === 'function') {
-            this.label.nativeElement[event]();
-        }
     }
 
     public onKeyDown(event: KeyboardEvent): void {

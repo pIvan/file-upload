@@ -16,7 +16,7 @@ export enum FileEvent {
 
 export class FileUploadControl {
 
-    private files: Set<File> = new Set();
+    private readonly files: Set<File> = new Set();
 
     private listVisible = true;
 
@@ -26,9 +26,13 @@ export class FileUploadControl {
 
     private validators: Array<ValidatorFn> = [];
 
-    private statusChanged: Subject<STATUS> = new Subject();
+    private readonly statusChanged: Subject<STATUS> = new Subject();
 
-    private eventsChanged: Subject<FileEvent> = new Subject();
+    private readonly eventsChanged: Subject<FileEvent> = new Subject();
+
+    private accept: string = null;
+
+    private readonly acceptChanged: BehaviorSubject<string> = new BehaviorSubject(this.accept);
 
     /**
      * track status `VALID`, `INVALID` or `DISABLED`
@@ -47,6 +51,11 @@ export class FileUploadControl {
      * used to trigger layout change for list visibility
      */
     public readonly listVisibilityChanges: BehaviorSubject<boolean> = new BehaviorSubject(this.listVisible);
+
+    /**
+     * track changed on accept attribute
+     */
+    public readonly acceptChanges: Observable<string> = this.acceptChanged.asObservable();
 
     /**
      * emit an event every time user programmatically ask for certain event
@@ -190,6 +199,30 @@ export class FileUploadControl {
 
     public blur(): this {
         this.eventsChanged.next(FileEvent.blur);
+        return this;
+    }
+
+    /**
+     * specifies the types of files that the server accepts
+     *
+     * ### Example
+     *
+     * ```
+     * acceptFiles("file_extension|audio/*|video/*|image/*|media_type")
+     * ```
+     *
+     * To specify more than one value, separate the values with a comma (e.g. acceptFiles("audio/*,video/*,image/*").
+     *
+     */
+    public acceptFiles(accept: string): this {
+        this.accept = accept;
+        this.acceptChanged.next(this.accept);
+        return this;
+    }
+
+    public acceptAll(): this {
+        this.accept = null;
+        this.acceptChanged.next(this.accept);
         return this;
     }
 

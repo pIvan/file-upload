@@ -1,7 +1,8 @@
-import { Directive, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, forwardRef, Input, OnChanges, SimpleChanges, Host, Self, Optional, HostBinding } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { ValidationErrors, ValidatorFn, FileUploadValidators } from './../helpers/validators.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
+import { FileUploadComponent } from './../components/file-upload.component';
 
 
 /**
@@ -133,7 +134,6 @@ export class FilesLimitValidator implements Validator, OnChanges {
     }
 }
 
-
 /**
  * A Directive that adds the `accept` validator to controls marked with the
  * `accept` attribute.
@@ -152,7 +152,7 @@ export class FilesLimitValidator implements Validator, OnChanges {
     selector: '[accept][formControlName],[accept][formControl],[accept][ngModel]',
     providers: [{
         provide: NG_VALIDATORS,
-        useExisting: forwardRef(() => FilesLimitValidator),
+        useExisting: forwardRef(() => FilesAcceptValidator),
         multi: true
     }],
     host: {'[attr.accept]': 'accept ? accept : null'}

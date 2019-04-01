@@ -26,6 +26,7 @@ export class AppComponent implements AfterViewInit {
 
   public uploadedFiles = [];
   public isDisabled: boolean = false;
+  public acceptFiles: string = 'image/*';
 
   constructor(private elRef: ElementRef) {
   }

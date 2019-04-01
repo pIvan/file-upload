@@ -137,7 +137,7 @@ export class AppComponent &#123;
         <br>
 
         <form #demoForm2="ngForm">
-            <file-upload [(ngModel)]="uploadedFiles" minsize="20" [disabled]="isDisabled" name="uploadFiles"></file-upload>
+            <file-upload [(ngModel)]="uploadedFiles" minsize="20" accept="text/*" [disabled]="isDisabled" name="uploadFiles"></file-upload>
         </form>
         <br>
         <p>Custom form validation is also available over related directives</p>
@@ -155,7 +155,15 @@ export class AppComponent &#123;
 &lt;file-upload ngModel accept="file_extension|audio/*|video/*|image/*|media_type" name="files"&gt;&lt;/file-upload&gt;
 
 To specify more than one value, separate the values with a comma 
-(e.g. &lt;file-upload accept="audio/*,video/*,image/*"&gt;&lt;/file-upload&gt;.</pre>
+(e.g. &lt;file-upload accept="audio/*,video/*,image/*"&gt;&lt;/file-upload&gt;.
+
+file_extension	A file extension starting with the STOP character, e.g: .gif, .jpg, .png, .doc
+audio/*	        All sound files are accepted
+video/*	        All video files are accepted
+image/*	        All image files are accepted
+media_type      A valid media type, with no parameters. Look at <a target="_blank" href="http://www.iana.org/assignments/media-types/"><b>IANA Media Types</b></a>
+                for a complete list of standard media types
+</pre>
         </div>
     </div>
     <br>
@@ -195,7 +203,7 @@ export class AppComponent &#123;
             <span>Is valid: {{ fileUploadControl.valid }}</span>
             <br>
 
-            <file-upload [control]="fileUploadControl"></file-upload>
+            <file-upload [control]="fileUploadControl" [accept]="acceptFiles"></file-upload>
         </div>
     </div>
     <br>
@@ -395,6 +403,16 @@ export class AppComponent &#123; &#125;</pre>
                         <td>setValue</td>
                         <td><code>Function</code></td>
                         <td>Set component value, same as FormControl.setValue()</td>
+                    </tr>
+                    <tr>
+                        <td>acceptFiles</td>
+                        <td><code>Function</code></td>
+                        <td>Specify the types of files that the server accepts (audio/*,video/*,image/*)</td>
+                    </tr>
+                    <tr>
+                        <td>acceptAll</td>
+                        <td><code>Function</code></td>
+                        <td>Reset accept attribute</td>
                     </tr>
                     <tr>
                         <td>clear</td>

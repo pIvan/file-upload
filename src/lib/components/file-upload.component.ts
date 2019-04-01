@@ -5,7 +5,6 @@ import {
     ElementRef,
     HostListener,
     Renderer2,
-    OnDestroy,
     HostBinding,
     Inject,
     TemplateRef,
@@ -18,13 +17,12 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
-import { Subscription } from 'rxjs';
 
-import { FileUploadControl, FileEvent } from './../helpers/control.class';
-import { IsNullOrEmpty } from './../helpers/helpers.class';
+import { FileUploadControl } from './../helpers/control.class';
 import { FileUploadService } from './../services/file-upload.service';
 import { InsertAnimation } from './../animations/insert.animation';
 import { ZoomAnimation } from './../animations/zoom.animation';
+import { FileUploadAbstract } from './file-upload-abstract.component';
 
 export const DRAGOVER = 'dragover';
 export const TOUCHED = 'ng-touched';
@@ -47,7 +45,7 @@ export const TOUCHED = 'ng-touched';
         InsertAnimation
     ]
 })
-export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class FileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
 
     @Input()
     public control: FileUploadControl = null;
@@ -73,34 +71,14 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
     public zoomText: 'zoomOut' | 'zoomIn' | 'static' = 'static';
     public listVisible: boolean = false;
 
-    private hooks: Array<Function> = [];
-
-    private subscriptions: Array<Subscription> = [];
-
     constructor(
         public fileUploadService: FileUploadService,
-        private hostElementRef: ElementRef,
-        private renderer: Renderer2,
+        hostElementRef: ElementRef,
+        renderer: Renderer2,
         @Inject(DOCUMENT) private document,
-        private cdr: ChangeDetectorRef
-    ) {}
-
-    public ngOnInit() {
-        if (IsNullOrEmpty(this.control)) {
-            this.control = new FileUploadControl();
-        }
-
-        this.setEvents();
-        this.checkAndMarkAsDisabled();
-        this.connectToForm();
-    }
-
-    public ngOnDestroy(): void {
-        this.cdr.detach();
-        this.hooks.forEach((hook) => hook());
-        this.hooks.length = 0;
-        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-        this.subscriptions.length = 0;
+        cdr: ChangeDetectorRef
+    ) {
+        super(hostElementRef, renderer, cdr);
     }
 
     @HostBinding('class.has-files')
@@ -113,7 +91,8 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         return !this.control.disabled && this.control.invalid;
     }
 
-    private setEvents(): void {
+    protected setEvents(): void {
+        super.setEvents();
         ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
             this.hooks.push(
                 this.renderer.listen(this.document, eventName, (event: any) => this.preventDragEvents(event))
@@ -133,42 +112,18 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         });
 
         this.subscriptions.push(
-            this.control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
-        );
-
-        this.subscriptions.push(
             this.control.valueChanges.subscribe((files) => this.renderView())
         );
 
         this.subscriptions.push(
             this.control.listVisibilityChanges.subscribe((status) => this.toggleListVisibility())
         );
-
-        this.subscriptions.push(
-            this.control.eventsChanges.subscribe((event: FileEvent) => this.triggerEvent(event))
-        );
-    }
-
-    private triggerEvent(event: FileEvent): void {
-        if (typeof this.label.nativeElement[event] === 'function') {
-            this.label.nativeElement[event]();
-        }
     }
 
     public onKeyDown(event: KeyboardEvent): void {
         if (event.keyCode === 13 || event.keyCode === 32) {
             event.preventDefault();
             this.control.click();
-        }
-    }
-
-    private checkAndMarkAsDisabled(): void {
-        if (this.control.disabled) {
-            this.renderer.addClass(this.hostElementRef.nativeElement, 'disabled');
-            this.renderer.setProperty(this.input.nativeElement, 'disabled', true);
-        } else {
-            this.renderer.removeClass(this.hostElementRef.nativeElement, 'disabled');
-            this.renderer.setProperty(this.input.nativeElement, 'disabled', false);
         }
     }
 
@@ -242,15 +197,6 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
         this.input.nativeElement.value = null;
     }
 
-    /**
-     * ControlValueAccessor implementation
-     */
-    private connectToForm(): void {
-        this.subscriptions.push(
-            this.control.valueChanges.subscribe((v) => this.onChange(v))
-        );
-    }
-
      /**
       * model -> view changes
       */
@@ -259,8 +205,6 @@ export class FileUploadComponent implements OnInit, OnDestroy, ControlValueAcces
             this.control.setValue(files);
         }
     }
-
-    private onChange: (v: Array<File>) => void = () => {};
 
     /**
      * register function which will be called on UI change

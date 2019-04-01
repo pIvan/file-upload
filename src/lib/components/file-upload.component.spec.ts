@@ -31,6 +31,8 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
     </form>
 
     <file-upload id="standAlone" [control]="fileUploadControl"></file-upload>
+
+    <file-upload id="acceptCheck" [control]="acceptCheck" accept="image/*"></file-upload>
     `
 })
 export class FileUploadComponentHost {
@@ -39,6 +41,11 @@ export class FileUploadComponentHost {
      * custom control
      */
     public fileUploadControl = new FileUploadControl(FileUploadValidators.fileSize(80000));
+
+    /**
+     * custom control
+     */
+    public acceptCheck = new FileUploadControl();
 
     /**
      * reactive form control
@@ -150,6 +157,26 @@ describe('FileUpload', () => {
         const templateDrivenInput = hostComponentEl.querySelector('#templateDrivenForm file-upload input');
         expect(templateDriven.className).toContain('disabled');
         expect(templateDrivenInput.disabled).toBe(true);
+
+    }));
+
+
+    it('should accept files', fakeAsync(() => {
+        /**
+         * initialy set accept attribute
+         */
+        const acceptCheckEl = hostComponentEl.querySelector('#acceptCheck input');
+        expect(acceptCheckEl.accept).toBe('image/*');
+
+        /**
+         * set accept attribute on change
+         */
+        const standAloneInput = hostComponentEl.querySelector('#standAlone input');
+        expect(standAloneInput.accept).toBe('');
+
+        hostComp.fileUploadControl.acceptFiles('text/*');
+        tick();
+        expect(standAloneInput.accept).toBe('text/*');
 
     }));
 
