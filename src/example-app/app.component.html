@@ -60,7 +60,7 @@ export class AppModule &#123;&#125;</pre>
     <br>
 
 
-    <div class="card">
+    <div class="card" id="reactive">
         <div class="card-header">Reactive Forms</div>
         <div class="card-block">
             <pre class="prettify">import &#123; FileUploadValidators &#125; from '@iplab/ngx-file-upload';
@@ -105,14 +105,14 @@ export class AppComponent &#123;
             <span>Is valid: {{ filesControl.valid }}</span>
             <br>
             <form [formGroup]="demoForm">
-                <file-upload formControlName="files"></file-upload>
+                <file-upload formControlName="files" [animation]="animation"></file-upload>
             </form>
         </div>
     </div>
     <br>
 
 
-    <div class="card">
+    <div class="card" id="template-driven">
         <div class="card-header">Template-driven forms</div>
         <div class="card-block">
             <pre class="prettify">@Component(&#123;
@@ -169,7 +169,7 @@ media_type      A valid media type, with no parameters. Look at <a target="_blan
     <br>
 
 
-    <div class="card">
+    <div class="card" id="stand-alone">
         <div class="card-header">Stand alone</div>
         <div class="card-block">
             <pre class="prettify">import &#123; FileUploadControl, FileUploadValidators &#125; from '@iplab/ngx-file-upload';
@@ -209,7 +209,37 @@ export class AppComponent &#123;
     <br>
 
 
-    <div class="card">
+    <div class="card" id="animation">
+        <div class="card-header">Disable component animation</div>
+        <div class="card-block">
+            <pre class="prettify">
+@Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload [animation]="animation"&gt;&lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123;
+    public animation: boolean = false;
+&#125;</pre>
+<p>or</p>
+<pre class="prettify">
+@Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload animation="false"&gt;&lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123;
+&#125;</pre>
+            <h5>Example:</h5>
+            <button (click)="animation=!animation" class="btn btn-secondary">{{ animation ? 'Disable animation' : 'Enable animation' }}</button>
+            <br>
+            <br>
+
+            <file-upload [animation]="animation"></file-upload>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="template">
         <div class="card-header">Custom templates</div>
         <div class="card-block">
             <p>It is possible to make custom template for placeholder and/or template for items in list.<br>
@@ -251,7 +281,7 @@ export class AppComponent &#123; &#125;</pre>
     </div>
     <br>
 
-    <div class="card">
+    <div class="card" id="attribute">
         <div class="card-header">Attribute component</div>
         <div class="card-block">
             <p>It is possible to transform any block element to file drop zone.</p>
@@ -294,7 +324,7 @@ export class AppComponent &#123; &#125;</pre>
 
     
 
-    <div class="card">
+    <div class="card" id="single-file">
             <div class="card-header">Simple - single file upload</div>
             <div class="card-block">
                 <p>It is possible to use simple file upload, layout is similar to default browser</p>

@@ -50,6 +50,9 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     @Input()
     public control: FileUploadControl = null;
 
+    @Input()
+    public animation: boolean | string = true;
+
     @ContentChild('placeholder')
     public templateRef: TemplateRef<any> = null;
 
@@ -89,6 +92,11 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     @HostBinding('class.ng-invalid')
     public get isInvalid(): boolean {
         return !this.control.disabled && this.control.invalid;
+    }
+
+    @HostBinding('@.disabled')
+    public get isAnimationDisabled(): boolean {
+        return this.animation === false || (this.animation as string) === 'false';
     }
 
     protected setEvents(): void {

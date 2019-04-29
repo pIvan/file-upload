@@ -24,6 +24,7 @@ export class AppComponent implements AfterViewInit {
     files: this.filesControl
   });
 
+  public animation: boolean = false;
   public uploadedFiles = [];
   public isDisabled: boolean = false;
   public acceptFiles: string = 'image/*';
