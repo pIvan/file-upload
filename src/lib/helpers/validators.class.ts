@@ -1,6 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { IsNullOrEmpty } from './helpers.class';
 import { FileUploadControl } from './control.class';
+import { FileUploadTypes } from './file-types.class';
 
 export interface ValidationErrors {
     [key: string]: any;
@@ -18,6 +19,15 @@ const checkFileSize = (file: File, maxSize: number, minSize: number = 0): Valida
         {maxSize, minSize, actual: file.size, file} : null;
 };
 
+const getFileType = (file: File, fileExtension: string): FileUploadTypes => {
+    const type = file.type;
+    if (!IsNullOrEmpty(type)) {
+        return type as FileUploadTypes;
+    }
+
+    return FileUploadTypes[fileExtension];
+};
+
 const FILE_EXT_REG = /(^[.]\w*)$/m;
 /**
  * function used to check file type
@@ -26,10 +36,11 @@ const FILE_EXT_REG = /(^[.]\w*)$/m;
  * file_extension|audio/*|video/*|image/*|media_type
  */
 const checkFileType = (file: File, allowedTypes: Array<string>): ValidationErrors | null => {
-    const fileExtension = `.${file.name.split('.').pop()}`;
+    const fileExtension = file.name.split('.').pop();
+    const fileType = getFileType(file, fileExtension);
 
     for (const type of allowedTypes ) {
-        const isValid = FILE_EXT_REG.test(type) ? type === fileExtension : new RegExp(type).test(file.type);
+        const isValid = FILE_EXT_REG.test(type) ? type === `.${fileExtension}` : new RegExp(type).test(fileType);
         if (isValid) {
             return null;
         }
