@@ -1,3 +1,9 @@
+<a name="1.3.0"></a>
+## [1.3.0](https://github.com/pIvan/file-upload/commit/b56b5680a43613fc3a2621448bc9714df5ad130d) (2019-04-29)
+
+### Features
+* **animation disabling** - Support for animation disabling over component attribute
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/pIvan/file-upload/commit/9e6ece51875a0e874eb738291e83d36ec0610fe4) (2019-04-01)
 
