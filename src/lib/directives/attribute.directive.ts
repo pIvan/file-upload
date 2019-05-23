@@ -4,7 +4,8 @@ import { FileUploadComponent } from '../components/file-upload.component';
 
 
 @Directive({
-    selector: 'file-upload[accept]'
+    selector: 'file-upload[accept], [control][accept]',
+    host: {'[attr.accept]': 'accept ? accept : null'}
 })
 export class FilesAcceptDirective implements AfterViewInit, OnChanges {
 
