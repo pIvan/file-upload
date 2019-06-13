@@ -1,3 +1,9 @@
+<a name="1.3.3"></a>
+## [1.3.3](https://github.com/pIvan/file-upload/commit/64c10684daf039cd3b8718ec8e91bf73b9d04bcc) (2019-06-13)
+
+### Features
+* **angular update** - Dependency update
+
 <a name="1.3.0"></a>
 ## [1.3.0](https://github.com/pIvan/file-upload/commit/b56b5680a43613fc3a2621448bc9714df5ad130d) (2019-04-29)
 
