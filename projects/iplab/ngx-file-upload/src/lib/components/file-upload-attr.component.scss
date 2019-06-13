@@ -27,7 +27,7 @@
     margin: 0 auto 10px;
 }
 
-:host /deep/ .icon svg {
+:host ::ng-deep .icon svg {
     fill: #80a9d2;
 }
 

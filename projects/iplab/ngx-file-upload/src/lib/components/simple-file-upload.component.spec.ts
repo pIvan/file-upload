@@ -58,7 +58,7 @@ export class FileUploadComponentHost {
     public uploadedFiles = [];
     public isDisabled: boolean = false;
 
-    @ViewChild('templateDrForm')
+    @ViewChild('templateDrForm', { static: true })
     public templateDrForm: ElementRef;
 }
 

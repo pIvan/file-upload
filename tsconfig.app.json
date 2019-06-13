@@ -1,10 +1,12 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "module": "es2015",
+    "outDir": "./out-tsc/app",
     "baseUrl": "",
     "types": []
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
   },
   "exclude": [
     "src/test.ts",

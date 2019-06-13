@@ -53,16 +53,16 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     @Input()
     public animation: boolean | string = true;
 
-    @ContentChild('placeholder')
+    @ContentChild('placeholder', { static: false })
     public templateRef: TemplateRef<any> = null;
 
-    @ContentChild('item')
+    @ContentChild('item', { static: false })
     public listItem: TemplateRef<any> = null;
 
-    @ViewChild('inputRef')
+    @ViewChild('inputRef', { static: true })
     public input: ElementRef<HTMLInputElement>;
 
-    @ViewChild('labelRef')
+    @ViewChild('labelRef', { static: true })
     public label: ElementRef<HTMLLabelElement>;
 
     public templateContext = {

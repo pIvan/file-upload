@@ -18,6 +18,12 @@ import { SimpleFileUploadComponent } from './components/simple-file-upload.compo
 import { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
 import { FilesAcceptDirective } from './directives/attribute.directive';
 
+export { FileUploadComponent } from './components/file-upload.component';
+export { FileUploadAttributeComponent } from './components/file-upload-attr.component';
+export { SimpleFileUploadComponent } from './components/simple-file-upload.component';
+export { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
+export { FilesAcceptDirective } from './directives/attribute.directive';
+
 export { FileUploadControl } from './helpers/control.class';
 export { FileUploadValidators, ValidationErrors, ValidatorFn } from './helpers/validators.class';
 export { FileUploadTypes } from './helpers/file-types.class';
