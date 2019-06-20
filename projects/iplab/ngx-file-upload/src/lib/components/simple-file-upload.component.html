@@ -37,5 +37,5 @@
         </div>
     </ng-template>
 
-    <input #inputRef type="file" class="files-input" tabindex="-1" (change)="onInputChange($event)">
+    <input #inputRef type="file" [accept]="accept" class="files-input" tabindex="-1" (change)="onInputChange($event)">
 </label>
