@@ -33,6 +33,8 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
     </form>
 
     <file-upload simple id="standAlone" [control]="fileUploadControl"></file-upload>
+
+    <file-upload simple id="standAloneWithAccept" accept=".pdf,.gif" [control]="fileUploadControl"></file-upload>
     `
 })
 export class FileUploadComponentHost {
@@ -153,6 +155,13 @@ describe('FileUpload[simple]', () => {
         expect(templateDrivenInput.disabled).toBe(true);
 
     }));
+
+    it('should get accept value', () => {
+        const standAlone = hostComponentEl.querySelector('#standAloneWithAccept');
+        const standAloneInput = hostComponentEl.querySelector('#standAloneWithAccept input');
+
+        expect(standAloneInput.accept).toBe('.pdf,.gif');
+    });
 
 });
 
