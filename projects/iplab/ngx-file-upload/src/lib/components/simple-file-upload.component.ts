@@ -39,7 +39,7 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     public control: FileUploadControl = null;
 
     @Input()
-    public accept: string= null;
+    public accept: string = null;
 
     @ContentChild('button', { static: false })
     public buttonRef: TemplateRef<any> = null;
@@ -87,9 +87,9 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
         this.input.nativeElement.value = null;
     }
 
-     /**
-      * model -> view changes
-      */
+    /**
+     * model -> view changes
+     */
     public writeValue(files: any): void {
         if (files != null) {
             this.control.setValue(files);
