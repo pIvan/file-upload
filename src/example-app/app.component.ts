@@ -18,8 +18,6 @@ export class AppComponent implements AfterViewInit {
 
   public readonly filesControl = new FormControl(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
 
-  public readonly simpleFileUpload = new FileUploadControl();
-
   public readonly demoForm = new FormGroup({
     files: this.filesControl
   });

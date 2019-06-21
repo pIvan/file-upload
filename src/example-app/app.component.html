@@ -330,14 +330,14 @@ export class AppComponent &#123; &#125;</pre>
                 <p>It is possible to use simple file upload, layout is similar to default browser</p>
                 <pre class="prettify" ngNonBindable>@Component(&#123;
     selector: `app-root`,
-    template: `&lt;file-upload simple [control]="fileUploadControl"&gt;&lt;/file-upload&gt;`
+    template: `&lt;file-upload simple&gt;&lt;/file-upload&gt;`
 &#125;)
 export class AppComponent &#123; &#125;</pre>
                 <p>and in same way as is the case with standard component it is possible to change placeholder and button layout</p>
                 <pre class="prettify" ngNonBindable>@Component(&#123;
     selector: `app-root`,
     template: `
-        &lt;file-upload simple [control]="fileUploadControl"&gt;
+        &lt;file-upload simple&gt;
             &lt;ng-template let-file #placeholder&gt;
                 &lt;ng-container *ngIf="file; else emptyList"&gt;
                     {{ file.name }}
@@ -355,7 +355,7 @@ export class AppComponent &#123; &#125;</pre>
 &#125;)
 export class AppComponent &#123; &#125;</pre>
                        
-                <file-upload simple [control]="simpleFileUpload"></file-upload>
+                <file-upload simple [accept]="'image/*'"></file-upload>
             </div>
         </div>
         <br>

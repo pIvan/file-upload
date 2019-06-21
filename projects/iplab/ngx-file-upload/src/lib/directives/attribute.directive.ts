@@ -1,10 +1,11 @@
 import { Directive, Input, SimpleChanges, Optional, Host, Self, OnChanges, AfterViewInit } from '@angular/core';
 import { FileUploadComponent } from '../components/file-upload.component';
+import { SimpleFileUploadComponent } from '../components/simple-file-upload.component';
 
 
 
 @Directive({
-    selector: 'file-upload[accept], [control][accept]',
+    selector: 'file-upload[accept]',
     host: {'[attr.accept]': 'accept ? accept : null'}
 })
 export class FilesAcceptDirective implements AfterViewInit, OnChanges {
@@ -12,7 +13,12 @@ export class FilesAcceptDirective implements AfterViewInit, OnChanges {
     @Input()
     public accept: string;
 
-    constructor(@Optional() @Host() @Self() private readonly fileUpload: FileUploadComponent) {
+    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent = null;
+
+    constructor(
+        @Optional() @Host() @Self() fileUpload: FileUploadComponent,
+        @Optional() @Host() @Self() simpleFileUpload: SimpleFileUploadComponent) {
+        this.fileUpload = fileUpload || simpleFileUpload;
     }
 
     public ngAfterViewInit(): void {
