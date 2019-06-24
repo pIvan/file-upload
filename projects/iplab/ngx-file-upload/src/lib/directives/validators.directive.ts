@@ -2,7 +2,7 @@ import { Directive, forwardRef, Input, OnChanges, SimpleChanges, Host, Self, Opt
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { ValidationErrors, ValidatorFn, FileUploadValidators } from './../helpers/validators.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
-import { FileUploadComponent } from './../components/file-upload.component';
+import {FileUploadService} from '../services/file-upload.service';
 
 
 /**
@@ -26,7 +26,7 @@ import { FileUploadComponent } from './../components/file-upload.component';
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => FileSizeValidator),
         multi: true
-    }],
+    }, FileUploadService],
     host: {
         '[attr.filesize]': 'filesize ? filesize : null',
         '[attr.minsize]': 'minsize ? minsize : null',
@@ -48,9 +48,11 @@ export class FileSizeValidator implements Validator, OnChanges {
 
     private onChange: () => void;
 
+    constructor(private fileUploadService: FileUploadService) { }
+
     public ngOnChanges(changes: SimpleChanges): void {
-        if ('filesize' in changes 
-            || 'maxsize' in changes 
+        if ('filesize' in changes
+            || 'maxsize' in changes
             || 'minsize' in changes) {
           this._createValidator();
           if (this.onChange) {
@@ -64,19 +66,18 @@ export class FileSizeValidator implements Validator, OnChanges {
     }
 
     public registerOnValidatorChange(fn: () => void): void {
-        this.onChange = fn; 
+        this.onChange = fn;
     }
 
     private _createValidator(): void {
         let maxSize = null;
         if (!IsNullOrEmpty(this.maxsize)) {
-            maxSize = typeof this.maxsize === 'string' ? parseInt(this.maxsize, 10) : this.maxsize;
+            maxSize = this.fileUploadService.parseSize(this.maxsize);
         } else if(!IsNullOrEmpty(this.filesize)) {
-            maxSize = typeof this.filesize === 'string' ? parseInt(this.filesize, 10) : this.filesize;
+            maxSize = this.fileUploadService.parseSize(this.filesize);
         }
 
-        const minSize = typeof this.minsize === 'string' ? parseInt(this.minsize, 10) : this.minsize;
-
+        const minSize = this.fileUploadService.parseSize(this.minsize) ;
         this.validator = FileUploadValidators.sizeRange({ maxSize, minSize });
     }
 }
@@ -126,7 +127,7 @@ export class FilesLimitValidator implements Validator, OnChanges {
     }
 
     public registerOnValidatorChange(fn: () => void): void {
-        this.onChange = fn; 
+        this.onChange = fn;
     }
 
     private _createValidator(): void {
@@ -144,7 +145,7 @@ export class FilesLimitValidator implements Validator, OnChanges {
  * <file-upload name="files" ngModel accept="file_extension|audio/*|video/*|image/*|media_type"></file-upload>
  * <file-upload name="files" ngModel [accept]="file_extension|audio/*|video/*|image/*|media_type"></file-upload>
  * ```
- * 
+ *
  * To specify more than one value, separate the values with a comma (e.g. <file-upload accept="audio/*,video/*,image/*"></file-upload>.
  *
  */

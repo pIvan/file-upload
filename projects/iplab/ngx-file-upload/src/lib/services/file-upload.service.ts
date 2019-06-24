@@ -5,7 +5,6 @@ import { FileUploadTypes } from './../helpers/file-types.class';
 export class FileUploadService {
 
     private extensions: Array<'B' | 'KB' | 'MB' | 'GB'> = ['B', 'KB', 'MB', 'GB'];
-
     constructor(private renderer: Renderer2) {
     }
 
@@ -14,6 +13,27 @@ export class FileUploadService {
         return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div));
     }
 
+    public parseSize(sizeUnit: string | number): number {
+        if (typeof sizeUnit === 'number') {
+            return sizeUnit;
+        }
+
+        const match = sizeUnit.match(new RegExp(`^(\\d+)(?: *)(${this.extensions.join('|')})?$`));
+
+        if (match) {
+            const size = match[1];
+            const unit = match[2];
+            let multiple = 1;
+
+            if (unit) {
+              multiple = this.extensions.findIndex(each => each === unit);
+              multiple = Math.pow(1024, multiple);
+            }
+
+            return parseInt(size, 10) * multiple;
+        }
+        return 0;
+    }
 
     public calculateSize(size: number, extensionIndex: number = 0): string {
         if (isNaN(size)) {
