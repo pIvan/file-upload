@@ -2,12 +2,12 @@ import { Directive, forwardRef, Input, OnChanges, SimpleChanges, Host, Self, Opt
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { ValidationErrors, ValidatorFn, FileUploadValidators } from './../helpers/validators.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
-import { FileUploadComponent } from './../components/file-upload.component';
+import { FileUploadService } from './../services/file-upload.service';
 
 
 /**
  * A Directive that adds the `filesize` validator to controls marked with the
- * `filesize` attribute.
+ * `filesize` attribute. The size of the file is in bytes or any other unit
  *
  * ### Example
  *
@@ -15,6 +15,9 @@ import { FileUploadComponent } from './../components/file-upload.component';
  * <file-upload name="files" ngModel filesize="830000"></file-upload>
  * <file-upload name="files" ngModel [filesize]="830000"></file-upload>
  * <file-upload name="files" ngModel minSize="0" max="6200"></file-upload>
+ * <file-upload name="files" ngModel filesize="123MB"></file-upload>
+ * <file-upload name="files" ngModel [filesize]="12 mb"></file-upload>
+ * <file-upload name="files" ngModel minSize="0" max="324KB"></file-upload>
  * ```
  *
  */
@@ -46,6 +49,8 @@ export class FileSizeValidator implements Validator, OnChanges {
 
     private validator: ValidatorFn;
 
+    constructor(private readonly fileUploadService: FileUploadService){}
+
     private onChange: () => void;
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -70,13 +75,12 @@ export class FileSizeValidator implements Validator, OnChanges {
     private _createValidator(): void {
         let maxSize = null;
         if (!IsNullOrEmpty(this.maxsize)) {
-            maxSize = typeof this.maxsize === 'string' ? parseInt(this.maxsize, 10) : this.maxsize;
+            maxSize = this.fileUploadService.parseSize(this.maxsize);
         } else if(!IsNullOrEmpty(this.filesize)) {
-            maxSize = typeof this.filesize === 'string' ? parseInt(this.filesize, 10) : this.filesize;
+            maxSize = this.fileUploadService.parseSize(this.filesize);
         }
 
-        const minSize = typeof this.minsize === 'string' ? parseInt(this.minsize, 10) : this.minsize;
-
+        const minSize = this.fileUploadService.parseSize(this.minsize);
         this.validator = FileUploadValidators.sizeRange({ maxSize, minSize });
     }
 }

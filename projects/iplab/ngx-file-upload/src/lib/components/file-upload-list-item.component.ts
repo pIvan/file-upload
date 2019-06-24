@@ -47,6 +47,6 @@ export class FileUploadListItemComponent {
     }
 
     public calculateSize(size: number): string {
-       return this.fileUploadService.calculateSize(size);
+       return this.fileUploadService.formatSize(size);
     }
 }

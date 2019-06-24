@@ -148,6 +148,11 @@ export class AppComponent &#123;
 &lt;file-upload ngModel [minsize]="20" [maxsize]="10000" name="files"&gt;&lt;/file-upload&gt;
 &lt;file-upload ngModel minsize="20" maxsize="10000" name="files"&gt;&lt;/file-upload&gt;
 
+&lt;file-upload ngModel [minsize]="20KB" [maxsize]="10000KB" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel minsize="20 MB" maxsize="10000 MB" name="files"&gt;&lt;/file-upload&gt;
+
+<b>provided file size can be with or without unit.</b>
+
 &lt;file-upload ngModel [fileslimit]="2" name="files"&gt;&lt;/file-upload&gt;
 &lt;file-upload ngModel fileslimit="2" name="files"&gt;&lt;/file-upload&gt;
 
