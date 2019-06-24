@@ -18,7 +18,7 @@ export class FileUploadService {
             return sizeUnit;
         }
 
-        const match = sizeUnit.match(new RegExp(`^(\\d+)(?: *)(${this.extensions.join('|')})?$`));
+        const match = sizeUnit.match(new RegExp(`^(\\d+)(?: *)(${this.extensions.join('|')})?$`, 'i'));
 
         if (match) {
             const size = match[1];
@@ -26,10 +26,9 @@ export class FileUploadService {
             let multiple = 1;
 
             if (unit) {
-              multiple = this.extensions.findIndex(each => each === unit);
+              multiple = this.extensions.findIndex(each => each.toLowerCase() === unit.toLowerCase());
               multiple = Math.pow(1024, multiple);
             }
-
             return parseInt(size, 10) * multiple;
         }
         return 0;
