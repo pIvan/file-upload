@@ -40,6 +40,15 @@ describe('FileUploadValidators', () => {
         expect(control.valid).toBe(true);
     });
 
+    it('should test file extension ignore case', () => {
+      const ctrlUpper = new FileUploadControl();
+      const ctrlUpperTxtFile = new File([""], "filename.TXT", {type: "text/plain"});
+      ctrlUpper.addFile(ctrlUpperTxtFile);
+
+      ctrlUpper.setValidators(FileUploadValidators.accept(['.txt']));
+      expect(ctrlUpper.valid).toBe(true);
+    });
+
     it('should test file type', () => {
         control.setValidators(FileUploadValidators.accept(['text/*']));
         expect(control.valid).toBe(true);
@@ -66,6 +75,24 @@ describe('FileUploadValidators', () => {
         control.addFile(file3);
     
         expect(control.valid).toBe(false);
+    });
+
+    it('should test file name with multi dot', () => {
+      const multiDotCtrl = new FileUploadControl();
+      const multiDotCtrlTxtFile = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.middle.txt", {type: "text/plain"});
+      multiDotCtrl.addFile(multiDotCtrlTxtFile);
+      multiDotCtrl.setValidators(FileUploadValidators.accept(['.txt', '.csv']));
+
+      expect(multiDotCtrl.valid).toBe(true);
+    });
+
+    it('should test file without extension', () => {
+      const control = new FileUploadControl();
+      const file = new File([""], "filename", {type: "text/plain"});
+      control.addFile(file);
+      control.setValidators(FileUploadValidators.accept(['.txt']));
+
+      expect(control.valid).toBe(false);
     });
 
 });

@@ -31,12 +31,12 @@ const getFileType = (file: File, fileExtension: string): FileUploadTypes => {
 const FILE_EXT_REG = /(^[.]\w*)$/m;
 /**
  * function used to check file type
- * 
+ *
  * #### allowedTypes
  * file_extension|audio/*|video/*|image/*|media_type
  */
 const checkFileType = (file: File, allowedTypes: Array<string>): ValidationErrors | null => {
-    const fileExtension = file.name.split('.').pop();
+    const fileExtension = file.name.split('.').pop().toLowerCase();
     const fileType = getFileType(file, fileExtension);
 
     for (const type of allowedTypes ) {
@@ -112,16 +112,16 @@ export class FileUploadValidators {
 
     /**
      * validator that requires control to have limit on media types
-     * 
+     *
      * ##### Allowed media types are
-     * 
-     * - file_extension - a file extension starting with the STOP character, 
+     *
+     * - file_extension - a file extension starting with the STOP character,
      * e.g: .gif, .jpg, .png, .doc
      * - audio/* -        All sound files are accepted
      * - video/* -        All video files are accepted
      * - image/* -        All image files are accepted
      * - media_type -     A valid media type, with no parameters. Look at [IANA Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml) for a complete list of standard media types
-     * 
+     *
      * #### Example
      * `FileUploadValidators.accept([file_extension, audio/*, video/*, image/*, media_type])`
      * @dynamic
