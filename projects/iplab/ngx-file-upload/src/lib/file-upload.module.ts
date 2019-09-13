@@ -1,5 +1,5 @@
 /*
- * l10n
+ * FileUpload
  *
  * By Ivan Pintar, http://www.pintar-ivan.com
  * Licensed under the MIT License
@@ -27,6 +27,8 @@ export { FilesAcceptDirective } from './directives/attribute.directive';
 export { FileUploadControl } from './helpers/control.class';
 export { FileUploadValidators, ValidationErrors, ValidatorFn } from './helpers/validators.class';
 export { FileUploadTypes } from './helpers/file-types.class';
+
+export { FileUploadService } from './services/file-upload.service';
 
 @NgModule({
     imports: [

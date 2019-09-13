@@ -89,8 +89,6 @@ export enum FileUploadTypes {
     htm = 'text/html',
     stm = 'text/html',
     uls = 'text/iuls',
-    bas = 'text/plain',
-    h = 'text/plain',
     sct = 'text/scriptlet',
     htt = 'text/webviewhtml',
     htc = 'text/x-component',

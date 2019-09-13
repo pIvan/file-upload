@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FileUploadService } from './../services/file-upload.service';
 
 
 @Component({
     selector: `file-upload-icon`,
     templateUrl: `./file-upload-icon.component.html`,
-    styleUrls: [`./file-upload-icon.component.scss`]
+    styleUrls: [`./file-upload-icon.component.scss`],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileUploadIconComponent implements OnInit {
 
@@ -29,7 +30,7 @@ export class FileUploadIconComponent implements OnInit {
                     this.fileType === 'pdf' || this.fileType === 'ppt' ||
                     this.fileType === 'xls' || this.fileType === 'xlsx' ||
                     this.fileType === 'xml' || this.fileType === 'doc' ||
-                    this.fileType === 'docx';
+                    this.fileType === 'txt' || this.fileType === 'docx';
             case 'audio':
                 return this.fileType === 'aac' || this.fileType === 'midi' ||
                     this.fileType === 'oga' || this.fileType === 'wav' ||
