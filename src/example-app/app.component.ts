@@ -22,6 +22,8 @@ export class AppComponent implements AfterViewInit {
     files: this.filesControl
   });
 
+  public readonly customFileUploadControl = new FileUploadControl().setListVisibility(false);
+
   public animation: boolean = false;
   public uploadedFiles = [];
   public isDisabled: boolean = false;

@@ -22,3 +22,15 @@ file-upload.ng-touched.ng-invalid {
 .file-list {
     padding: 10px 0 5px;
 }
+
+.custom-zone .file-list {
+    overflow: hidden;
+    padding: 20px;
+    width: auto;
+}
+
+.custom-zone file-upload {
+    float: left;
+    max-width: 400px;
+    width: 50%;
+}
