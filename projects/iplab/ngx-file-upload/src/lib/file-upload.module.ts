@@ -66,11 +66,5 @@ export { FileUploadService } from './services/file-upload.service';
     ]
 })
 export class FileUploadModule {
-
-    constructor(private injector: Injector) {
-        // const fileUploadElement = createCustomElement(FileUploadComponent, { injector });
-        // customElements.define('file-upload', fileUploadElement);
-    }
-
     ngDoBootstrap() {}
 }
