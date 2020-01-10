@@ -22,9 +22,15 @@ import { FileUploadService } from './../services/file-upload.service';
  *
  */
 @Directive({
-    selector: `[filesize][formControlName],[filesize][formControl],[filesize][ngModel],
-    [minsize][formControlName],[minsize][formControl],[minsize][ngModel],
-    [maxsize][formControlName],[maxsize][formControl],[maxsize][ngModel]`,
+    selector: `file-upload[filesize][formControlName],
+    file-upload[filesize][formControl],
+    file-upload[filesize][ngModel],
+    file-upload[minsize][formControlName],
+    file-upload[minsize][formControl],
+    file-upload[minsize][ngModel],
+    file-upload[maxsize][formControlName],
+    file-upload[maxsize][formControl],
+    file-upload[maxsize][ngModel]`,
     providers: [{
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => FileSizeValidator),
@@ -99,7 +105,7 @@ export class FileSizeValidator implements Validator, OnChanges {
  *
  */
 @Directive({
-    selector: '[fileslimit][formControlName],[fileslimit][formControl],[fileslimit][ngModel]',
+    selector: 'file-upload[fileslimit][formControlName], file-upload[fileslimit][formControl], file-upload[fileslimit][ngModel]',
     providers: [{
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => FilesLimitValidator),
@@ -153,7 +159,7 @@ export class FilesLimitValidator implements Validator, OnChanges {
  *
  */
 @Directive({
-    selector: '[accept][formControlName],[accept][formControl],[accept][ngModel]',
+    selector: 'file-upload[accept][formControlName], file-upload[accept][formControl], file-upload[accept][ngModel]',
     providers: [{
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => FilesAcceptValidator),
