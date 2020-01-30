@@ -53,6 +53,12 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     @Input()
     public animation: boolean | string = true;
 
+    @Input('multiple')
+    public set multiple(isMultiple: boolean | string) {
+        this.isMultiple = isMultiple;
+        this.checkAndSetMultiple();
+    }
+
     @ContentChild('placeholder', { static: false })
     public templateRef: TemplateRef<any> = null;
 
@@ -199,10 +205,6 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
         }
 
         this.onTouch();
-    }
-
-    private clearInputEl(): void {
-        this.input.nativeElement.value = null;
     }
 
      /**

@@ -26,6 +26,10 @@ export class FileUploadControl {
 
     private validators: Array<ValidatorFn> = [];
 
+    private multipleEnabled: boolean = true;
+
+    private readonly multipleChanged: BehaviorSubject<boolean> = new BehaviorSubject(this.multipleEnabled);
+
     private readonly statusChanged: Subject<STATUS> = new Subject();
 
     private readonly eventsChanged: Subject<FileEvent> = new Subject();
@@ -61,6 +65,11 @@ export class FileUploadControl {
      * emit an event every time user programmatically ask for certain event
      */
     public readonly eventsChanges: Observable<FileEvent> = this.eventsChanged.asObservable();
+
+    /**
+     * track changed on multiple attribute
+     */
+    public readonly multipleChanges: Observable<boolean> = this.multipleChanged.asObservable();
 
     constructor(validators?: ValidatorFn|Array<ValidatorFn>) {
         this.defineValidators(validators);
@@ -223,6 +232,16 @@ export class FileUploadControl {
     public acceptAll(): this {
         this.accept = null;
         this.acceptChanged.next(this.accept);
+        return this;
+    }
+
+    public get isMultiple(): boolean {
+        return this.multipleEnabled;
+    }
+
+    public multiple(isEnabled: boolean = true): this {
+        this.multipleEnabled = isEnabled;
+        this.multipleChanged.next(this.multipleEnabled);
         return this;
     }
 

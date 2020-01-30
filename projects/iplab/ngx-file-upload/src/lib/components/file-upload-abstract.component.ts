@@ -13,6 +13,8 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
     public abstract label: ElementRef<HTMLLabelElement>;
 
+    protected isMultiple: boolean | string = true;
+
     protected readonly hooks: Array<Function> = [];
 
     protected readonly subscriptions: Array<Subscription> = [];
@@ -32,6 +34,7 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
         this.setEvents();
         this.checkAndMarkAsDisabled();
+        this.checkAndSetMultiple();
         this.connectToForm();
     }
 
@@ -55,6 +58,25 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.control.acceptChanges.subscribe((accept: string) => this.updateAcceptAttr(accept))
         );
+
+        this.subscriptions.push(
+            this.control.multipleChanges.subscribe((isMultiple: boolean) => this.toggleMultiple(isMultiple))
+        );
+    }
+
+    protected clearInputEl(): void {
+        this.input.nativeElement.value = null;
+    }
+
+    protected checkAndSetMultiple(): void {
+        if (!this.control) {
+            return;
+        }
+
+        const isMultiple = !(this.isMultiple === false || (this.isMultiple as string) === 'false');
+        if (isMultiple !== this.control.isMultiple) {
+            this.control.multiple(isMultiple);
+        }
     }
 
     private triggerEvent(event: FileEvent): void {
@@ -78,6 +100,14 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         } else {
             this.renderer.removeClass(this.hostElementRef.nativeElement, 'disabled');
             this.renderer.setProperty(this.input.nativeElement, 'disabled', false);
+        }
+    }
+
+    private toggleMultiple(isMultiple: boolean): void {
+        if (isMultiple) {
+            this.renderer.setAttribute(this.input.nativeElement, 'multiple', '');
+        } else {
+            this.renderer.removeAttribute(this.input.nativeElement, 'multiple');
         }
     }
 

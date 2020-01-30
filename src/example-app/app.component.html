@@ -70,13 +70,16 @@ export class AppModule &#123;&#125;</pre>
     selector: `app-root`,
     template: `
     &lt;form [formGroup]="demoForm"&gt;
-        &lt;file-upload formControlName="files"&gt;&lt;/file-upload&gt;
+        &lt;file-upload formControlName="files" [multiple]="multiple" [animation]="animation"&gt;&lt;/file-upload&gt;
     &lt;/form&gt;`
 &#125;)
 export class AppComponent &#123;
-    
+
+    public animation: boolean = false;
+    public multiple: boolean = false;
+
     private filesControl = new FormControl(null, FileUploadValidators.filesLimit(2));
-  
+
     public demoForm = new FormGroup(&#123;
         files: this.filesControl
     &#125;);
@@ -92,6 +95,10 @@ export class AppComponent &#123;
         this.filesControl.disabled ? this.filesControl.enable() : this.filesControl.disable();
     &#125;
 
+    public toggleMultiple() &#123;
+        this.multiple = !this.multiple;
+    &#125;
+
     public clear(): void &#123;
         this.filesControl.setValue([]);
     &#125;
@@ -99,13 +106,13 @@ export class AppComponent &#123;
 &#125;</pre>
             <h5>Example:</h5>
 
-            <button (click)="toggleStatus()" class="btn btn-secondary">{{ filesControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="clearReactive()" class="btn btn-secondary">Clear</button>
+            <button (click)="toggleStatus()" class="btn btn-secondary">{{ filesControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="clearReactive()" class="btn btn-secondary">Clear</button> &nbsp; <button (click)="toggleReactiveMultiple()" class="btn btn-secondary">{{ multiple ? 'Disable multiple' : 'Enable multiple' }}</button>
             <br>
             <br>
             <span>Is valid: {{ filesControl.valid }}</span>
             <br>
             <form [formGroup]="demoForm">
-                <file-upload formControlName="files" [animation]="animation"></file-upload>
+                <file-upload formControlName="files" [multiple]="multiple" [animation]="animation"></file-upload>
             </form>
         </div>
     </div>
@@ -196,13 +203,17 @@ export class AppComponent &#123;
         this.fileUploadControl.setListVisibility(!this.fileUploadControl.isListVisible);
     &#125;
 
+    public toggleMultiple() &#123;
+        this.fileUploadControl.multiple(!this.fileUploadControl.isMultiple);
+    &#125;
+
     public clear(): void &#123;
         this.fileUploadControl.clear();
     &#125;
         
 &#125;</pre>
             <h5>Example:</h5>
-            <button (click)="toggleStandAloneStatus()" class="btn btn-secondary">{{ fileUploadControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="toggleListVisibility()" class="btn btn-secondary">{{ fileUploadControl.isListVisible ? 'Hide files list' : 'Show files list' }}</button> &nbsp; <button (click)="clearStandAlone()" class="btn btn-secondary">Clear</button>
+            <button (click)="toggleStandAloneStatus()" class="btn btn-secondary">{{ fileUploadControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="toggleListVisibility()" class="btn btn-secondary">{{ fileUploadControl.isListVisible ? 'Hide files list' : 'Show files list' }}</button> &nbsp; <button (click)="clearStandAlone()" class="btn btn-secondary">Clear</button> &nbsp; <button (click)="toggleMultiple()" class="btn btn-secondary">{{ fileUploadControl.isMultiple ? 'Disable multiple' : 'Enable multiple' }}</button>
             <br>
             <br>
             <span>Is valid: {{ fileUploadControl.valid }}</span>
@@ -535,6 +546,17 @@ export class AppComponent &#123; &#125;</pre>
                         <td><code>Function</code></td>
                         <td>Hide/Show built-in list</td>
                     </tr>
+                    <tr>
+                        <td>isMultiple</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Check is multiple selection enabled</td>
+                    </tr>
+                    <tr>
+                        <td>multiple</td>
+                        <td><code>Function</code></td>
+                        <td>Disable/Enable multiple selection</td>
+                    </tr>
+
                     <tr>
                         <td><b>Events</b></td>
                         <td colspan="2"></td>

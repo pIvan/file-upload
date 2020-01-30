@@ -50,6 +50,8 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     @ViewChild('labelRef', { static: true })
     public label: ElementRef<HTMLLabelElement>;
 
+    protected isMultiple: boolean | string = false;
+
     constructor(
         public fileUploadService: FileUploadService,
         hostElementRef: ElementRef,
@@ -78,10 +80,6 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
         }
 
         this.onTouch();
-    }
-
-    private clearInputEl(): void {
-        this.input.nativeElement.value = null;
     }
 
      /**

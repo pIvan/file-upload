@@ -10,9 +10,9 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
 @Component({
     template: `
     <form [formGroup]="demoForm" id="reactiveForm">
-        <file-upload formControlName="files"></file-upload>
+        <file-upload id="simpleAttribute" formControlName="files" multiple="false"></file-upload>
 
-        <file-upload formControlName="fileUploadWithTemplate">
+        <file-upload id="dataBindingAttribute" formControlName="fileUploadWithTemplate" [multiple]="multiple">
             <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
                 <span *ngIf="isFileDragDropAvailable">drop or click</span>
                 <span *ngIf="!isFileDragDropAvailable">click</span>
@@ -46,6 +46,8 @@ export class FileUploadComponentHost {
      * custom control
      */
     public acceptCheck = new FileUploadControl();
+
+    public multiple = false;
 
     /**
      * reactive form control
@@ -178,6 +180,45 @@ describe('FileUpload', () => {
         tick();
         expect(standAloneInput.accept).toBe('text/*');
 
+    }));
+
+
+
+
+    it('should toggle multiple selection', fakeAsync(() => {
+        /**
+         * attribute test
+         */
+        const simpleAttributeCheckEl = hostComponentEl.querySelector('#simpleAttribute input');
+        const isSimpleDisabled = simpleAttributeCheckEl["multiple"];
+        expect(isSimpleDisabled).toBe(false);
+
+        /**
+         * attribute two way data binding
+         */
+        const dataBindingAttributeCheckEl = hostComponentEl.querySelector('#dataBindingAttribute input');
+        const isDisabled = dataBindingAttributeCheckEl["multiple"];
+        expect(isDisabled).toBe(false);
+
+        hostComp.multiple = true;
+        hostFixture.detectChanges();
+        tick();
+        const isEnabled = dataBindingAttributeCheckEl["multiple"];
+        expect(isEnabled).toBe(true);
+
+        /**
+         * stand alone control test
+         */
+        const standAloneEl = hostComponentEl.querySelector('#standAlone input');
+        const isstandAloneEnabled = standAloneEl["multiple"];
+        expect(isstandAloneEnabled).toBe(true);
+
+        hostComp.fileUploadControl.multiple(false);
+        tick();
+        const isstandAloneDisabled = standAloneEl["multiple"];
+
+        expect(hostComp.fileUploadControl.isMultiple).toBe(false);
+        expect(isstandAloneDisabled).toBe(false);
     }));
 
 });
