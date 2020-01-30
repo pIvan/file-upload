@@ -1,3 +1,13 @@
+<a name="1.5.0"></a>
+## [1.5.0](https://github.com/pIvan/file-upload/commit/2f3f12e91f5566158f7b8ce933a8e73237f91dcf) (2020-01-30)
+
+### Features
+* **multiple atribute** - Multiple attribute is possible to change over file-upload[multiple] or over control
+
+
+
+
+
 <a name="1.3.3"></a>
 ## [1.3.3](https://github.com/pIvan/file-upload/commit/64c10684daf039cd3b8718ec8e91bf73b9d04bcc) (2019-06-13)
 
