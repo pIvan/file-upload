@@ -1,3 +1,9 @@
+<a name="2.0.0"></a>
+## [2.0.0](https://github.com/pIvan/file-upload/commit/2e594f98c8321dd0fad94ff65e5e2b1f69ada919) (2020-02-26)
+
+### Features
+* **angular update** - Dependency update
+
 <a name="1.5.0"></a>
 ## [1.5.0](https://github.com/pIvan/file-upload/commit/2f3f12e91f5566158f7b8ce933a8e73237f91dcf) (2020-01-30)
 
