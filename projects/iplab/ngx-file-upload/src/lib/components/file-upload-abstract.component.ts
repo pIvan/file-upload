@@ -27,7 +27,7 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         protected readonly cdr: ChangeDetectorRef) {
         }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         if (IsNullOrEmpty(this.control)) {
             this.control = new FileUploadControl();
         }

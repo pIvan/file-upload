@@ -38,10 +38,10 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     @Input()
     public control: FileUploadControl = null;
 
-    @ContentChild('button', { static: false })
+    @ContentChild('button')
     public buttonRef: TemplateRef<any> = null;
 
-    @ContentChild('placeholder', { static: false })
+    @ContentChild('placeholder')
     public placeholderRef: TemplateRef<any> = null;
 
     @ViewChild('inputRef', { static: true })

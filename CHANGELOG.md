@@ -4,10 +4,6 @@
 ### Features
 * **multiple atribute** - Multiple attribute is possible to change over file-upload[multiple] or over control
 
-
-
-
-
 <a name="1.3.3"></a>
 ## [1.3.3](https://github.com/pIvan/file-upload/commit/64c10684daf039cd3b8718ec8e91bf73b9d04bcc) (2019-06-13)
 

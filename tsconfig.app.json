@@ -6,10 +6,10 @@
     "types": []
   },
   "angularCompilerOptions": {
-    "enableIvy": false
+    "enableIvy": true
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
   ]
 }

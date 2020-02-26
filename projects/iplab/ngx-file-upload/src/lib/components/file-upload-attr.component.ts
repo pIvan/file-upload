@@ -65,10 +65,10 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
     @Input()
     public control: FileUploadControl = null;
 
-    @ViewChild('overlay', { static: false })
+    @ViewChild('overlay')
     public overlay: ElementRef<HTMLDivElement>;
 
-    @ContentChild('placeholder', { static: false })
+    @ContentChild('placeholder')
     public templateRef: TemplateRef<any> = null;
 
     private hooks: Array<Function> = [];

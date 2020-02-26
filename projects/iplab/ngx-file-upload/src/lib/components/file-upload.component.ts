@@ -59,10 +59,10 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
         this.checkAndSetMultiple();
     }
 
-    @ContentChild('placeholder', { static: false })
+    @ContentChild('placeholder')
     public templateRef: TemplateRef<any> = null;
 
-    @ContentChild('item', { static: false })
+    @ContentChild('item')
     public listItem: TemplateRef<any> = null;
 
     @ViewChild('inputRef', { static: true })
