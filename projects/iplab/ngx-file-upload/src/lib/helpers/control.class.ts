@@ -34,7 +34,7 @@ export class FileUploadControl {
 
     private readonly eventsChanged: Subject<FileEvent> = new Subject();
 
-    private accept: string = null;
+    private accept: string | null = null;
 
     private readonly acceptChanged: BehaviorSubject<string> = new BehaviorSubject(this.accept);
 

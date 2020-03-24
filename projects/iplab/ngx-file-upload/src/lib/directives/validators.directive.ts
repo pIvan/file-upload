@@ -186,7 +186,7 @@ export class FilesAcceptValidator implements Validator, OnChanges {
     }
 
     public validate(c: AbstractControl): ValidationErrors|null {
-        return this.accept != null ? this.validator(c) : null;
+        return !!this.validator ? this.validator(c) : null;
     }
 
     public registerOnValidatorChange(fn: () => void): void {
@@ -194,6 +194,9 @@ export class FilesAcceptValidator implements Validator, OnChanges {
     }
 
     private _createValidator(): void {
+        if (IsNullOrEmpty(this.accept)) {
+            return;
+        }
         this.validator = FileUploadValidators.accept(this.accept.split(','));
     }
 }
