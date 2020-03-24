@@ -9,7 +9,7 @@ describe('FileUploadControl', () => {
         control = new FileUploadControl();
         const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
         control.addFile(file);
-    })
+    });
 
     it('should validate files', () => {
         control.setValidators([FileUploadValidators.filesLimit(1), FileUploadValidators.fileSize(100), FileUploadValidators.accept(['.png', 'text/*', 'audio/*', '.mp3'])]);
@@ -66,7 +66,7 @@ describe('FileUploadControl', () => {
         control.disable();
         expect(statusChanges).toHaveBeenCalled();
         expect(statusChanges).toHaveBeenCalledWith(STATUS.DISABLED);
-    })
+    });
 
     it('should clear and set new values', () => {
         const file1 = new File([""], "filename.txt", {type: "text/plain"});
@@ -92,10 +92,27 @@ describe('FileUploadControl', () => {
         expect(valueChanges).toHaveBeenCalled();
         expect(control.size).toBe(0);
         expect(control.value.length).toBe(0);
-    })
+    });
 
     it('should disable list', () => {
         control.disable();
         expect(control.disabled).toBe(true);
-    })
+    });
+
+    it('should respect multiple constraint', () => {
+        control.multiple(false);
+
+        expect(control.isMultiple).toBe(false);
+
+        const file1 = new File([""], "filename.txt", {type: "text/plain"});
+        const file2 = new File([""], "filename.txt", {type: "text/plain"});
+
+        control.setValue([file1, file2]);
+        expect(control.size).toBe(1);
+        expect(control.value[0]).toEqual(file1);
+
+        control.addFile(file2);
+        expect(control.size).toBe(1);
+        expect(control.value[0]).toEqual(file2);
+    });
 });
