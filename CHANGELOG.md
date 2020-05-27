@@ -1,3 +1,9 @@
+<a name="2.0.4"></a>
+## [2.0.4](https://github.com/pIvan/file-upload/commit/005fafed5a48c2064207a4fa2a130fe2bcc1e3c3) (2020-05-27)
+
+### Bug Fixes
+* **file deletion** - Fixed error with preventing files deletion when control is disabled
+
 <a name="2.0.0"></a>
 ## [2.0.0](https://github.com/pIvan/file-upload/commit/2e594f98c8321dd0fad94ff65e5e2b1f69ada919) (2020-02-26)
 
