@@ -1,3 +1,10 @@
+<a name="1.5.3"></a>
+## [1.5.3](https://github.com/pIvan/file-upload/commit/c0f656e381b650a62160f2df144300c5eb49d55b) (2020-05-27)
+
+### Bug Fixes
+* **file deletion** - Fixed error with preventing files deletion when control is disabled
+
+
 <a name="1.5.0"></a>
 ## [1.5.0](https://github.com/pIvan/file-upload/commit/2f3f12e91f5566158f7b8ce933a8e73237f91dcf) (2020-01-30)
 
