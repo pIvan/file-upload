@@ -115,4 +115,17 @@ describe('FileUploadControl', () => {
         expect(control.size).toBe(1);
         expect(control.value[0]).toEqual(file2);
     });
+
+    it('should prevent files deletion', () => {
+        // FileUploadControl
+        const file1 = new File([""], "filename.txt", {type: "text/plain"});
+        const file2 = new File([""], "filename.txt", {type: "text/plain"});
+
+        control.setValue([file1, file2]);
+        control.disable();
+        control.removeFile(file1);
+
+        expect(control.disabled).toEqual(true);
+        expect(control.value.length).toEqual(2);
+    });
 });

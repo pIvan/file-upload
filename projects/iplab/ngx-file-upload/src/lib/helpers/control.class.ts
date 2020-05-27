@@ -105,9 +105,11 @@ export class FileUploadControl {
     }
 
     public removeFile(file: File): this {
-        this.files.delete(file);
-        this.validate();
-        this.valueChanges.next(Array.from(this.files.values()));
+        if (!this.disabled) {
+            this.files.delete(file);
+            this.validate();
+            this.valueChanges.next(Array.from(this.files.values()));
+        }
         return this;
     }
 
