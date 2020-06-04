@@ -1,7 +1,6 @@
 import {
     Component,
     Input,
-    OnInit,
     ElementRef,
     HostListener,
     Renderer2,
@@ -141,7 +140,7 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
         }
     }
 
-    private preventDragEvents(event: DragEvent): void {
+    private preventDragEvents(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
     }
@@ -175,23 +174,24 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     /**
      * on file over add class name
      */
-    private onDragOver(event: DragEvent): void {
+    private onDragOver(event: Event): void {
         this.renderer.addClass(this.hostElementRef.nativeElement, DRAGOVER);
     }
 
     /**
      * on mouse out remove class name
      */
-    private onDragLeave(event: DragEvent): void {
+    private onDragLeave(event: Event): void {
         this.renderer.removeClass(this.hostElementRef.nativeElement, DRAGOVER);
     }
 
     @HostListener('drop', ['$event'])
-    public onDrop(event: DragEvent): void {
+    public onDrop(event: Event): void {
         if (this.control.disabled) {
             return;
         }
-        const files = event.dataTransfer.files;
+        // There is some issue with DragEvent in typescript lib.dom.d.ts
+        const files = (event as any).dataTransfer.files;
         this.control.addFiles(files);
         this.onTouch();
     }
