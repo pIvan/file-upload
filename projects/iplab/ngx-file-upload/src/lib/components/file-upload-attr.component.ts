@@ -154,7 +154,7 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
         }
     }
 
-    private preventDragEvents(event: DragEvent): void {
+    private preventDragEvents(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
     }
@@ -162,23 +162,23 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
     /**
      * on file over add class name
      */
-    private onDragOver(event: DragEvent): void {
+    private onDragOver(event: Event): void {
         this.renderer.addClass(this.hostElementRef.nativeElement, DRAGOVER);
     }
 
     /**
      * on mouse out remove class name
      */
-    private onDragLeave(event: DragEvent): void {
+    private onDragLeave(event: Event): void {
         this.renderer.removeClass(this.hostElementRef.nativeElement, DRAGOVER);
     }
 
     @HostListener('drop', ['$event'])
-    public onDrop(event: DragEvent): void {
+    public onDrop(event: Event): void {
         if (this.control.disabled) {
             return;
         }
-        const files = event.dataTransfer.files;
+        const files = (event as any).dataTransfer.files;
         this.control.addFiles(files);
         this.onTouch();
     }
