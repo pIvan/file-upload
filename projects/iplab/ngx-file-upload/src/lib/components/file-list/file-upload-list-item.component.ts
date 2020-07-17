@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FileUploadControl } from './../helpers/control.class';
-import { FileUploadService } from './../services/file-upload.service';
+import { FileUploadControl } from '../../helpers/control.class';
+import { FileUploadService } from '../../services/file-upload.service';
 
 @Component({
     selector: `file-upload-list-item`,

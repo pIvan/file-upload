@@ -14,6 +14,10 @@
     position: relative;
 }
 
+:host ::ng-deep .icon {
+    float: left;
+}
+
 :host(.dragover) {
     outline-width: 2px;
 }
@@ -31,18 +35,6 @@
     left: -100%;
     top: -100%;
 	overflow: hidden;
-}
-
-.icon {
-    height: 35px;
-    width: 35px;
-    border: 1px solid #eaeaea;
-    border-radius: 4px;
-    float: left;
-}
-
-.icon svg {
-    fill: #909293;
 }
 
 .upload-input:after {
@@ -80,19 +72,8 @@
     text-align: center;
 }
 
-.upload-text {
-    overflow: hidden;
-    width: auto;
-    position: relative;
-    padding-left: 20px;
-}
-
 :host(.hide-text) .upload-input {
     opacity: 0;
-}
-
-:host(.list-visible) .upload-text {
-    display: none;
 }
 
 :host(.dragover:not(.disabled)) .upload-input,
