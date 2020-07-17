@@ -1,0 +1,25 @@
+:host {
+    display: block;
+}
+
+.icon {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+}
+
+.icon svg {
+    fill: #909293;
+}
+
+.upload-text {
+    overflow: hidden;
+    width: auto;
+    position: relative;
+    padding-left: 20px;
+}
+
+:host-context(.list-visible) .upload-text {
+    display: none;
+}

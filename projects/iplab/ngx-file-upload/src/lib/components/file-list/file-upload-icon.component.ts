@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FileUploadService } from './../services/file-upload.service';
+import { FileUploadService } from '../../services/file-upload.service';
 
 
 @Component({

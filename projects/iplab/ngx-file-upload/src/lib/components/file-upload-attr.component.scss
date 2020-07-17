@@ -19,16 +19,12 @@
     display: block;
 }
 
-.icon {
-    height: 35px;
-    width: 35px;
-    border: 1px solid #eaeaea;
-    border-radius: 4px;
+:host ::ng-deep .icon {
     margin: 0 auto 10px;
-}
 
-:host ::ng-deep .icon svg {
-    fill: #80a9d2;
+    svg {
+        fill: #80a9d2;
+    }
 }
 
 .upload-input {
