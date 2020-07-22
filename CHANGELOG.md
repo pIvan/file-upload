@@ -1,3 +1,12 @@
+<a name="2.0.7"></a>
+## [2.0.7](https://github.com/pIvan/file-upload/commit/6358b643f0faa2dc82a6dd2c87337d9c3d7eaeca) (2020-07-22)
+
+### Bug Fixes
+* **angular 10 support** - Support for angular 10
+
+### Features
+* **template localization** - Added support for built-in template localization
+
 <a name="2.0.4"></a>
 ## [2.0.4](https://github.com/pIvan/file-upload/commit/005fafed5a48c2064207a4fa2a130fe2bcc1e3c3) (2020-05-27)
 
