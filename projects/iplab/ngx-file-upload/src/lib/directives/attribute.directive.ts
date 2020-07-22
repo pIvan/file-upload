@@ -1,5 +1,5 @@
 import { Directive, Input, SimpleChanges, Optional, Host, Self, OnChanges, AfterViewInit } from '@angular/core';
-import { FileUploadComponent } from '../components/file-upload.component';
+import { FileUploadComponent } from '../components/multiple-file-upload/file-upload.component';
 import { SimpleFileUploadComponent } from '../components/simple-file-upload/simple-file-upload.component';
 
 

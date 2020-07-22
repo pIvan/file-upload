@@ -16,7 +16,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { FileUploadControl } from './../../helpers/control.class';
 import { FileUploadService } from './../../services/file-upload.service';
-import { TOUCHED } from './../file-upload.component';
+import { TOUCHED } from './../multiple-file-upload/file-upload.component';
 import { FileUploadAbstract } from './../file-upload-abstract.component';
 
 @Component({
