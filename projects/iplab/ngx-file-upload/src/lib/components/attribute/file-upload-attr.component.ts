@@ -15,10 +15,10 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-import { FileUploadControl } from '../helpers/control.class';
-import { IsNullOrEmpty } from '../helpers/helpers.class';
-import { FileUploadService } from '../services/file-upload.service';
-import { DRAGOVER, TOUCHED } from './file-upload.component';
+import { FileUploadControl } from '../../helpers/control.class';
+import { IsNullOrEmpty } from '../../helpers/helpers.class';
+import { FileUploadService } from '../../services/file-upload.service';
+import { DRAGOVER, TOUCHED } from './../multiple-file-upload/file-upload.component';
 import { Subscription } from 'rxjs';
 
 

@@ -18,11 +18,11 @@ import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
 
-import { FileUploadControl } from './../helpers/control.class';
-import { FileUploadService } from './../services/file-upload.service';
-import { InsertAnimation } from './../animations/insert.animation';
-import { ZoomAnimation } from './../animations/zoom.animation';
-import { FileUploadAbstract } from './file-upload-abstract.component';
+import { FileUploadControl } from './../../helpers/control.class';
+import { FileUploadService } from './../../services/file-upload.service';
+import { InsertAnimation } from './../../animations/insert.animation';
+import { ZoomAnimation } from './../../animations/zoom.animation';
+import { FileUploadAbstract } from './../file-upload-abstract.component';
 
 export const DRAGOVER = 'dragover';
 export const TOUCHED = 'ng-touched';

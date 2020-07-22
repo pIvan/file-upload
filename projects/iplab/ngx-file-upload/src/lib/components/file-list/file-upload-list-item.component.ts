@@ -23,7 +23,7 @@ import { FileUploadService } from '../../services/file-upload.service';
                     V33h-3.8c-0.4,0-0.7-0.1-0.9-0.4s-0.4-0.5-0.4-0.9v-2.5c0-0.4,0.1-0.7,0.4-0.9s0.5-0.4,0.9-0.4h12.1l2.7-6.5c0.4-1,1.1-1.8,2.1-2.5
                     s2-1,3.1-1h12.5c1,0,2.1,0.3,3.1,1s1.7,1.5,2.1,2.5l2.7,6.5h12.1c0.4,0,0.7,0.1,0.9,0.4S75.5,28.9,75.5,29.3z"/>
             </g>
-        </svg> Remove</span>
+        </svg> <ng-content></ng-content></span>
     </div>
     `,
     styleUrls: [`./file-upload-list-item.component.scss`]
