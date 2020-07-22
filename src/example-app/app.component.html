@@ -298,6 +298,54 @@ export class AppComponent &#123; &#125;</pre>
     <br>
 
 
+    <div class="card" id="template-reuse">
+        <div class="card-header">Localize built-in templates</div>
+        <div class="card-block">
+            <p>It is possible to localize built-in templates.</p>
+            <pre class="prettify" ngNonBindable>@Component(&#123;
+    selector: `app-root`,
+    template: `
+    &lt;file-upload [control]="fileUploadControl"&gt;
+        &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
+            &lt;file-upload-drop-zone&gt;
+                &lt;ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable"&gt;
+                    Ziehen Sie Dateien per &lt;b&gt;Drag & Drop&lt;/b&gt;&lt;br&gt; oder klicken Sie hier
+                &lt;/ng-container&gt;
+                &lt;ng-template #isNotDragDropAvailable&gt;
+                    &lt;b&gt;Klicken Sie hier&lt;/b&gt; um&lt;br&gt; eine Datei auszuwählen
+                &lt;/ng-template&gt;
+            &lt;/file-upload-drop-zone&gt;
+        &lt;/ng-template&gt;
+
+        &lt;ng-template let-i="index" let-file="file" let-control="control" #item&gt;
+            &lt;file-upload-list-item  [index]="i" [file]="file" [control]="control"&gt;Entfernen&lt;/file-upload-list-item&gt;
+        &lt;/ng-template&gt;
+    &lt;/file-upload&gt;
+    `
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+
+            <file-upload [control]="fileUploadWithTemplate">
+                <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+                    <file-upload-drop-zone>
+                        <ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable">
+                            Ziehen Sie Dateien per <b>Drag & Drop</b><br> oder klicken Sie hier
+                        </ng-container>
+                        <ng-template #isNotDragDropAvailable>
+                            <b>Klicken Sie hier</b> um<br> eine Datei auszuwählen
+                        </ng-template>
+                    </file-upload-drop-zone>
+                </ng-template>
+
+                <ng-template let-i="index" let-file="file" let-control="control" #item>
+                    <file-upload-list-item  [index]="i" [file]="file" [control]="control">Entfernen</file-upload-list-item>
+                </ng-template>
+            </file-upload>
+        </div>
+    </div>
+    <br>
+
+
     <div class="card" id="custom">
         <div class="card-header">Separate list</div>
         <div class="card-block">

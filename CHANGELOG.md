@@ -1,5 +1,15 @@
+<a name="1.5.4"></a>
+## [1.5.4](https://github.com/pIvan/file-upload/commit/6358b643f0faa2dc82a6dd2c87337d9c3d7eaeca) (2020-07-22)
+
+### Bug Fixes
+* **angular 10 support** - Support for angular 10
+
+### Features
+* **template localization** - Added support for built-in template localization
+
 <a name="1.5.3"></a>
 ## [1.5.3](https://github.com/pIvan/file-upload/commit/c0f656e381b650a62160f2df144300c5eb49d55b) (2020-05-27)
+
 
 ### Bug Fixes
 * **file deletion** - Fixed error with preventing files deletion when control is disabled
