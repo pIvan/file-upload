@@ -1,10 +1,10 @@
 import { FileEvent, FileUploadControl } from './../helpers/control.class';
-import { ElementRef, OnDestroy, Renderer2, ChangeDetectorRef, OnInit } from '@angular/core';
+import { ElementRef, OnDestroy, Renderer2, ChangeDetectorRef, OnInit, Directive } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 
 
-
+@Directive()
 export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
     public control: FileUploadControl = null;
