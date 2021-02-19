@@ -7,9 +7,7 @@ export interface ValidationErrors {
     [key: string]: any;
 }
 
-export interface ValidatorFn {
-    (c: AbstractControl | FileUploadControl): ValidationErrors | null;
-}
+export type  ValidatorFn = (c: AbstractControl | FileUploadControl) => ValidationErrors | null;
 
 /**
  * function used to check file size

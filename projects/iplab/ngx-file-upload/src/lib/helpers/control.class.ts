@@ -1,6 +1,7 @@
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { ValidatorFn, ValidationErrors } from './validators.class';
 import { IsNullOrEmpty } from './helpers.class';
+import { IFileUploadControlConfiguration } from './control.interface';
 
 export enum STATUS {
     INVALID,
@@ -80,7 +81,8 @@ export class FileUploadControl {
      */
     public readonly discardedValueChanges: Observable<File> = this.discardedValue.asObservable();
 
-    constructor(validators?: ValidatorFn|Array<ValidatorFn>) {
+    constructor(configuration?: IFileUploadControlConfiguration, validators?: ValidatorFn|Array<ValidatorFn>) {
+        this.initialState(configuration);
         this.defineValidators(validators);
     }
 
@@ -93,15 +95,11 @@ export class FileUploadControl {
         return this;
     }
 
-    private defineValidators(validators: ValidatorFn|Array<ValidatorFn>): void {
-        if (!IsNullOrEmpty(validators)) {
-            this.validators = Array.isArray(validators) ? [...validators] : [validators];
-        }
-    }
-
     public addFile(file: File): this {
         /**
          * TODO -> validate the file and discard it if that is needed
+         * export functions from validators.class.ts, use them here,
+         * and skip the validation if the file was discarded
          */
 
         /**
@@ -129,22 +127,6 @@ export class FileUploadControl {
     public addFiles(files: FileList): this {
         this.addMultipleFiles(Array.from(files));
         return this;
-    }
-
-    /**
-     * @internal
-     * used to prevent valueChanges emit more times
-     * when multiple files are uploaded
-     */
-    private addMultipleFiles(files: Array<File>): void {
-        if (!this.multipleEnabled && !IsNullOrEmpty(files)) {
-            // add only one file
-            this.addFile(files[0]);
-            return;
-        }
-        files.forEach(file => this.files.add(file));
-        this.validate();
-        this.valueChanges.next(Array.from(this.files.values()));
     }
 
     public get valid(): boolean {
@@ -262,16 +244,6 @@ export class FileUploadControl {
         return this;
     }
 
-    /**
-     * Method toggles discard of all invalid files
-     * it depends to accept, limit, size once a file
-     * dropped or selected it will be discarded if does not satisfy the constraint
-     */
-    public discardInvalid(discard: boolean = true): this {
-        this.discard = discard;
-        return this;
-    }
-
     public get isMultiple(): boolean {
         return this.multipleEnabled;
     }
@@ -280,6 +252,46 @@ export class FileUploadControl {
         this.multipleEnabled = isEnabled;
         this.multipleChanged.next(this.multipleEnabled);
         return this;
+    }
+
+    private initialState(configuration: IFileUploadControlConfiguration = {}): void {
+        if (IsNullOrEmpty(configuration)) {
+            return;
+        }
+        /**
+         * Toggles discard of all invalid files
+         * it depends to accept, limit, size once a file
+         * dropped or selected it will be discarded if does not satisfy the constraint
+         */
+        this.discard = configuration.discardInvalid || this.discard;
+        this.status = !!configuration.disabled ? STATUS.DISABLED : STATUS.VALID;
+        this.multipleEnabled = configuration.multiple || this.multipleEnabled;
+        this.listVisible = configuration.listVisible || this.listVisible;
+        if (!IsNullOrEmpty(configuration.accept)) {
+            this.acceptFiles(configuration.accept.join(','));
+        }
+    }
+
+    private defineValidators(validators: ValidatorFn|Array<ValidatorFn>): void {
+        if (!IsNullOrEmpty(validators)) {
+            this.validators = Array.isArray(validators) ? [...validators] : [validators];
+        }
+    }
+
+    /**
+     * @internal
+     * used to prevent valueChanges emit more times
+     * when multiple files are uploaded
+     */
+    private addMultipleFiles(files: Array<File>): void {
+        if (!this.multipleEnabled && !IsNullOrEmpty(files)) {
+            // add only one file
+            this.addFile(files[0]);
+            return;
+        }
+        files.forEach(file => this.files.add(file));
+        this.validate();
+        this.valueChanges.next(Array.from(this.files.values()));
     }
 
     private validate(): void {

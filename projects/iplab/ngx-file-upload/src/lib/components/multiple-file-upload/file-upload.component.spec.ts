@@ -40,7 +40,7 @@ export class FileUploadComponentHost {
     /**
      * custom control
      */
-    public fileUploadControl = new FileUploadControl(FileUploadValidators.fileSize(80000));
+    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.fileSize(80000));
 
     /**
      * custom control
