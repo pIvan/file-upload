@@ -82,7 +82,7 @@ export class FileSizeValidator implements Validator, OnChanges {
         let maxSize = null;
         if (!IsNullOrEmpty(this.maxsize)) {
             maxSize = this.fileUploadService.parseSize(this.maxsize);
-        } else if(!IsNullOrEmpty(this.filesize)) {
+        } else if (!IsNullOrEmpty(this.filesize)) {
             maxSize = this.fileUploadService.parseSize(this.filesize);
         }
 

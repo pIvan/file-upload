@@ -34,7 +34,11 @@ export class FileUploadControl {
 
     private readonly eventsChanged: Subject<FileEvent> = new Subject();
 
+    private readonly discardedValue: Subject<File> = new Subject();
+
     private accept: string | null = null;
+
+    private discard: boolean = false;
 
     private readonly acceptChanged: BehaviorSubject<string> = new BehaviorSubject(this.accept);
 
@@ -71,6 +75,11 @@ export class FileUploadControl {
      */
     public readonly multipleChanges: Observable<boolean> = this.multipleChanged.asObservable();
 
+    /**
+     * track which files were discarded
+     */
+    public readonly discardedValueChanges: Observable<File> = this.discardedValue.asObservable();
+
     constructor(validators?: ValidatorFn|Array<ValidatorFn>) {
         this.defineValidators(validators);
     }
@@ -91,6 +100,10 @@ export class FileUploadControl {
     }
 
     public addFile(file: File): this {
+        /**
+         * TODO -> validate the file and discard it if that is needed
+         */
+
         /**
          * if multiple is disabled and one file exists
          * clear it and reupload a new one
@@ -246,6 +259,16 @@ export class FileUploadControl {
     public acceptAll(): this {
         this.accept = null;
         this.acceptChanged.next(this.accept);
+        return this;
+    }
+
+    /**
+     * Method toggles discard of all invalid files
+     * it depends to accept, limit, size once a file
+     * dropped or selected it will be discarded if does not satisfy the constraint
+     */
+    public discardInvalid(discard: boolean = true): this {
+        this.discard = discard;
         return this;
     }
 

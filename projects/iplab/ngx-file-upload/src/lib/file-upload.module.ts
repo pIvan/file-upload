@@ -6,7 +6,6 @@
  * See https://github.com/pIvan/file-upload/blob/master/README.md
  */
 import { NgModule, Injector } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { FileUploadComponent } from './components/multiple-file-upload/file-upload.component';
@@ -34,9 +33,7 @@ export { FileUploadService } from './services/file-upload.service';
 
 @NgModule({
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule
+        CommonModule
     ],
     declarations: [
         FileUploadComponent,
