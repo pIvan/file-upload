@@ -116,7 +116,7 @@ export class AppComponent {
 
 ### Setting up Dev
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.0.
 
 [Angular CLI](https://github.com/angular/angular-cli) must be installed before building @iplab/ngx-file-upload project.
 
@@ -139,7 +139,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Tests
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.0.
 
 
 [Angular CLI](https://github.com/angular/angular-cli) must be installed before testing @iplab/ngx-file-upload project.
