@@ -266,7 +266,10 @@ export class FileUploadControl {
         this.discard = configuration.discardInvalid || this.discard;
         this.status = !!configuration.disabled ? STATUS.DISABLED : STATUS.VALID;
         this.multipleEnabled = configuration.multiple || this.multipleEnabled;
-        this.listVisible = configuration.listVisible || this.listVisible;
+
+        if (!IsNullOrEmpty(configuration.listVisible)) {
+            this.setListVisibility(configuration.listVisible);
+        }
         if (!IsNullOrEmpty(configuration.accept)) {
             this.acceptFiles(configuration.accept.join(','));
         }

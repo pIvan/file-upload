@@ -193,7 +193,7 @@ media_type      A valid media type, with no parameters. Look at <a target="_blan
 &#125;)
 export class AppComponent &#123;
     
-    public fileUploadControl = new FileUploadControl(FileUploadValidators.fileSize(80000));
+    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.fileSize(80000));
 
     public toggleStatus() &#123;
         this.fileUploadControl.disable(!this.fileUploadControl.disabled);
@@ -368,7 +368,7 @@ export class AppComponent &#123; &#125;</pre>
 &#125;)
 export class AppComponent &#123;
     
-    public fileUploadControl = new FileUploadControl().setListVisibility(false);
+    public fileUploadControl = new FileUploadControl(&#123; listVisible: false &#125;);
         
 &#125;</pre>
             <div class="custom-zone">
