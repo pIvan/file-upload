@@ -3,6 +3,12 @@ import { IsNullOrEmpty } from './helpers.class';
 import { FileUploadControl } from './control.class';
 import { FileUploadTypes } from './file-types.class';
 
+export interface ValidationError {
+    actual: any;
+    file: File;
+    [key: string]: any;
+}
+
 export interface ValidationErrors {
     [key: string]: any;
 }

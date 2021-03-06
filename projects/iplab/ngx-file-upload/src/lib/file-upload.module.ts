@@ -17,6 +17,7 @@ import { SimpleFileUploadComponent } from './components/simple-file-upload/simpl
 
 import { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
 import { FilesAcceptDirective } from './directives/attribute.directive';
+import { FilesDiscardDirective } from './directives/discard.directive';
 
 export { FileUploadComponent } from './components/multiple-file-upload/file-upload.component';
 export { FileUploadDropZoneComponent } from './components/drop-zone/file-upload-drop-zone.component';
@@ -24,6 +25,7 @@ export { FileUploadAttributeComponent } from './components/attribute/file-upload
 export { SimpleFileUploadComponent } from './components/simple-file-upload/simple-file-upload.component';
 export { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
 export { FilesAcceptDirective } from './directives/attribute.directive';
+export { FilesDiscardDirective } from './directives/discard.directive';
 
 export { FileUploadControl } from './helpers/control.class';
 export { FileUploadValidators, ValidationErrors, ValidatorFn } from './helpers/validators.class';
@@ -47,6 +49,7 @@ export { FileUploadService } from './services/file-upload.service';
         FilesLimitValidator,
         FilesAcceptValidator,
         FilesAcceptDirective,
+        FilesDiscardDirective,
 
         SimpleFileUploadComponent
     ],
@@ -60,6 +63,7 @@ export { FileUploadService } from './services/file-upload.service';
         FilesLimitValidator,
         FilesAcceptValidator,
         FilesAcceptDirective,
+        FilesDiscardDirective,
 
         SimpleFileUploadComponent
     ],

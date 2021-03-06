@@ -1,5 +1,5 @@
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
-import { ValidatorFn, ValidationErrors } from './validators.class';
+import { ValidatorFn, ValidationErrors, ValidationError } from './validators.class';
 import { IsNullOrEmpty } from './helpers.class';
 import { IFileUploadControlConfiguration } from './control.interface';
 
@@ -23,7 +23,7 @@ export class FileUploadControl {
 
     private status: STATUS = STATUS.VALID;
 
-    private errors: Array<{[key: string]: any}> = [];
+    private errors: Array<{ [key: string]: any }> = [];
 
     private validators: Array<ValidatorFn> = [];
 
@@ -35,7 +35,7 @@ export class FileUploadControl {
 
     private readonly eventsChanged: Subject<FileEvent> = new Subject();
 
-    private readonly discardedValue: Subject<File> = new Subject();
+    private readonly discardedValue: Subject<Array<ValidationError>> = new Subject();
 
     private accept: string | null = null;
 
@@ -46,7 +46,7 @@ export class FileUploadControl {
     /**
      * track status `VALID`, `INVALID` or `DISABLED`
      */
-    public statusChanges: Observable<STATUS> = this.statusChanged.asObservable();
+    public readonly statusChanges: Observable<STATUS> = this.statusChanged.asObservable();
 
     /**
      * emit an event every time the value of the control
@@ -79,9 +79,9 @@ export class FileUploadControl {
     /**
      * track which files were discarded
      */
-    public readonly discardedValueChanges: Observable<File> = this.discardedValue.asObservable();
+    public readonly discardedValueChanges: Observable<Array<ValidationError>> = this.discardedValue.asObservable();
 
-    constructor(configuration?: IFileUploadControlConfiguration, validators?: ValidatorFn|Array<ValidatorFn>) {
+    constructor(configuration?: IFileUploadControlConfiguration, validators?: ValidatorFn | Array<ValidatorFn>) {
         this.initialState(configuration);
         this.defineValidators(validators);
     }
@@ -89,7 +89,7 @@ export class FileUploadControl {
     /**
      * set functions that determines the synchronous validity of this control.
      */
-    public setValidators(newValidators: ValidatorFn|Array<ValidatorFn>): this {
+    public setValidators(newValidators: ValidatorFn | Array<ValidatorFn>): this {
         this.defineValidators(newValidators);
         this.validate();
         return this;
@@ -97,22 +97,13 @@ export class FileUploadControl {
 
     public addFile(file: File): this {
         /**
-         * TODO -> validate the file and discard it if that is needed
-         * export functions from validators.class.ts, use them here,
-         * and skip the validation if the file was discarded
-         */
-
-        /**
          * if multiple is disabled and one file exists
          * clear it and reupload a new one
          */
         if (!this.multipleEnabled && this.files.size === 1) {
             this.files.clear();
         }
-        this.files.add(file);
-        this.validate();
-        this.valueChanges.next(Array.from(this.files.values()));
-        return this;
+        return this.addMultipleFiles([file]);
     }
 
     public removeFile(file: File): this {
@@ -125,8 +116,7 @@ export class FileUploadControl {
     }
 
     public addFiles(files: FileList): this {
-        this.addMultipleFiles(Array.from(files));
-        return this;
+        return this.addMultipleFiles(Array.from(files));
     }
 
     public get valid(): boolean {
@@ -254,6 +244,11 @@ export class FileUploadControl {
         return this;
     }
 
+    public discardInvalid(discard: boolean = true): this {
+        this.discard = discard;
+        return this;
+    }
+
     private initialState(configuration: IFileUploadControlConfiguration = {}): void {
         if (IsNullOrEmpty(configuration)) {
             return;
@@ -264,7 +259,7 @@ export class FileUploadControl {
          * dropped or selected it will be discarded if does not satisfy the constraint
          */
         this.discard = configuration.discardInvalid || this.discard;
-        this.status = !!configuration.disabled ? STATUS.DISABLED : STATUS.VALID;
+        this.status = !!configuration.disabled ? STATUS.DISABLED : this.status;
         this.multipleEnabled = configuration.multiple || this.multipleEnabled;
 
         if (!IsNullOrEmpty(configuration.listVisible)) {
@@ -275,7 +270,7 @@ export class FileUploadControl {
         }
     }
 
-    private defineValidators(validators: ValidatorFn|Array<ValidatorFn>): void {
+    private defineValidators(validators: ValidatorFn | Array<ValidatorFn>): void {
         if (!IsNullOrEmpty(validators)) {
             this.validators = Array.isArray(validators) ? [...validators] : [validators];
         }
@@ -286,15 +281,47 @@ export class FileUploadControl {
      * used to prevent valueChanges emit more times
      * when multiple files are uploaded
      */
-    private addMultipleFiles(files: Array<File>): void {
+    private addMultipleFiles(files: Array<File>): this {
         if (!this.multipleEnabled && !IsNullOrEmpty(files)) {
             // add only one file
-            this.addFile(files[0]);
-            return;
+            this.files.add(files[0]);
+        } else {
+            files.forEach(file => this.files.add(file));
         }
-        files.forEach(file => this.files.add(file));
-        this.validate();
+
+        if (this.discard) {
+            this.analyzeToDiscard();
+        } else {
+            this.validate();
+        }
+
         this.valueChanges.next(Array.from(this.files.values()));
+        return this;
+    }
+
+    /**
+     * method used to discard invalid files
+     */
+    private analyzeToDiscard(): void {
+        const deletedFiles: Array<ValidationError> = [];
+
+        this.validators.forEach(validator => {
+            const error = validator(this);
+            if (error) {
+                (error[Object.keys(error)[0]]).forEach(fileError => {
+                    if (fileError.file) {
+                        deletedFiles.push(fileError);
+                        this.files.delete(fileError.file);
+                    } else {
+                        this.errors.push(error);
+                    }
+                });
+            }
+        });
+
+        if (deletedFiles.length) {
+            this.discardedValue.next(deletedFiles);
+        }
     }
 
     private validate(): void {

@@ -40,7 +40,7 @@ import { Subscription } from 'rxjs';
         </div>
     `,
     styleUrls: [`./file-upload-attr.component.scss`],
-    providers: [ 
+    providers: [
         FileUploadService
     ]
 })

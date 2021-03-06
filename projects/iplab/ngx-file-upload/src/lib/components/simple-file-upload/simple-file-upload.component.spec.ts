@@ -35,6 +35,8 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
     <file-upload simple id="standAlone" [control]="fileUploadControl"></file-upload>
 
     <file-upload simple id="standAloneWithAccept" accept="image/*" [control]="fileUploadControl"></file-upload>
+
+    <file-upload simple id="standAloneWithDiscard" discard="true" [control]="fileUploadControl"></file-upload>
     `
 })
 export class FileUploadComponentHost {
@@ -42,7 +44,7 @@ export class FileUploadComponentHost {
     /**
      * custom control
      */
-    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.fileSize(80000));
+    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.fileSize(200));
 
     /**
      * reactive form control
@@ -69,7 +71,7 @@ describe('FileUpload[simple]', () => {
     let hostComponentEl: any;
     let hostComp: FileUploadComponentHost;
     let hostFixture: ComponentFixture<FileUploadComponentHost>;
-    const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+    const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fdsdsa dasdasdsad asd asasdf sadfg sadf dsafsdafjksadfkjsadkf jsdkfh skdahfjsdh fjkhsakdj fhsdakfhskjhf ksadhf khsd kjshafkjhsadf kjhsadkjf hsa dkfhskahfksa dhfksah fkjhsad kfhsdkfhasd k jfh ksadj hfksfkjasfkjhsadkfjhsad  v b hbasjfgsarfheaihg hsdfksdabflhasdgf h dasd"], "filename.txt", {type: "text/plain"});
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -160,6 +162,24 @@ describe('FileUpload[simple]', () => {
         const standAloneInput = hostComponentEl.querySelector('#standAloneWithAccept input');
         expect(standAloneInput.accept).toBe('image/*');
     });
+
+    it('should discard value', fakeAsync(() => {
+        hostComp.fileUploadControl.setValue([file]);
+
+        hostFixture.detectChanges();
+        tick();
+        expect(hostComp.fileUploadControl.value.length).toEqual(0);
+
+        hostFixture.detectChanges();
+        tick();
+
+        hostComp.fileUploadControl.discardInvalid(false);
+        hostComp.fileUploadControl.setValue([file]);
+        hostFixture.detectChanges();
+        tick();
+        expect(hostComp.fileUploadControl.value.length).toEqual(1);
+        expect(hostComp.fileUploadControl.invalid).toEqual(true);
+    }));
 
 });
 

@@ -23,6 +23,14 @@ file-upload.ng-touched.ng-invalid {
     padding: 10px 0 5px;
 }
 
+.custom-zone:after {
+    clear: both;
+    content: '\0A0';
+    display: block;
+    height: 0;
+    width: 100%;
+}
+
 .custom-zone .file-list {
     overflow: hidden;
     padding: 20px;
@@ -32,5 +40,17 @@ file-upload.ng-touched.ng-invalid {
 .custom-zone file-upload {
     float: left;
     max-width: 400px;
+    width: 50%;
+}
+
+.files-row {
+    display: flex;
+}
+
+.files-row h6 {
+    font-size: .9rem;
+}
+
+.files-row .file-list {
     width: 50%;
 }

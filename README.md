@@ -60,7 +60,7 @@ import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload'
 })
 export class AppComponent {
 
-    public fileUploadControl = new FileUploadControl(FileUploadValidators.filesLimit(2));
+    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.filesLimit(2));
 
     constructor() {
     }
