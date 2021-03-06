@@ -1,3 +1,11 @@
+
+<a name="3.1.0"></a>
+## [3.1.0](https://github.com/pIvan/file-upload/commit/3bd2da76df9dd5b247fa17e7b7506fa749be3ab6) (2021-03-06)
+
+### Features
+* **discard** - Added support for invalid files discard
+
+
 <a name="2.0.7"></a>
 ## [2.0.7](https://github.com/pIvan/file-upload/commit/6358b643f0faa2dc82a6dd2c87337d9c3d7eaeca) (2020-07-22)
 
