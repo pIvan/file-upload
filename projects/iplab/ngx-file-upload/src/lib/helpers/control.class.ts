@@ -96,13 +96,6 @@ export class FileUploadControl {
     }
 
     public addFile(file: File): this {
-        /**
-         * if multiple is disabled and one file exists
-         * clear it and reupload a new one
-         */
-        if (!this.multipleEnabled && this.files.size === 1) {
-            this.files.clear();
-        }
         return this.addMultipleFiles([file]);
     }
 
@@ -282,7 +275,19 @@ export class FileUploadControl {
      * when multiple files are uploaded
      */
     private addMultipleFiles(files: Array<File>): this {
-        if (!this.multipleEnabled && !IsNullOrEmpty(files)) {
+        if (IsNullOrEmpty(files)) {
+            this.validate();
+            return this;
+        }
+
+        if (!this.multipleEnabled) {
+            /**
+             * if multiple is disabled and one file exists
+             * clear it and reupload a new one
+             */
+            if (this.files.size === 1) {
+                this.files.clear();
+            }
             // add only one file
             this.files.add(files[0]);
         } else {

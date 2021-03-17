@@ -128,4 +128,19 @@ describe('FileUploadControl', () => {
         expect(control.disabled).toEqual(true);
         expect(control.value.length).toEqual(2);
     });
+
+    it('should add only one file', () => {
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf  sadfdsf sda fdsa fasd f sfsad f sadf sdasdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+
+        control.multiple(false);
+        control.addFile(file2);
+        control.addFile(file3);
+
+        expect(control.valid).toBe(true);
+        expect(control.getError() instanceof Array).toBe(true);
+        expect(control.getError().length).toBe(0);
+        expect(control.size).toBe(1);
+        expect(control.value.length).toBe(1);
+    });
 });
