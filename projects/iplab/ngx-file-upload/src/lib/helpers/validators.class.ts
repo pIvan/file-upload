@@ -109,8 +109,11 @@ export class FileUploadValidators {
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
+            const filesLimit = files.slice(-1 * (files.length - numFiles))
+                                    .map(file => ({'max': numFiles, 'actual': files.length, file }));
+
             return files.length > numFiles ?
-                {'filesLimit': {'max': numFiles, 'actual': files.length}} : null;
+                {'filesLimit': filesLimit} : null;
         };
     }
 

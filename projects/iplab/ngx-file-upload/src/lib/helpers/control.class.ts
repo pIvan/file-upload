@@ -310,23 +310,34 @@ export class FileUploadControl {
     private analyzeToDiscard(): void {
         const deletedFiles: Array<ValidationError> = [];
 
-        this.validators.forEach(validator => {
+        const validators = [...this.validators];
+
+        while (validators.length) {
+            const validator = validators.shift();
             const error = validator(this);
+
             if (error) {
-                (error[Object.keys(error)[0]]).forEach(fileError => {
-                    if (fileError.file) {
-                        deletedFiles.push(fileError);
-                        this.files.delete(fileError.file);
-                    } else {
-                        this.errors.push(error);
-                    }
-                });
+                this.discardFile(error, deletedFiles);
             }
-        });
+        }
 
         if (deletedFiles.length) {
             this.discardedValue.next(deletedFiles);
         }
+    }
+
+    private discardFile(error: ValidationErrors, deletedFiles: Array<ValidationError>) {
+        const errorsKey = Object.keys(error)[0];
+        const errors = error[errorsKey];
+
+        (Array.isArray(errors) ? errors : [errors]).forEach(fileError => {
+            if (fileError.file && this.files.has(fileError.file)) {
+                deletedFiles.push(fileError);
+                this.files.delete(fileError.file);
+            } else {
+                this.errors.push(error);
+            }
+        });
     }
 
     private validate(): void {
