@@ -277,6 +277,7 @@ export class FileUploadControl {
     private addMultipleFiles(files: Array<File>): this {
         if (IsNullOrEmpty(files)) {
             this.validate();
+            this.valueChanges.next(Array.from(this.files.values()));
             return this;
         }
 
