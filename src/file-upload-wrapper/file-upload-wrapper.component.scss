@@ -1,0 +1,56 @@
+:host {
+    display: block;
+
+    img {
+        max-width: 100%;
+    }
+
+    file-upload {
+        min-height: 400px;
+        padding: 20px;
+    }
+    
+    .icon {
+        height: 35px;
+        width: 35px;
+        line-height: 30px;
+        text-align: center;
+        border: 1px solid #eaeaea;
+        border-radius: 4px;
+        float: left;
+        margin-right: 20px;
+    }
+
+    svg {
+        fill: #909293;
+        height: 20px;
+    }
+
+    .upload-text {
+        overflow: hidden;
+        width: auto;
+        font-size: 14px;
+    }
+    
+    .list-visible .upload-input {
+        display: none;
+    }
+    
+    .overlay {
+        position: relative;
+
+        & > .delete-button {
+            background-color: #fafafa;
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            cursor: pointer;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 20px;
+            line-height: 40px;
+        }
+    }
+}

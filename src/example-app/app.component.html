@@ -293,6 +293,76 @@ export class AppComponent &#123; &#125;</pre>
                     </div>
                 </ng-template>
             </file-upload>
+
+            <br>
+            <p>Single Image upload/preview based on <b>custom template</b></p>
+
+<pre class="prettify" ngNonBindable>@Component(&#123;
+    selector: `file-upload-wrapper-component`,
+    template: `
+    &lt;file-upload [control]="control"&gt;
+        &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
+            &lt;div *ngIf="control.size === 0"&gt;
+                &lt;div class="icon"&gt;
+                    &lt;svg&gt;...&lt;/svg&gt;
+                &lt;/div&gt;
+
+                &lt;div class="upload-text"&gt;
+                    &lt;ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable"&gt;
+                        &lt;b&gt;Drag and drop&lt;/b&gt; files&lt;br&gt; or click here
+                    &lt;/ng-container&gt;
+                    &lt;ng-template #isNotDragDropAvailable&gt;
+                        &lt;b&gt;Click here&lt;/b&gt; to&lt;br&gt; choose a files
+                    &lt;/ng-template&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/ng-template&gt;
+
+        &lt;ng-template let-i="index" let-file="file" let-control="control" #item&gt;
+            &lt;div class="overlay"&gt;
+                &lt;span class="delete-button" (click)="control.removeFile(file)"&gt;
+                    &lt;svg&gt;...&lt;/svg&gt;
+                &lt;/span&gt;
+                &lt;img *ngIf="control.valid" [src]="uploadedFile | async"&gt;
+            &lt;/div&gt;
+        &lt;/ng-template&gt;
+    &lt;/file-upload&gt;
+    `,
+    styles: [
+        ...src/file-upload-wrapper/check file-upload-wrapper.component.scss file
+    ]
+&#125;)
+export class FileUploadWrapperComponent implements OnInit, OnDestroy &#123;
+
+    public readonly uploadedFile: BehaviorSubject&lt;string&gt; = new BehaviorSubject(null);
+
+    private subscription: Subscription;
+
+    public readonly control = new FileUploadControl(
+        &#123; listVisible: true, accept: ['image/*'], discardInvalid: true, multiple: false &#125;,
+        [FileUploadValidators.accept(['image/*']), FileUploadValidators.filesLimit(1)]
+    );
+
+    public ngOnInit(): void &#123;
+        this.subscription = this.control.valueChanges.subscribe((values: Array&lt;File&gt;) => this.getImage(values[0]));
+    &#125;
+
+    public ngOnDestroy(): void &#123;
+        this.subscription.unsubscribe();
+    &#125;
+
+    private getImage(file: File): void &#123;
+        if (FileReader && file) &#123;
+            const fr = new FileReader();
+            fr.onload = (e) => this.uploadedFile.next(e.target.result);
+            fr.readAsDataURL(file);
+        &#125; else &#123;
+            this.uploadedFile.next(null);
+        &#125;
+    &#125;
+
+&#125;</pre>
+            <file-upload-wrapper-component [control]="customTemplateWrapperFileUploadControl"></file-upload-wrapper-component>
         </div>
     </div>
     <br>

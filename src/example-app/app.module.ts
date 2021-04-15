@@ -5,10 +5,12 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { FileUploadWrapperComponent } from './../file-upload-wrapper/file-upload-wrapper.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FileUploadWrapperComponent
   ],
   imports: [
     BrowserModule,

@@ -24,6 +24,11 @@ export class AppComponent implements AfterViewInit {
 
   public readonly customFileUploadControl = new FileUploadControl({ listVisible: false });
 
+  public readonly customTemplateWrapperFileUploadControl = new FileUploadControl(
+    { listVisible: true, accept: ['image/*'], discardInvalid: true, multiple: false },
+    [FileUploadValidators.accept(['image/*']), FileUploadValidators.filesLimit(1)]
+  );
+
   public readonly fileUploaddiscardInvalidControl = new FileUploadControl({ accept: ['image/*'], discardInvalid: true, listVisible: false },
     [FileUploadValidators.accept(['image/*']), FileUploadValidators.fileSize(80000)]);
 
