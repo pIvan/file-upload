@@ -1,3 +1,8 @@
+<a name="3.2.0"></a>
+## [3.2.0](https://github.com/pIvan/file-upload/commit/65b9b550a292929b3ff66e4dbf8900a132a164ea) (2021-05-26)
+
+### Features
+* **angular update** - Dependency update
 
 <a name="3.1.0"></a>
 ## [3.1.0](https://github.com/pIvan/file-upload/commit/3bd2da76df9dd5b247fa17e7b7506fa749be3ab6) (2021-03-06)
