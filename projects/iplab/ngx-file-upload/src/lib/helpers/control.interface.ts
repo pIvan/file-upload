@@ -4,4 +4,5 @@ export interface IFileUploadControlConfiguration {
     multiple?: boolean;
     listVisible?: boolean;
     accept?: string[];
+    native?: boolean;
 }

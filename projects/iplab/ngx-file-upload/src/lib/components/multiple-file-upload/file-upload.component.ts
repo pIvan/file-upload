@@ -104,6 +104,10 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
         return this.animation === false || (this.animation as string) === 'false';
     }
 
+    public trackByFn(index: number, item: File): string {
+        return item.name;
+    }
+
     protected setEvents(): void {
         super.setEvents();
         ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {

@@ -17,7 +17,7 @@
 </label>
 
 <div class="upload-list" *ngIf="(control.listVisibilityChanges | async) && control.size > 0 && listVisible" [@insertAnimation]="control.size" (@insertAnimation.done)="animationListFinished($event)">
-    <ng-template ngFor let-file let-i="index" [ngForOf]="control.valueChanges | async">
+    <ng-template ngFor let-file let-i="index" [ngForOf]="control.valueChanges | async" [ngForTrackBy]="trackByFn">
         <ng-container *ngTemplateOutlet="listItem ? listItem : defaultItemTemplate; context: { $implicit: file, file: file, index: i, control: control }"></ng-container>
     </ng-template>
     

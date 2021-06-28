@@ -29,6 +29,8 @@ export class FileUploadControl {
 
     private multipleEnabled: boolean = true;
 
+    private nativeBehavior: boolean = false;
+
     private readonly multipleChanged: BehaviorSubject<boolean> = new BehaviorSubject(this.multipleEnabled);
 
     private readonly statusChanged: Subject<STATUS> = new Subject();
@@ -237,6 +239,11 @@ export class FileUploadControl {
         return this;
     }
 
+    public native(isNativeBehaviorEnabled: boolean = true): this {
+        this.nativeBehavior = isNativeBehaviorEnabled;
+        return this;
+    }
+
     public discardInvalid(discard: boolean = true): this {
         this.discard = discard;
         return this;
@@ -254,6 +261,7 @@ export class FileUploadControl {
         this.discard = configuration.discardInvalid || this.discard;
         this.status = !!configuration.disabled ? STATUS.DISABLED : this.status;
         this.multipleEnabled = configuration.multiple || this.multipleEnabled;
+        this.nativeBehavior = configuration.native != null ? configuration.native : this.nativeBehavior;
 
         if (!IsNullOrEmpty(configuration.listVisible)) {
             this.setListVisibility(configuration.listVisible);
@@ -279,6 +287,13 @@ export class FileUploadControl {
             this.validate();
             this.valueChanges.next(Array.from(this.files.values()));
             return this;
+        }
+
+        /**
+         * native component deletes the list of files before adding new ones
+         */
+         if (this.nativeBehavior !== false) {
+            this.files.clear();
         }
 
         if (!this.multipleEnabled) {
