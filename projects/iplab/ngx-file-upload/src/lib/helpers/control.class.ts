@@ -17,7 +17,7 @@ export enum FileEvent {
 
 export class FileUploadControl {
 
-    private readonly files: Set<File> = new Set();
+    private readonly files: Map<string, File> = new Map();
 
     private listVisible = true;
 
@@ -103,7 +103,7 @@ export class FileUploadControl {
 
     public removeFile(file: File): this {
         if (!this.disabled) {
-            this.files.delete(file);
+            this.files.delete(file.name);
             this.validate();
             this.valueChanges.next(Array.from(this.files.values()));
         }
@@ -305,9 +305,10 @@ export class FileUploadControl {
                 this.files.clear();
             }
             // add only one file
-            this.files.add(files[0]);
+            this.files.set(files[0].name, files[0]);
         } else {
-            files.forEach(file => this.files.add(file));
+            // replace files with same name
+            files.forEach(file => this.files.set(file.name, file));
         }
 
         if (this.discard) {
@@ -347,9 +348,9 @@ export class FileUploadControl {
         const errors = error[errorsKey];
 
         (Array.isArray(errors) ? errors : [errors]).forEach(fileError => {
-            if (fileError.file && this.files.has(fileError.file)) {
+            if (fileError.file && this.files.has(fileError.file.name)) {
                 deletedFiles.push(fileError);
-                this.files.delete(fileError.file);
+                this.files.delete(fileError.file.name);
             } else {
                 this.errors.push(error);
             }

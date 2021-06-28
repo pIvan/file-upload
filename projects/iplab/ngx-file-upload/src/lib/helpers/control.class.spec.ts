@@ -13,14 +13,14 @@ describe('FileUploadControl', () => {
 
     it('should validate files', () => {
         control.setValidators([FileUploadValidators.filesLimit(1), FileUploadValidators.fileSize(100), FileUploadValidators.accept(['.png', 'text/*', 'audio/*', '.mp3'])]);
-        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename2.txt", {type: "text/plain"});
         control.addFile(file2);
         expect(control.valid).toBe(false);
     });
 
     it('should add new files', () => {
-        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf  sadfdsf sda fdsa fasd f sfsad f sadf sdasdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
-        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf  sadfdsf sda fdsa fasd f sfsad f sadf sdasdafsf asdd dasd"], "filename2.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename3.txt", {type: "text/plain"});
 
         control.addFile(file2);
         control.addFile(file3);
@@ -37,7 +37,7 @@ describe('FileUploadControl', () => {
 
         control.valueChanges.subscribe(valueChanges);
 
-        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename2.txt", {type: "text/plain"});
         control.addFile(file2);
 
         expect(valueChanges).toHaveBeenCalled();
@@ -49,8 +49,8 @@ describe('FileUploadControl', () => {
         control.valueChanges.subscribe(valueChanges);
 
         const file1 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
-        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
-        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename2.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf sdafsf asdd dasd"], "filename3.txt", {type: "text/plain"});
         
         control.setValue([file1, file2, file3]);
 
@@ -70,7 +70,7 @@ describe('FileUploadControl', () => {
 
     it('should clear and set new values', () => {
         const file1 = new File([""], "filename.txt", {type: "text/plain"});
-        const file2 = new File([""], "filename.txt", {type: "text/plain"});
+        const file2 = new File([""], "filename2.txt", {type: "text/plain"});
         const valueChanges = jasmine.createSpy();
 
 
@@ -105,7 +105,7 @@ describe('FileUploadControl', () => {
         expect(control.isMultiple).toBe(false);
 
         const file1 = new File([""], "filename.txt", {type: "text/plain"});
-        const file2 = new File([""], "filename.txt", {type: "text/plain"});
+        const file2 = new File([""], "filename2.txt", {type: "text/plain"});
 
         control.setValue([file1, file2]);
         expect(control.size).toBe(1);
@@ -119,7 +119,7 @@ describe('FileUploadControl', () => {
     it('should prevent files deletion', () => {
         // FileUploadControl
         const file1 = new File([""], "filename.txt", {type: "text/plain"});
-        const file2 = new File([""], "filename.txt", {type: "text/plain"});
+        const file2 = new File([""], "filename2.txt", {type: "text/plain"});
 
         control.setValue([file1, file2]);
         control.disable();
@@ -130,8 +130,8 @@ describe('FileUploadControl', () => {
     });
 
     it('should add only one file', () => {
-        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf  sadfdsf sda fdsa fasd f sfsad f sadf sdasdafsf asdd dasd"], "filename.txt", {type: "text/plain"});
-        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fyxc<xc dsfdsfdsafdsaf sdaf sdaf  sadfdsf sda fdsa fasd f sfsad f sadf sdasdafsf asdd dasd"], "filename2.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename3.txt", {type: "text/plain"});
 
         control.multiple(false);
         control.addFile(file2);

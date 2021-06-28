@@ -68,12 +68,12 @@ describe('FileUploadValidators', () => {
 
     it('should test files limit', () => {
         control.setValidators(FileUploadValidators.filesLimit(2));
-        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
-        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename2.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename3.txt", {type: "text/plain"});
 
         control.addFile(file2);
         control.addFile(file3);
-    
+
         expect(control.valid).toBe(false);
     });
 
@@ -93,6 +93,16 @@ describe('FileUploadValidators', () => {
       control.setValidators(FileUploadValidators.accept(['.txt']));
 
       expect(control.valid).toBe(false);
+    });
+
+    it('should replace files with the same name', () => {
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+
+        control.addFile(file2);
+        control.addFile(file3);
+
+        expect(control.value.length).toBe(1);
     });
 
 });
