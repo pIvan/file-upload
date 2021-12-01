@@ -75,14 +75,15 @@ describe('FileUpload[simple]', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            imports: [
-                ReactiveFormsModule,
-                FormsModule,
-                FileUploadModule,
-                NoopAnimationsModule
-            ],
-            declarations: [FileUploadComponentHost]
-        })
+    imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        FileUploadModule,
+        NoopAnimationsModule
+    ],
+    declarations: [FileUploadComponentHost],
+    teardown: { destroyAfterEach: false }
+})
         .compileComponents()
         .then(() => {
             hostFixture = TestBed.createComponent(FileUploadComponentHost);

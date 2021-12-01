@@ -7,8 +7,9 @@ describe('FileUploadService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FileUploadService, Renderer2]
-    });
+    providers: [FileUploadService, Renderer2],
+    teardown: { destroyAfterEach: false }
+});
   });
 
   it('should parse correct', inject([FileUploadService], (fileUploadService: FileUploadService) => {

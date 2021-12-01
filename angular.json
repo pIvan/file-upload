@@ -65,7 +65,6 @@
           "options": {
             "browserTarget": "file-upload:build",
             "port": 4200,
-						"aot": true,
             "host": "0.0.0.0",
             "open": true
           },
@@ -97,18 +96,6 @@
               "src/assets"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -136,18 +123,6 @@
             "main": "projects/iplab/ngx-file-upload/src/test.ts",
             "tsConfig": "projects/iplab/ngx-file-upload/tsconfig.spec.json",
             "karmaConfig": "projects/iplab/ngx-file-upload/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/iplab/ngx-file-upload/tsconfig.lib.json",
-              "projects/iplab/ngx-file-upload/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
