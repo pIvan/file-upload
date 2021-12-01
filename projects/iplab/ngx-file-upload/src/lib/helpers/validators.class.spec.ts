@@ -66,6 +66,15 @@ describe('FileUploadValidators', () => {
         expect(control.valid).toBe(true);
     });
 
+    it('should test file extension with reject validator', () => {
+        control.setValidators(FileUploadValidators.reject(['.txt']));
+        const csvFile = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.csv", {type: "application/vnd.ms-excel"});
+        control.addFile(csvFile);
+
+        expect(control.valid).toBe(false);
+        expect(control.getError().length).toBe(1);
+    });
+
     it('should test files limit', () => {
         control.setValidators(FileUploadValidators.filesLimit(2));
         const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename2.txt", {type: "text/plain"});
@@ -105,4 +114,17 @@ describe('FileUploadValidators', () => {
         expect(control.value.length).toBe(1);
     });
 
+    it('summary size should be limited', () => {
+        control.setValidators(FileUploadValidators.sizeLimit(100));
+
+        const file2 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});
+        const file3 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename2.txt", {type: "text/plain"});
+        const file4 = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename3.txt", {type: "text/plain"});
+
+        control.addFile(file2);
+        control.addFile(file3);
+        control.addFile(file4);
+
+        expect(control.valid).toBe(false);
+    });
 });

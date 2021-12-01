@@ -18,9 +18,9 @@ export type  ValidatorFn = (c: AbstractControl | FileUploadControl) => Validatio
 /**
  * function used to check file size
  */
-const checkFileSize = (file: File, maxSize: number, minSize: number = 0): ValidationErrors | null => {
-    return (!IsNullOrEmpty(maxSize) && file.size > maxSize) || file.size < minSize ?
-        {maxSize, minSize, actual: file.size, file} : null;
+const checkFileSize = (actualSize: number, maxSize: number, minSize: number = 0, file?: File): ValidationErrors | null => {
+    return (!IsNullOrEmpty(maxSize) && actualSize > maxSize) || actualSize < minSize ?
+        {maxSize, minSize, actual: actualSize, file} : null;
 };
 
 const getFileType = (file: File, fileExtension: string): FileUploadTypes => {
@@ -68,7 +68,24 @@ const checkValueType = (value: any ): void => {
 export class FileUploadValidators {
 
     /**
-     * Validator that requires controls to have a file maximum size length.
+     * Validator that compare the summary size of all files
+     */
+    public static sizeLimit(maxSize: number): ValidatorFn {
+        return (control: AbstractControl | FileUploadControl): {sizeLimit: ValidationErrors} | null => {
+            const files: Array<File> = control.value;
+            if (IsNullOrEmpty(files)) { return null; }
+            checkValueType(files);
+
+            const sum = files.map(file => file.size).reduce((a, b) => a + b, 0);
+            const toLargeFiles = checkFileSize(sum, maxSize);
+
+            return toLargeFiles ?
+                    {'sizeLimit': toLargeFiles} : null;
+        };
+    }
+
+    /**
+     * Validator that validate individually file maximum size length.
      * Compare the File size in bytes
      * @dynamic
      */
@@ -78,7 +95,7 @@ export class FileUploadValidators {
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
-            const toLargeFiles = files.map((file) => checkFileSize(file, maxSize))
+            const toLargeFiles = files.map((file) => checkFileSize(file.size, maxSize, 0, file))
                                         .filter((error) => error);
 
             return toLargeFiles.length > 0 ?
@@ -96,7 +113,7 @@ export class FileUploadValidators {
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
-            const sizeMismatch = files.map((file) => checkFileSize(file, maxSize, minSize))
+            const sizeMismatch = files.map((file) => checkFileSize(file.size, maxSize, minSize, file))
                                         .filter((error) => error);
 
             return sizeMismatch.length > 0 ?
