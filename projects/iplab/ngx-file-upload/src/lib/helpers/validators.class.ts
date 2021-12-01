@@ -32,6 +32,11 @@ const getFileType = (file: File, fileExtension: string): FileUploadTypes => {
     return FileUploadTypes[fileExtension];
 };
 
+enum CheckType {
+    ALLOWED,
+    NOTALLOWED
+}
+
 const FILE_EXT_REG = /(^[.]\w*)$/m;
 /**
  * function used to check file type
@@ -39,18 +44,18 @@ const FILE_EXT_REG = /(^[.]\w*)$/m;
  * #### allowedTypes
  * file_extension|audio/*|video/*|image/*|media_type
  */
-const checkFileType = (file: File, allowedTypes: Array<string>): ValidationErrors | null => {
+const checkFileTypes = (file: File, types: Array<string>, checkType: CheckType): ValidationErrors | null => {
     const fileExtension = file.name.split('.').pop().toLowerCase();
     const fileType = getFileType(file, fileExtension);
 
-    for (const type of allowedTypes ) {
-        const isValid = FILE_EXT_REG.test(type) ? type === `.${fileExtension}` : new RegExp(type).test(fileType);
-        if (isValid) {
-            return null;
+    for (const type of types) {
+        const isFound = FILE_EXT_REG.test(type) ? type === `.${fileExtension}` : new RegExp(type).test(fileType);
+        if (isFound) {
+            return checkType === CheckType.ALLOWED ? null : {notAllowedTypes: types, actual: fileType, file};
         }
     }
 
-    return {allowedTypes, actual: file.type, file};
+    return checkType === CheckType.ALLOWED ? {allowedTypes: types, actual: fileType, file} : null;
 };
 
 const checkValueType = (value: any ): void => {
@@ -127,19 +132,51 @@ export class FileUploadValidators {
      * - audio/* -        All sound files are accepted
      * - video/* -        All video files are accepted
      * - image/* -        All image files are accepted
-     * - media_type -     A valid media type, with no parameters. Look at [IANA Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml) for a complete list of standard media types
+     * - media_type -     A valid media type, with no parameters. Look at [IANA Media Types]
+     *      (https://www.iana.org/assignments/media-types/media-types.xhtml) for a complete list of standard media types
      *
      * #### Example
      * `FileUploadValidators.accept([file_extension, audio/*, video/*, image/*, media_type])`
      * @dynamic
      */
-    public static accept(allowedFileTypes: Array<string>) {
+    public static accept(allowedFileTypes: Array<string>): ValidatorFn {
         return (control: AbstractControl | FileUploadControl): ValidationErrors => {
             const files: Array<File> = control.value;
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
-            const notAllowedFiles = files.map((file) => checkFileType(file, allowedFileTypes))
+            const notAllowedFiles = files.map((file) => checkFileTypes(file, allowedFileTypes, CheckType.ALLOWED))
+                                        .filter((error) => error);
+
+            return notAllowedFiles.length > 0 ?
+                {'fileTypes': notAllowedFiles} : null;
+        };
+    }
+
+    /**
+     * validator that requires control to have limit on media types
+     *
+     * ##### Not allowed media types are
+     *
+     * - file_extension - a file extension starting with the STOP character,
+     * e.g: .gif, .jpg, .png, .doc
+     * - audio/* -        All sound files are accepted
+     * - video/* -        All video files are accepted
+     * - image/* -        All image files are accepted
+     * - media_type -     A valid media type, with no parameters. Look at [IANA Media Types]
+     *      (https://www.iana.org/assignments/media-types/media-types.xhtml) for a complete list of standard media types
+     *
+     * #### Example
+     * `FileUploadValidators.reject([file_extension, audio/*, video/*, image/*, media_type])`
+     * @dynamic
+     */
+    public static reject(rejectFileTypes: Array<string>): ValidatorFn {
+        return (control: AbstractControl | FileUploadControl): ValidationErrors => {
+            const files: Array<File> = control.value;
+            if (IsNullOrEmpty(files)) { return null; }
+            checkValueType(files);
+
+            const notAllowedFiles = files.map((file) => checkFileTypes(file, rejectFileTypes, CheckType.NOTALLOWED))
                                         .filter((error) => error);
 
             return notAllowedFiles.length > 0 ?

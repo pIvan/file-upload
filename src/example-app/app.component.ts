@@ -2,8 +2,7 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
-import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload';
-
+import { FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,8 @@ import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload'
 })
 export class AppComponent implements AfterViewInit {
 
-  public readonly fileUploadControl = new FileUploadControl({ multiple: false }, FileUploadValidators.fileSize(80000));
+  public readonly fileUploadControl = new FileUploadControl({ multiple: false },
+    [FileUploadValidators.fileSize(80000), FileUploadValidators.reject([FileUploadTypes.txt])]);
 
   public readonly fileUploadWithTemplate = new FileUploadControl({ accept: ['image/*'] }, FileUploadValidators.accept(['image/*']));
 
@@ -40,6 +40,8 @@ export class AppComponent implements AfterViewInit {
 
   constructor(private elRef: ElementRef) {
     this.fileUploaddiscardInvalidControl.discardedValueChanges.subscribe(files => console.log('discarded: ', files));
+    console.log(this.fileUploadControl);
+    console.log(this.fileUploadWithTemplate);
   }
 
   public ngAfterViewInit(): void {
