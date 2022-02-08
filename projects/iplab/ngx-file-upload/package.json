@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/file-upload",
   "bugs": "https://github.com/pIvan/file-upload/issues",
-  "version": "3.3.3",
+  "version": "4.0.0",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -15,7 +15,7 @@
     "forms",
     "angular",
     "ng-rxjs",
-    "rxjs 6",
+    "rxjs",
     "angular form",
     "JavaScript",
     "TypeScript"
@@ -28,6 +28,6 @@
     "@angular/common": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "@angular/core": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "@angular/animations": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
-    "rxjs": "^6.4.0"
+    "rxjs": "^6.4.0 || ^7.0.0"
   }
 }

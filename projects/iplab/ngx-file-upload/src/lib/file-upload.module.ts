@@ -45,16 +45,13 @@ export { FileUploadService } from './services/file-upload.service';
         FileUploadListItemComponent,
         FileUploadIconComponent,
         FileUploadDropZoneComponent,
-
         FileUploadAttributeComponent,
-
         FileSizeValidator,
         FilesLimitValidator,
         FilesAcceptValidator,
         FilesAcceptDirective,
         FilesDiscardDirective,
         FilesNativeDirective,
-
         SimpleFileUploadComponent
     ],
     exports: [
@@ -62,17 +59,12 @@ export { FileUploadService } from './services/file-upload.service';
         FileUploadDropZoneComponent,
         FileUploadListItemComponent,
         FileUploadAttributeComponent,
-
         FileSizeValidator,
         FilesLimitValidator,
         FilesAcceptValidator,
         FilesAcceptDirective,
         FilesDiscardDirective,
-
         SimpleFileUploadComponent
-    ],
-    entryComponents: [
-        FileUploadComponent
     ]
 })
 export class FileUploadModule {
