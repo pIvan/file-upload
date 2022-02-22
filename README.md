@@ -21,6 +21,13 @@ more detailed instructions can be found
 - Edge
 - IE9-IE11
 
+# Compatible with
+
+- Angular 13
+```shell
+with older version of Angular use @iplab/ngx-file-upload@version < 4.0.0
+```
+
 ## Installing / Getting started
 
 
@@ -116,7 +123,7 @@ export class AppComponent {
 
 ### Setting up Dev
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.0.
 
 [Angular CLI](https://github.com/angular/angular-cli) must be installed before building @iplab/ngx-file-upload project.
 
@@ -139,7 +146,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Tests
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.0.
 
 
 [Angular CLI](https://github.com/angular/angular-cli) must be installed before testing @iplab/ngx-file-upload project.

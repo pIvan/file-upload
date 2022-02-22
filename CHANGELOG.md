@@ -1,3 +1,9 @@
+<a name="4.0.0"></a>
+## [4.0.0](https://github.com/pIvan/file-upload/commit/f12d1ca8f8024d116faf789730dbd4a63c53cf34) (2022-02-08)
+
+### Support
+* **angular update** - Dependency update - angular 13 support
+
 <a name="3.2.0"></a>
 ## [3.2.0](https://github.com/pIvan/file-upload/commit/65b9b550a292929b3ff66e4dbf8900a132a164ea) (2021-05-26)
 
