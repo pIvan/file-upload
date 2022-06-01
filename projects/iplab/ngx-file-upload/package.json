@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/file-upload",
   "bugs": "https://github.com/pIvan/file-upload/issues",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -25,9 +25,9 @@
     "url": "https://github.com/pIvan/file-upload.git"
   },
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/animations": "^8.0.0",
+    "@angular/common": "^8.0.0 | ^9.0.0",
+    "@angular/core": "^8.0.0 | ^9.0.0",
+    "@angular/animations": "^8.0.0 | ^9.0.0",
     "rxjs": "^6.4.0"
   }
 }
