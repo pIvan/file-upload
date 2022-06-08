@@ -1,3 +1,11 @@
+<a name="13.0.0"></a>
+## [13.0.0](https://github.com/pIvan/file-upload/commit/b8c1ca4e8ae848fc478221306a9c5e2868ac3450) (2022-06-08)
+
+### Support
+* **angular update** - version synced with the angular
+
+
+
 <a name="4.0.0"></a>
 ## [4.0.0](https://github.com/pIvan/file-upload/commit/f12d1ca8f8024d116faf789730dbd4a63c53cf34) (2022-02-08)
 
