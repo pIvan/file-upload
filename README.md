@@ -23,7 +23,7 @@ more detailed instructions can be found
 
 # Compatible with
 
-- Angular 13
+- Angular 14
 ```shell
 with older version of Angular use @iplab/ngx-file-upload@version < 4.0.0
 ```
