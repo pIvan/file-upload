@@ -78,7 +78,7 @@ export class AppComponent &#123;
     public animation: boolean = false;
     public multiple: boolean = false;
 
-    private filesControl = new FormControl(null, FileUploadValidators.filesLimit(2));
+    private filesControl = new FormControl&lt;File[]&gt;(null, FileUploadValidators.filesLimit(2));
 
     public demoForm = new FormGroup(&#123;
         files: this.filesControl

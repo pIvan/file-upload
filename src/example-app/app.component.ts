@@ -5,9 +5,9 @@ import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 import { FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: `app-root`,
+  templateUrl: `./app.component.html`,
+  styleUrls: [`./app.component.css`]
 })
 export class AppComponent implements AfterViewInit {
 
@@ -16,7 +16,7 @@ export class AppComponent implements AfterViewInit {
 
   public readonly fileUploadWithTemplate = new FileUploadControl({ accept: ['image/*'] }, FileUploadValidators.accept(['image/*']));
 
-  public readonly filesControl = new FormControl(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
+  public readonly filesControl = new FormControl<File[]>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
 
   public readonly demoForm = new FormGroup({
     files: this.filesControl

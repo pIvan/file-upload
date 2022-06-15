@@ -49,8 +49,8 @@ export class FileUploadComponentHost {
     /**
      * reactive form control
      */
-    public fileUploadWithTemplate = new FormControl();
-    public filesControl = new FormControl(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
+    public fileUploadWithTemplate = new FormControl<[File]>(null);
+    public filesControl = new FormControl<[File]>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
     public demoForm = new FormGroup({
         files: this.filesControl,
         fileUploadWithTemplate: this.fileUploadWithTemplate
