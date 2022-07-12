@@ -1,3 +1,10 @@
+<a name="14.0.0"></a>
+## [14.0.0](https://github.com/pIvan/file-upload/commit/89fbcf157fc572abcbd34c9394368cab8fb866af) (2022-06-15)
+
+### Support
+* **angular update** - build and version update
+
+
 <a name="13.0.0"></a>
 ## [13.0.0](https://github.com/pIvan/file-upload/commit/b8c1ca4e8ae848fc478221306a9c5e2868ac3450) (2022-06-08)
 
@@ -5,12 +12,18 @@
 * **angular update** - version synced with the angular
 
 
-
 <a name="4.0.0"></a>
 ## [4.0.0](https://github.com/pIvan/file-upload/commit/f12d1ca8f8024d116faf789730dbd4a63c53cf34) (2022-02-08)
 
 ### Support
 * **angular update** - Dependency update - angular 13 support
+
+<a name="3.3.3"></a>
+## [3.3.3](https://github.com/pIvan/file-upload/commit/65b9b550a292929b3ff66e4dbf8900a132a164ea) (2021-12-01)
+
+### Bug Fixes
+* **max file size limit** - Validation aggregates the total size of files added when multiple files upload is enabled
+
 
 <a name="3.2.0"></a>
 ## [3.2.0](https://github.com/pIvan/file-upload/commit/65b9b550a292929b3ff66e4dbf8900a132a164ea) (2021-05-26)
