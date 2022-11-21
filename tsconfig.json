@@ -8,7 +8,7 @@
     "declaration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "es2020",
+    "target": "ES2022",
     "module": "es2020",
     "typeRoots": [
       "node_modules/@types"
@@ -21,6 +21,7 @@
       "@iplab/ngx-file-upload": [
         "projects/iplab/ngx-file-upload/src/public_api.ts"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }

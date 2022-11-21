@@ -1,3 +1,9 @@
+<a name="15.0.0"></a>
+## [15.0.0](https://github.com/pIvan/file-upload/commit/6b0dfdc63591d05aa4144db68531e4db0fbe166b) (2022-11-21)
+
+### Support
+* **angular update** - build and version update
+
 <a name="14.0.0"></a>
 ## [14.0.0](https://github.com/pIvan/file-upload/commit/89fbcf157fc572abcbd34c9394368cab8fb866af) (2022-06-15)
 
