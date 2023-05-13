@@ -22,6 +22,7 @@ more detailed instructions can be found
 
 # Compatible with
 
+- Angular 16 (@iplab/ngx-file-upload@version >= 16.0.0)
 - Angular 15 (@iplab/ngx-file-upload@version >= 15.0.0)
 - Angular 14 (@iplab/ngx-file-upload@version >= 14.0.0)
 - Angular 13 (@iplab/ngx-file-upload@version >= 13.0.0)
@@ -126,7 +127,7 @@ export class AppComponent {
 
 ### Setting up Dev
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
 
 [Angular CLI](https://github.com/angular/angular-cli) must be installed before building @iplab/ngx-file-upload project.
 
@@ -149,7 +150,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Tests
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
 
 
 [Angular CLI](https://github.com/angular/angular-cli) must be installed before testing @iplab/ngx-file-upload project.
