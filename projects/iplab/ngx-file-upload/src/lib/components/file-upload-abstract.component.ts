@@ -13,7 +13,7 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
     public abstract label: ElementRef<HTMLLabelElement>;
 
-    protected isMultiple: boolean | string = true;
+    protected isMultiple: boolean | string = null;
 
     protected readonly hooks: Array<Function> = [];
 
@@ -68,12 +68,16 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         this.input.nativeElement.value = null;
     }
 
+    /**
+     * used to update model once state is changed through @Input
+     * or in case of simple-file-upload to override user value
+     */
     protected checkAndSetMultiple(): void {
-        if (!this.control) {
+        if (!this.control || this.isMultiple == null) {
             return;
         }
 
-        const isMultiple = !(this.isMultiple === false || (this.isMultiple as string) === 'false');
+        const isMultiple = this.isMultiple === true || (this.isMultiple as string) === 'true';
         if (isMultiple !== this.control.isMultiple) {
             this.control.multiple(isMultiple);
         }
