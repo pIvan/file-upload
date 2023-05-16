@@ -1,3 +1,10 @@
+<a name="14.0.1"></a>
+## [14.0.1](https://github.com/pIvan/file-upload/commit/e7548e265b0c91fe4bc7abf7f63bdd15b47c0320) (2023-05-16)
+
+### Bug Fix
+* **FileUploadConfiguration multipe** - the problem with the "multiple" flag in configuration has been fixed
+
+
 <a name="14.0.0"></a>
 ## [14.0.0](https://github.com/pIvan/file-upload/commit/89fbcf157fc572abcbd34c9394368cab8fb866af) (2022-06-15)
 
