@@ -32,6 +32,8 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
 
     <file-upload id="standAlone" [control]="fileUploadControl"></file-upload>
 
+    <file-upload id="fileUploadMultipleFalseCheck" [control]="fileUploadMultipleFalseCheck"></file-upload>
+
     <file-upload id="acceptCheck" [control]="acceptCheck" accept="image/*"></file-upload>
     `
 })
@@ -46,6 +48,8 @@ export class FileUploadComponentHost {
      * custom control
      */
     public acceptCheck = new FileUploadControl();
+
+    public fileUploadMultipleFalseCheck = new FileUploadControl({ multiple: false });
 
     public multiple = false;
 
@@ -183,7 +187,38 @@ describe('FileUpload', () => {
 
     }));
 
+    it('should initially be multiple', fakeAsync(() => {
+        tick();
+        tick();
+        /**
+         * attribute test
+         */
+        const simpleAttributeCheckEl = hostComponentEl.querySelector('#simpleAttribute input');
+        const isSimpleDisabled = simpleAttributeCheckEl["multiple"];
+        expect(isSimpleDisabled).toBe(false);
 
+        /**
+         * attribute two way data binding
+         */
+        const dataBindingAttributeCheckEl = hostComponentEl.querySelector('#dataBindingAttribute input');
+        const isDisabled = dataBindingAttributeCheckEl["multiple"];
+        expect(isDisabled).toBe(false);
+
+        /**
+         * stand alone control test
+         */
+        const standAloneEl = hostComponentEl.querySelector('#standAlone input');
+        const isstandAloneEnabled = standAloneEl["multiple"];
+        expect(isstandAloneEnabled).toBe(true);
+
+        /**
+         * initial multiple
+         */
+        const fileUploadMultipleFalseCheckEl = hostComponentEl.querySelector('#fileUploadMultipleFalseCheck input');
+        const isFileUploadMultipleFalseEnabled = fileUploadMultipleFalseCheckEl["multiple"];
+        expect(hostComp.fileUploadMultipleFalseCheck.isMultiple).toBe(false);
+        expect(isFileUploadMultipleFalseEnabled).toBe(false);
+    }));
 
 
     it('should toggle multiple selection', fakeAsync(() => {
