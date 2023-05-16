@@ -1,3 +1,10 @@
+<a name="16.0.1"></a>
+## [16.0.1](https://github.com/pIvan/file-upload/commit/493c34064e318c8ee9beca1f92e9ace174ab4cb7) (2023-05-16)
+
+### Bug Fix
+* **FileUploadConfiguration multipe** - the problem with the "multiple" flag in configuration has been fixed 
+
+
 <a name="16.0.0"></a>
 ## [16.0.0](https://github.com/pIvan/file-upload/commit/2e95d01e3c6588c8505a61eea148401179bdc774) (2023-05-13)
 
