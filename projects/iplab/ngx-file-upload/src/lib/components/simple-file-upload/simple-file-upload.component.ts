@@ -1,16 +1,13 @@
 import {
     Component,
     Input,
-    OnInit,
     ElementRef,
-    Renderer2,
     HostBinding,
     TemplateRef,
     ViewChild,
     ChangeDetectionStrategy,
     ContentChild,
-    forwardRef,
-    ChangeDetectorRef
+    forwardRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -50,15 +47,10 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     @ViewChild('labelRef', { static: true })
     public label: ElementRef<HTMLLabelElement>;
 
-    protected isMultiple: boolean | string = false;
+    protected isMultiple: boolean | string = null;
 
-    constructor(
-        public fileUploadService: FileUploadService,
-        hostElementRef: ElementRef,
-        renderer: Renderer2,
-        cdr: ChangeDetectorRef
-    ) {
-        super(hostElementRef, renderer, cdr);
+    constructor(public fileUploadService: FileUploadService) {
+        super();
     }
 
     @HostBinding('class.has-files')
@@ -91,6 +83,10 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
         }
     }
 
+    public trackByFn(index: number, item: File): string {
+        return item.name;
+    }
+
     /**
      * register function which will be called on UI change
      * to update view -> model
@@ -101,7 +97,7 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
 
     private onTouch: () => void = () => {
         this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED);
-    };
+    }
 
     public registerOnTouched(fn: any): void {
         this.onTouch = fn;

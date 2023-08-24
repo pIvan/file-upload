@@ -3,15 +3,13 @@ import {
     Input,
     ElementRef,
     HostListener,
-    Renderer2,
     HostBinding,
     Inject,
     TemplateRef,
     ViewChild,
     ChangeDetectionStrategy,
     ContentChild,
-    forwardRef,
-    ChangeDetectorRef
+    forwardRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -81,12 +79,9 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
 
     constructor(
         public fileUploadService: FileUploadService,
-        hostElementRef: ElementRef,
-        renderer: Renderer2,
         @Inject(DOCUMENT) private document,
-        cdr: ChangeDetectorRef
     ) {
-        super(hostElementRef, renderer, cdr);
+        super();
     }
 
     @HostBinding('class.has-files')
