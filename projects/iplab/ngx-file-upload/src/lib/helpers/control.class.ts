@@ -102,6 +102,10 @@ export class FileUploadControl {
     }
 
     public removeFile(file: File): this {
+        if (IsNullOrEmpty(file)) {
+            throw Error(`File has not been provided.`);
+        }
+
         if (!this.disabled) {
             this.files.delete(file.name);
             this.validate();
