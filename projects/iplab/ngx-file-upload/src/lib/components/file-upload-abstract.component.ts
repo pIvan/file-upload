@@ -1,5 +1,5 @@
 import { FileEvent, FileUploadControl } from './../helpers/control.class';
-import { ElementRef, OnDestroy, Renderer2, ChangeDetectorRef, OnInit, Directive } from '@angular/core';
+import { ElementRef, OnDestroy, Renderer2, ChangeDetectorRef, OnInit, Directive, AfterContentInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 
@@ -19,13 +19,13 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
     protected readonly subscriptions: Array<Subscription> = [];
 
-    protected onChange: (v: Array<File>) => void = () => {};
+    protected readonly hostElementRef: ElementRef = inject(ElementRef);
 
-    constructor(
-        protected readonly hostElementRef: ElementRef,
-        protected readonly renderer: Renderer2,
-        protected readonly cdr: ChangeDetectorRef) {
-        }
+    protected readonly renderer: Renderer2 = inject(Renderer2);
+
+    protected readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+    protected onChange: (v: Array<File>) => void = () => {};
 
     public ngOnInit(): void {
         if (IsNullOrEmpty(this.control)) {
