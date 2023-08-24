@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/file-upload",
   "bugs": "https://github.com/pIvan/file-upload/issues",
-  "version": "14.0.1",
+  "version": "14.0.2",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -28,6 +28,7 @@
     "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0",
     "@angular/animations": "^14.0.0",
+    "@angular/forms": "^14.0.0",
     "rxjs": "^7.0.0"
   }
 }
