@@ -1,3 +1,11 @@
+<a name="15.0.2"></a>
+## [15.0.2](https://github.com/pIvan/file-upload/commit/de048af967cf34441c6c689c5e6c7f6b50f075ed) (2023-08-24)
+### Bug Fix
+* **SimpleFileUpload component - issue #80** - the problem with the "multiple" file upload
+* **File deletion. - issue #77** - The issue with the method call of `removeFile()` without passing the file has been fixed
+
+
+
 <a name="15.0.1"></a>
 ## [15.0.1](https://github.com/pIvan/file-upload/commit/65416c2f7da52841e4651227d4d7d6a96857cf81) (2023-05-16)
 
