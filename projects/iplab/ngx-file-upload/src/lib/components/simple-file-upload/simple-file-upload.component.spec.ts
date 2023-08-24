@@ -13,9 +13,11 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
         <file-upload simple accept="image" formControlName="files"></file-upload>
 
         <file-upload simple formControlName="fileUploadWithTemplate">
-            <ng-template let-file #placeholder>
-                <ng-container *ngIf="file; else emptyList">
-                    <span class="file-name">{{ file.name }}</span>
+            <ng-template let-files #placeholder>
+                <ng-container *ngIf="files.length; else emptyList">
+                    <ng-template ngFor let-file let-i="index" [ngForOf]="files">
+                        <span *ngIf="i > 0">,&nbsp;</span> <span class="file-name">{{ file.name }}</span>
+                    </ng-template>
                 </ng-container>
                 <ng-template #emptyList>
                     Choose a file...
