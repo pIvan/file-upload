@@ -63,21 +63,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "file-upload:build",
             "port": 4200,
             "host": "0.0.0.0",
-            "open": true
+            "open": true,
+            "buildTarget": "file-upload:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "file-upload:build:production"
+              "buildTarget": "file-upload:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "file-upload:build"
+            "buildTarget": "file-upload:build"
           }
         },
         "test": {

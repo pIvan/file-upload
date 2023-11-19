@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="display-4">@iplab/ngx-file-upload</h1>
+                <h1 class="display-4">&#64;iplab/ngx-file-upload</h1>
                 <br>
                 <a href="https://github.com/pIvan/file-upload" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">GitHub</a>
             </div>
@@ -22,7 +22,7 @@
             </ol>
             <p style="padding:0 0 0 40px"><b>or</b></p>
             <ol>
-                <li>npm install @iplab/ngx-file-upload --save</li>
+                <li>npm install &#64;iplab/ngx-file-upload --save</li>
                 <li>ng serve --open</li>
             </ol>
         </div>
@@ -35,15 +35,15 @@
         <div class="card-block">
             <p>To install this component to an external project, follow the procedure:</p>
             <ol>
-                <li><code>npm install @iplab/ngx-file-upload --save</code></li>
-                <li><pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '@angular/forms';
-import &#123; FileUploadModule &#125; from '@iplab/ngx-file-upload';
-import &#123; BrowserAnimationsModule &#125; from '@angular/platform-browser/animations';
+                <li><code>npm install &#64;iplab/ngx-file-upload --save</code></li>
+                <li><pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '&#64;angular/forms';
+import &#123; FileUploadModule &#125; from '&#64;iplab/ngx-file-upload';
+import &#123; BrowserAnimationsModule &#125; from '&#64;angular/platform-browser/animations';
 ...
 ...
 
 
-@NgModule(&#123;
+&#64;NgModule(&#123;
     imports: [
         BrowserModule,
         <b>ReactiveFormsModule</b> or <b>FormsModule</b> or <b>both</b> // only if component is in use with angular forms,
@@ -63,10 +63,10 @@ export class AppModule &#123;&#125;</pre>
     <div class="card" id="reactive">
         <div class="card-header">Reactive Forms</div>
         <div class="card-block">
-            <pre class="prettify">import &#123; FileUploadValidators &#125; from '@iplab/ngx-file-upload';
+            <pre class="prettify">import &#123; FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
           
 
-@Component(&#123;
+&#64;Component(&#123;
     selector: `app-root`,
     template: `
     &lt;form [formGroup]="demoForm"&gt;
@@ -122,7 +122,7 @@ export class AppComponent &#123;
     <div class="card" id="template-driven">
         <div class="card-header">Template-driven forms</div>
         <div class="card-block">
-            <pre class="prettify">@Component(&#123;
+            <pre class="prettify">&#64;Component(&#123;
     selector: `app-root`,
     template: `
     &lt;form #demoForm="ngForm"&gt;
@@ -184,10 +184,10 @@ media_type      A valid media type, with no parameters. Look at <a target="_blan
     <div class="card" id="stand-alone">
         <div class="card-header">Stand alone</div>
         <div class="card-block">
-            <pre class="prettify">import &#123; FileUploadControl, FileUploadValidators &#125; from '@iplab/ngx-file-upload';
+            <pre class="prettify">import &#123; FileUploadControl, FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
                          
 
-@Component(&#123;
+&#64;Component(&#123;
     selector: `app-root`,
     template: `&lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;`
 &#125;)
@@ -229,7 +229,7 @@ export class AppComponent &#123;
         <div class="card-header">Disable component animation</div>
         <div class="card-block">
             <pre class="prettify">
-@Component(&#123;
+&#64;Component(&#123;
     selector: `app-root`,
     template: `&lt;file-upload [animation]="animation"&gt;&lt;/file-upload&gt;`
 &#125;)
@@ -238,7 +238,7 @@ export class AppComponent &#123;
 &#125;</pre>
 <p>or</p>
 <pre class="prettify">
-@Component(&#123;
+&#64;Component(&#123;
     selector: `app-root`,
     template: `&lt;file-upload animation="false"&gt;&lt;/file-upload&gt;`
 &#125;)
@@ -262,7 +262,7 @@ export class AppComponent &#123;
                 For each template is important to use <a href="https://angular.io/guide/structural-directives#the-ng-template" target="_blank">ng-template</a> and to add <a href="https://angular.io/guide/template-syntax#ref-vars" target="_blank">template reference variable</a><br>
                 <b>#placeholder</b> for placeholder template and <b>#item</b> for list items
             </p>
-            <pre class="prettify" ngNonBindable>@Component(&#123;
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `app-root`,
     template: `
     &lt;file-upload [control]="fileUploadControl"&gt;
@@ -297,7 +297,7 @@ export class AppComponent &#123; &#125;</pre>
             <br>
             <p>Single Image upload/preview based on <b>custom template</b></p>
 
-<pre class="prettify" ngNonBindable>@Component(&#123;
+<pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `file-upload-wrapper-component`,
     template: `
     &lt;file-upload [control]="control"&gt;
@@ -372,7 +372,7 @@ export class FileUploadWrapperComponent implements OnInit, OnDestroy &#123;
         <div class="card-header">Localize built-in templates</div>
         <div class="card-block">
             <p>It is possible to localize built-in templates.</p>
-            <pre class="prettify" ngNonBindable>@Component(&#123;
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `app-root`,
     template: `
     &lt;file-upload [control]="fileUploadControl"&gt;
@@ -420,9 +420,9 @@ export class AppComponent &#123; &#125;</pre>
         <div class="card-header">Separate list</div>
         <div class="card-block">
 
-            <pre class="prettify" ngNonBindable>import &#123; FileUploadControl, FileUploadValidators &#125; from '@iplab/ngx-file-upload';
+            <pre class="prettify" ngNonBindable>import &#123; FileUploadControl, FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
 
-@Component(&#123;
+&#64;Component(&#123;
     selector: `app-root`,
     template: `
         &lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;
@@ -468,9 +468,9 @@ export class AppComponent &#123;
         <div class="card-header">Discard files</div>
         <div class="card-block">
 
-            <pre class="prettify" ngNonBindable>import &#123; FileUploadControl, FileUploadValidators &#125; from '@iplab/ngx-file-upload';
+            <pre class="prettify" ngNonBindable>import &#123; FileUploadControl, FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
 
-@Component(&#123;
+&#64;Component(&#123;
     selector: `app-root`,
     template: `
         &lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;
@@ -555,7 +555,7 @@ export class AppComponent &#123;
         <div class="card-header">Attribute component</div>
         <div class="card-block">
             <p>It is possible to transform any block element to file drop zone.</p>
-            <pre class="prettify" ngNonBindable>@Component(&#123;
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `app-root`,
     template: `&lt;div file-drop-zone [control]="fileUploadControl"&gt;
     ...
@@ -563,7 +563,7 @@ export class AppComponent &#123;
 &#125;)
 export class AppComponent &#123; &#125;</pre>
             <p>and in same way as is the case with standard component it is possible to change drop zone placeholder</p>
-            <pre class="prettify" ngNonBindable>@Component(&#123;
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `app-root`,
     template: `
     &lt;div file-drop-zone [control]="fileUploadControl"&gt;
@@ -603,13 +603,13 @@ export class AppComponent &#123; &#125;</pre>
             <div class="card-header">Simple - single file upload</div>
             <div class="card-block">
                 <p>It is possible to use simple file upload, layout is similar to default browser</p>
-                <pre class="prettify" ngNonBindable>@Component(&#123;
+                <pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `app-root`,
     template: `&lt;file-upload simple&gt;&lt;/file-upload&gt;`
 &#125;)
 export class AppComponent &#123; &#125;</pre>
                 <p>and in same way as is the case with standard component it is possible to change placeholder and button layout</p>
-                <pre class="prettify" ngNonBindable>@Component(&#123;
+                <pre class="prettify" ngNonBindable>&#64;Component(&#123;
     selector: `app-root`,
     template: `
         &lt;file-upload simple&gt;
@@ -662,7 +662,7 @@ export class AppComponent &#123; &#125;</pre>
                     <tr>
                         <td>setValidators</td>
                         <td><code>Function</code></td>
-                        <td>Method used to set validators functions, signature is same as @angular validators</td>
+                        <td>Method used to set validators functions, signature is same as &#64;angular validators</td>
                     </tr>
                     <tr>
                         <td>addFile</td>
