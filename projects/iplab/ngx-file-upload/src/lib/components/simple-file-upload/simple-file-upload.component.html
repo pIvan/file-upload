@@ -1,18 +1,14 @@
 <div class="upload-text">
-    <ng-template [ngIf]="control.valueChanges | async">
-        <ng-container *ngTemplateOutlet="placeholderRef ? placeholderRef : defaultPlaceholderTemplate; context: { $implicit: control.value, control: control, files: control.value }"></ng-container>
-    </ng-template>
+    @if (control.valueChanges | async) {
+        <ng-container *ngTemplateOutlet="placeholderRef ? placeholderRef : defaultPlaceholderTemplate; context: { $implicit: control.value, control: control, files: control.value }" />
+    }
 
     <ng-template #defaultPlaceholderTemplate let-files="files">
-        <ng-template [ngIf]="files.length" [ngIfElse]="emptyList">
-            <ng-template ngFor let-file let-i="index" [ngForOf]="files" [ngForTrackBy]="trackByFn">
-                <span *ngIf="i > 0">,&nbsp;</span> <span class="file-name">{{ file.name }}</span>
-            </ng-template>
-        </ng-template>
-    </ng-template>
-
-    <ng-template #emptyList>
-        Select a file...
+        @for (file of files; track trackByFn($index, file); let i = $index;) {
+            @if (i > 0) { <span>,&nbsp;</span> } <span class="file-name">{{ file.name }}</span>
+        } @empty {
+            Select a file...
+        }
     </ng-template>
 </div>
 

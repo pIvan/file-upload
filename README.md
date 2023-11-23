@@ -22,6 +22,7 @@ more detailed instructions can be found
 
 # Compatible with
 
+- Angular 17 (@iplab/ngx-file-upload@version >= 17.0.0)
 - Angular 16 (@iplab/ngx-file-upload@version >= 16.0.0)
 - Angular 15 (@iplab/ngx-file-upload@version >= 15.0.0)
 - Angular 14 (@iplab/ngx-file-upload@version >= 14.0.0)

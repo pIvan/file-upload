@@ -13,6 +13,29 @@
 <div class="container">
 
     <div class="card">
+        <div class="card-header">Compatibility with angular</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Angular</th>
+                        <th>&#64;ngx-file-upload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for( element of ANGULAR_COMPATIBILITY; track element.ng ) {
+                    <tr>
+                        <td>{{ element.ng }}</td>
+                        <td>{{ element.lib }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
         <div class="card-header">Getting started</div>
         <div class="card-block">
             <ol>

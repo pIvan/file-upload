@@ -26,18 +26,19 @@ import { Subscription } from 'rxjs';
     selector: `[file-drop-zone]`,
     template: `
         <ng-content></ng-content>
-        <div #overlay class="overlay" *ngIf="fileUploadService.isFileDragDropAvailable()">
+        @if (fileUploadService.isFileDragDropAvailable()) {
+            <div #overlay class="overlay">
+                <div class="upload-input">
+                    <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate"></ng-container>
 
-            <div class="upload-input">
-                <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate"></ng-container>
-
-                <ng-template #defaultTemplate>
-                    <file-upload-drop-zone>
-                        <b>Drop</b> it here
-                    </file-upload-drop-zone>
-                </ng-template>
+                    <ng-template #defaultTemplate>
+                        <file-upload-drop-zone>
+                            <b>Drop</b> it here
+                        </file-upload-drop-zone>
+                    </ng-template>
+                </div>
             </div>
-        </div>
+        }
     `,
     styleUrls: [`./file-upload-attr.component.scss`],
     providers: [

@@ -2,6 +2,9 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { FileUploadService } from '../../services/file-upload.service';
 
 
+export type IFileType = 'text' | 'audio' | 'video' | 'image';
+
+
 @Component({
     selector: `file-upload-icon`,
     templateUrl: `./file-upload-icon.component.html`,
@@ -13,7 +16,7 @@ export class FileUploadIconComponent implements OnInit {
     @Input()
     public file: File;
 
-    public fileType: string = 'unknown';
+    private fileType: string = 'unknown';
 
     constructor(private fileUploadService: FileUploadService) {
     }
@@ -22,7 +25,20 @@ export class FileUploadIconComponent implements OnInit {
         this.fileType = this.fileUploadService.getFileType(this.file);
     }
 
-    public isIcon(type: 'text' | 'audio' | 'video' | 'image'): boolean {
+    public comparationType(): IFileType {
+        if (this.isIcon('image')) {
+            return 'image';
+        } else if (this.isIcon('text')) {
+            return 'text';
+        } else if (this.isIcon('audio')) {
+            return 'audio';
+        } else if (this.isIcon('video')) {
+            return 'video';
+        }
+        return null;
+    }
+
+    private isIcon(type: IFileType): boolean {
         switch (type) {
             case 'text':
                 return this.fileType === 'html' || this.fileType === 'css' ||

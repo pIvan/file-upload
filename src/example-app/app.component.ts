@@ -38,10 +38,18 @@ export class AppComponent implements AfterViewInit {
   public isDisabled: boolean = false;
   public acceptFiles: string = 'image/*';
 
+  public readonly ANGULAR_COMPATIBILITY: { ng: string; lib: string }[] = [
+    { ng: '17.x.x', lib: '17.x.x' },
+    { ng: '16.x.x', lib: '16.x.x' },
+    { ng: '15.x.x', lib: '15.x.x' },
+    { ng: '14.x.x', lib: '14.x.x' },
+    { ng: '13.x.x', lib: '13.x.x' },
+    { ng: '12.x.x', lib: '12.x.x' },
+    { ng: '11.x.x', lib: '11.x.x' }
+  ];
+
   constructor(private elRef: ElementRef) {
     this.fileUploaddiscardInvalidControl.discardedValueChanges.subscribe(files => console.log('discarded: ', files));
-    console.log(this.fileUploadControl);
-    console.log(this.fileUploadWithTemplate);
   }
 
   public ngAfterViewInit(): void {

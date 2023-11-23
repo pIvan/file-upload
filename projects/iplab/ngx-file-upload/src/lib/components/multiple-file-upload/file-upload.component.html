@@ -1,27 +1,29 @@
 <label #labelRef class="upload-input" tabindex="0" (keydown)="onKeyDown($event)" [@zoomAnimation]="zoomText" (@zoomAnimation.done)="zoomAnimationDone($event)">
 
-    <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate; context: templateContext"></ng-container>
+    <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate; context: templateContext" />
 
     <ng-template #defaultTemplate let-isFileDragDropAvailable="isFileDragDropAvailable">
         <file-upload-drop-zone>
-            <ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable">
+            @if (isFileDragDropAvailable) {
                 <b>Drag and drop</b> files<br> or click here
-            </ng-container>
-            <ng-template #isNotDragDropAvailable>
+            } @else {
                 <b>Click here</b> to<br> choose a files
-            </ng-template>
+            }
         </file-upload-drop-zone>
     </ng-template>
 
     <input #inputRef type="file" class="files-input" tabindex="-1" multiple (change)="onInputChange($event)">
 </label>
 
-<div class="upload-list" *ngIf="(control.listVisibilityChanges | async) && control.size > 0 && listVisible" [@insertAnimation]="control.size" (@insertAnimation.done)="animationListFinished($event)">
-    <ng-template ngFor let-file let-i="index" [ngForOf]="control.valueChanges | async" [ngForTrackBy]="trackByFn">
-        <ng-container *ngTemplateOutlet="listItem ? listItem : defaultItemTemplate; context: { $implicit: file, file: file, index: i, control: control }"></ng-container>
-    </ng-template>
-    
+@if ((control.listVisibilityChanges | async) && control.size > 0 && listVisible) {
+    <div class="upload-list" [@insertAnimation]="control.size" (@insertAnimation.done)="animationListFinished($event)">
+        @for (file of control.valueChanges | async; track trackByFn($index, file); let i = $index;) {
+            <ng-container *ngTemplateOutlet="listItem ? listItem : defaultItemTemplate; context: { $implicit: file, file: file, index: i, control: control }" />
+        }
+    </div>
+
     <ng-template #defaultItemTemplate let-i="index" let-file="file" let-control="control">
         <file-upload-list-item  [index]="i" [file]="file" [control]="control">Remove</file-upload-list-item>
     </ng-template>
-</div>
+}
+
