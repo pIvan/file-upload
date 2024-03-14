@@ -6,7 +6,8 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 
 @Directive({
     selector: 'file-upload[native]',
-    host: {'[attr.native]': 'native ? native : null'}
+    host: {'[attr.native]': 'native ? native : null'},
+    standalone: true
 })
 export class FilesNativeDirective implements AfterViewInit, OnChanges {
 

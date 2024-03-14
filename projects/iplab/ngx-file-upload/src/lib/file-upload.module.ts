@@ -38,35 +38,35 @@ export { FileUploadService } from './services/file-upload.service';
 
 @NgModule({
     imports: [
-        CommonModule
-    ],
-    declarations: [
         FileUploadComponent,
-        FileUploadListItemComponent,
-        FileUploadIconComponent,
         FileUploadDropZoneComponent,
+        FileUploadListItemComponent,
         FileUploadAttributeComponent,
+        SimpleFileUploadComponent,
+        FileUploadIconComponent,
+        // directives
         FileSizeValidator,
         FilesLimitValidator,
         FilesAcceptValidator,
         FilesAcceptDirective,
         FilesDiscardDirective,
         FilesNativeDirective,
-        SimpleFileUploadComponent
     ],
+    declarations: [],
     exports: [
         FileUploadComponent,
         FileUploadDropZoneComponent,
         FileUploadListItemComponent,
         FileUploadAttributeComponent,
+        SimpleFileUploadComponent,
+        // directives
         FileSizeValidator,
         FilesLimitValidator,
         FilesAcceptValidator,
         FilesAcceptDirective,
         FilesDiscardDirective,
-        SimpleFileUploadComponent
+        
     ]
 })
 export class FileUploadModule {
-    ngDoBootstrap() {}
 }

@@ -6,7 +6,8 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 
 @Directive({
     selector: 'file-upload[discard]',
-    host: {'[attr.discard]': 'discard ? discard : null'}
+    host: {'[attr.discard]': 'discard ? discard : null'},
+    standalone: true
 })
 export class FilesDiscardDirective implements AfterViewInit, OnChanges {
 

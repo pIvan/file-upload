@@ -2,19 +2,20 @@ import {
     Component,
     Input,
     ElementRef,
-    HostBinding,
     TemplateRef,
     ViewChild,
     ChangeDetectionStrategy,
     ContentChild,
     forwardRef
 } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { FileUploadControl } from './../../helpers/control.class';
 import { FileUploadService } from './../../services/file-upload.service';
-import { TOUCHED } from './../multiple-file-upload/file-upload.component';
+import { TOUCHED_CLASS_NAME } from './../multiple-file-upload/file-upload.component';
 import { FileUploadAbstract } from './../file-upload-abstract.component';
+
 
 @Component({
     selector: `file-upload[simple]`,
@@ -28,7 +29,9 @@ import { FileUploadAbstract } from './../file-upload-abstract.component';
             multi: true
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [AsyncPipe, NgTemplateOutlet]
 })
 export class SimpleFileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
 
@@ -51,16 +54,6 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
 
     constructor(public fileUploadService: FileUploadService) {
         super();
-    }
-
-    @HostBinding('class.has-files')
-    public get hasFiles(): boolean {
-        return this.control.isListVisible && this.control.size > 0;
-    }
-
-    @HostBinding('class.ng-invalid')
-    public get isInvalid(): boolean {
-        return !this.control.disabled && this.control.invalid;
     }
 
     public onInputChange(event: Event): void {
@@ -95,10 +88,6 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
         this.onChange = fn;
     }
 
-    private onTouch: () => void = () => {
-        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED);
-    }
-
     public registerOnTouched(fn: any): void {
         this.onTouch = fn;
     }
@@ -112,5 +101,9 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
             event.preventDefault();
             this.control.click();
         }
+    }
+
+    private onTouch: () => void = () => {
+        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED_CLASS_NAME);
     }
 }

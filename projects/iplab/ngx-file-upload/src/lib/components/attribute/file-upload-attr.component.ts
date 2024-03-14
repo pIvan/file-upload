@@ -5,21 +5,22 @@ import {
     HostListener,
     Renderer2,
     OnDestroy,
-    HostBinding,
     Inject,
     ViewChild,
     ContentChild,
     TemplateRef,
     Component,
-    AfterViewInit
+    AfterViewInit,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet, NgComponentOutlet } from '@angular/common';
 
 import { FileUploadControl } from '../../helpers/control.class';
 import { IsNullOrEmpty } from '../../helpers/helpers.class';
 import { FileUploadService } from '../../services/file-upload.service';
-import { DRAGOVER, TOUCHED } from './../multiple-file-upload/file-upload.component';
-import { Subscription } from 'rxjs';
+import { DRAGOVER_CLASS_NAME, TOUCHED_CLASS_NAME } from './../multiple-file-upload/file-upload.component';
+import { Subscription, merge } from 'rxjs';
+import { FileUploadDropZoneComponent } from './../drop-zone/file-upload-drop-zone.component';
+import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-abstract.component';
 
 
 @Component({
@@ -42,8 +43,14 @@ import { Subscription } from 'rxjs';
     `,
     styleUrls: [`./file-upload-attr.component.scss`],
     providers: [
-        FileUploadService
-    ]
+        FileUploadService,
+    ],
+    imports: [
+        NgTemplateOutlet,
+        NgComponentOutlet,
+        FileUploadDropZoneComponent
+    ],
+    standalone: true
 })
 export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -62,7 +69,7 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
 
     constructor(
         public fileUploadService: FileUploadService,
-        private hostElementRef: ElementRef,
+        private readonly hostElementRef: ElementRef,
         private renderer: Renderer2,
         @Inject(DOCUMENT) private document
     ) {}
@@ -71,6 +78,22 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
         if (IsNullOrEmpty(this.control)) {
             this.control = new FileUploadControl();
         }
+
+        this.subscriptions.push(
+            merge(
+                this.control.listVisibilityChanges,
+                this.control.valueChanges
+            )
+            .subscribe(() => this.checkAndSetFilesClass())
+        );
+
+        this.subscriptions.push(
+            merge(
+                this.control.statusChanges,
+                this.control.valueChanges
+            )
+            .subscribe(() => this.checkAndSetInvalidClass())
+        );
     }
 
     public ngAfterViewInit(): void {
@@ -85,16 +108,6 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
         this.hooks.length = 0;
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    @HostBinding('class.has-files')
-    public get hasFiles(): boolean {
-        return this.control.isListVisible && this.control.size > 0;
-    }
-
-    @HostBinding('class.ng-invalid')
-    public get isInvalid(): boolean {
-        return !this.control.disabled && this.control.invalid;
     }
 
     private setEvents(): void {
@@ -131,6 +144,30 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
         );
     }
 
+    private hasFiles(): boolean {
+        return this.control.isListVisible && this.control.size > 0;
+    }
+
+    private isInvalid(): boolean {
+        return !this.control.disabled && this.control.invalid;
+    }
+
+    private checkAndSetFilesClass(): void {
+        if (this.hasFiles() && this.hostElementRef) {
+            this.renderer.addClass(this.hostElementRef.nativeElement, HAS_FILES_CLASS_NAME);
+        } else {
+            this.renderer.removeClass(this.hostElementRef.nativeElement, HAS_FILES_CLASS_NAME);
+        }
+    }
+
+    private checkAndSetInvalidClass(): void {
+        if (this.isInvalid() && this.hostElementRef) {
+            this.renderer.addClass(this.hostElementRef.nativeElement, IS_INVALID_CLASS_NAME);
+        } else {
+            this.renderer.removeClass(this.hostElementRef.nativeElement, IS_INVALID_CLASS_NAME);
+        }
+    }
+
     private checkAndMarkAsDisabled(): void {
         if (this.control.disabled) {
             this.renderer.addClass(this.hostElementRef.nativeElement, 'disabled');
@@ -148,14 +185,14 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
      * on file over add class name
      */
     private onDragOver(event: Event): void {
-        this.renderer.addClass(this.hostElementRef.nativeElement, DRAGOVER);
+        this.renderer.addClass(this.hostElementRef.nativeElement, DRAGOVER_CLASS_NAME);
     }
 
     /**
      * on mouse out remove class name
      */
     private onDragLeave(event: Event): void {
-        this.renderer.removeClass(this.hostElementRef.nativeElement, DRAGOVER);
+        this.renderer.removeClass(this.hostElementRef.nativeElement, DRAGOVER_CLASS_NAME);
     }
 
     @HostListener('drop', ['$event'])
@@ -169,7 +206,7 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
     }
 
     private onTouch: () => void = () => {
-        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED);
+        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED_CLASS_NAME);
     }
 
 }

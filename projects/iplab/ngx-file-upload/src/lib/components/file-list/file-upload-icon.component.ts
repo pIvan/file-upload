@@ -9,7 +9,8 @@ export type IFileType = 'text' | 'audio' | 'video' | 'image';
     selector: `file-upload-icon`,
     templateUrl: `./file-upload-icon.component.html`,
     styleUrls: [`./file-upload-icon.component.scss`],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class FileUploadIconComponent implements OnInit {
 

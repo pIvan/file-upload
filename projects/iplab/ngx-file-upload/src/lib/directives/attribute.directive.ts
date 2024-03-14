@@ -6,7 +6,8 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 
 @Directive({
     selector: 'file-upload[accept]',
-    host: {'[attr.accept]': 'accept ? accept : null'}
+    host: {'[attr.accept]': 'accept ? accept : null'},
+    standalone: true
 })
 export class FilesAcceptDirective implements AfterViewInit, OnChanges {
 

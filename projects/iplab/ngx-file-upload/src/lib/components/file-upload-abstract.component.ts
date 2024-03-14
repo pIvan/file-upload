@@ -1,8 +1,10 @@
 import { FileEvent, FileUploadControl } from './../helpers/control.class';
 import { ElementRef, OnDestroy, Renderer2, ChangeDetectorRef, OnInit, Directive, AfterContentInit, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 
+export const HAS_FILES_CLASS_NAME = 'has-files';
+export const IS_INVALID_CLASS_NAME = 'ng-invalid';
 
 @Directive()
 export abstract class FileUploadAbstract implements OnInit, OnDestroy {
@@ -62,6 +64,22 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         this.subscriptions.push(
             this.control.multipleChanges.subscribe((isMultiple: boolean) => this.toggleMultiple(isMultiple))
         );
+
+        this.subscriptions.push(
+            merge(
+                this.control.listVisibilityChanges,
+                this.control.valueChanges
+            )
+            .subscribe(() => this.checkAndSetFilesClass())
+        );
+
+        this.subscriptions.push(
+            merge(
+                this.control.statusChanges,
+                this.control.valueChanges
+            )
+            .subscribe(() => this.checkAndSetInvalidClass())
+        );
     }
 
     protected clearInputEl(): void {
@@ -80,6 +98,30 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         const isMultiple = this.isMultiple === true || (this.isMultiple as string) === 'true';
         if (isMultiple !== this.control.isMultiple) {
             this.control.multiple(isMultiple);
+        }
+    }
+
+    private hasFiles(): boolean {
+        return this.control.isListVisible && this.control.size > 0;
+    }
+
+    private isInvalid(): boolean {
+        return !this.control.disabled && this.control.invalid;
+    }
+
+    private checkAndSetFilesClass(): void {
+        if (this.hasFiles() && this.hostElementRef) {
+            this.renderer.addClass(this.hostElementRef.nativeElement, HAS_FILES_CLASS_NAME);
+        } else {
+            this.renderer.removeClass(this.hostElementRef.nativeElement, HAS_FILES_CLASS_NAME);
+        }
+    }
+
+    private checkAndSetInvalidClass(): void {
+        if (this.isInvalid() && this.hostElementRef) {
+            this.renderer.addClass(this.hostElementRef.nativeElement, IS_INVALID_CLASS_NAME);
+        } else {
+            this.renderer.removeClass(this.hostElementRef.nativeElement, IS_INVALID_CLASS_NAME);
         }
     }
 

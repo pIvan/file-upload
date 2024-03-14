@@ -1,3 +1,11 @@
+<a name="17.1.0"></a>
+## [17.1.0](https://github.com/pIvan/file-upload/commit/) (2024-03-14)
+
+### Features
+* **control flow** - New control flow implemented
+* **standalone components** - All components are now standalone
+
+
 <a name="17.0.0"></a>
 ## [17.0.0](https://github.com/pIvan/file-upload/commit/4512b01400557bb6d851241e88840e1e6f7b7147) (2023-11-19)
 

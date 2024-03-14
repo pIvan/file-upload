@@ -40,7 +40,8 @@ import { FileUploadService } from './../services/file-upload.service';
         '[attr.filesize]': 'filesize ? filesize : null',
         '[attr.minsize]': 'minsize ? minsize : null',
         '[attr.maxsize]': 'maxsize ? maxsize : null'
-    }
+    },
+    standalone: true
 })
 export class FileSizeValidator implements Validator, OnChanges {
 
@@ -111,7 +112,8 @@ export class FileSizeValidator implements Validator, OnChanges {
         useExisting: forwardRef(() => FilesLimitValidator),
         multi: true
     }],
-    host: {'[attr.fileslimit]': 'fileslimit ? fileslimit : null'}
+    host: {'[attr.fileslimit]': 'fileslimit ? fileslimit : null'},
+    standalone: true
 })
 export class FilesLimitValidator implements Validator, OnChanges {
 
@@ -165,7 +167,8 @@ export class FilesLimitValidator implements Validator, OnChanges {
         useExisting: forwardRef(() => FilesAcceptValidator),
         multi: true
     }],
-    host: {'[attr.accept]': 'accept ? accept : null'}
+    host: {'[attr.accept]': 'accept ? accept : null'},
+    standalone: true
 })
 export class FilesAcceptValidator implements Validator, OnChanges {
 

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FileUploadControl } from '../../helpers/control.class';
 import { FileUploadService } from '../../services/file-upload.service';
+import { FileUploadIconComponent } from './file-upload-icon.component';
 
 @Component({
     selector: `file-upload-list-item`,
@@ -26,7 +27,9 @@ import { FileUploadService } from '../../services/file-upload.service';
         </svg> <ng-content></ng-content></span>
     </div>
     `,
-    styleUrls: [`./file-upload-list-item.component.scss`]
+    styleUrls: [`./file-upload-list-item.component.scss`],
+    standalone: true,
+    imports: [FileUploadIconComponent]
 })
 export class FileUploadListItemComponent {
 

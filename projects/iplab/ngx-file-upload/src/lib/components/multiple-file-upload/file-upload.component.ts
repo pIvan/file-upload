@@ -9,20 +9,24 @@ import {
     ViewChild,
     ChangeDetectionStrategy,
     ContentChild,
-    forwardRef
+    forwardRef,
+    booleanAttribute
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { FileUploadControl } from './../../helpers/control.class';
 import { FileUploadService } from './../../services/file-upload.service';
 import { InsertAnimation } from './../../animations/insert.animation';
 import { ZoomAnimation } from './../../animations/zoom.animation';
 import { FileUploadAbstract } from './../file-upload-abstract.component';
+import { FileUploadDropZoneComponent } from './../drop-zone/file-upload-drop-zone.component';
+import { FileUploadListItemComponent } from './../file-list/file-upload-list-item.component';
 
-export const DRAGOVER = 'dragover';
-export const TOUCHED = 'ng-touched';
+export const DRAGOVER_CLASS_NAME = 'dragover';
+export const TOUCHED_CLASS_NAME = 'ng-touched';
 
 @Component({
     selector: `file-upload:not([simple])`,
@@ -40,6 +44,13 @@ export const TOUCHED = 'ng-touched';
     animations: [
         ZoomAnimation,
         InsertAnimation
+    ],
+    standalone: true,
+    imports: [
+        AsyncPipe,
+        NgTemplateOutlet,
+        FileUploadDropZoneComponent,
+        FileUploadListItemComponent
     ]
 })
 export class FileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
@@ -47,7 +58,7 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     @Input()
     public control: FileUploadControl = null;
 
-    @Input()
+    @Input({ transform: booleanAttribute })
     public animation: boolean | string = true;
 
     @Input('multiple')
@@ -84,22 +95,12 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
         super();
     }
 
-    @HostBinding('class.has-files')
-    public get hasFiles(): boolean {
-        return this.control.isListVisible && this.control.size > 0;
-    }
-
-    @HostBinding('class.ng-invalid')
-    public get isInvalid(): boolean {
-        return !this.control.disabled && this.control.invalid;
-    }
-
     @HostBinding('@.disabled')
     public get isAnimationDisabled(): boolean {
-        return this.animation === false || (this.animation as string) === 'false';
+        return this.animation === false;
     }
 
-    public trackByFn(index: number, item: File): string {
+    protected trackByFn(index: number, item: File): string {
         return item.name;
     }
 
@@ -174,14 +175,14 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
      * on file over add class name
      */
     private onDragOver(event: Event): void {
-        this.renderer.addClass(this.hostElementRef.nativeElement, DRAGOVER);
+        this.renderer.addClass(this.hostElementRef.nativeElement, DRAGOVER_CLASS_NAME);
     }
 
     /**
      * on mouse out remove class name
      */
     private onDragLeave(event: Event): void {
-        this.renderer.removeClass(this.hostElementRef.nativeElement, DRAGOVER);
+        this.renderer.removeClass(this.hostElementRef.nativeElement, DRAGOVER_CLASS_NAME);
     }
 
     @HostListener('drop', ['$event'])
@@ -224,7 +225,7 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     }
 
     private onTouch: () => void = () => {
-        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED);
+        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED_CLASS_NAME);
     };
 
     public registerOnTouched(fn: any): void {

@@ -14,6 +14,9 @@ export class AppComponent implements AfterViewInit {
   public readonly fileUploadControl = new FileUploadControl({ multiple: false },
     [FileUploadValidators.fileSize(80000), FileUploadValidators.reject([FileUploadTypes.txt])]);
 
+  public readonly simpleFileUploadControl = new FileUploadControl({ multiple: false },
+      [FileUploadValidators.fileSize(1000000), FileUploadValidators.reject([FileUploadTypes.txt])]);
+
   public readonly fileUploadWithTemplate = new FileUploadControl({ accept: ['image/*'] }, FileUploadValidators.accept(['image/*']));
 
   public readonly filesControl = new FormControl<File[]>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
