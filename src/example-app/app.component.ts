@@ -1,13 +1,23 @@
 import { Component, AfterViewInit, ElementRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormControl, FormGroup } from '@angular/forms';
+import { FileUploadModule, FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
+import { AsyncPipe } from '@angular/common';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
-import { FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
+import { FileUploadWrapperComponent } from 'src/file-upload-wrapper/file-upload-wrapper.component';
 
 @Component({
   selector: `app-root`,
   templateUrl: `./app.component.html`,
-  styleUrls: [`./app.component.css`]
+  styleUrls: [`./app.component.css`],
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    ReactiveFormsModule,
+    FormsModule,
+    FileUploadModule,
+    FileUploadWrapperComponent
+  ]
 })
 export class AppComponent implements AfterViewInit {
 

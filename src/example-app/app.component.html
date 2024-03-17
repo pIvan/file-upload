@@ -10,7 +10,6 @@
     </div>
 </div>
 
-AŽURIRATI SVA MJESTA SA NGif I NGfOR
 
 <div class="container">
 
@@ -78,6 +77,45 @@ import &#123; BrowserAnimationsModule &#125; from '&#64;angular/platform-browser
     bootstrap: [AppComponent]
 &#125;)
 export class AppModule &#123;&#125;</pre>
+                </li>
+            </ol>
+
+            <p><b>or standalone component</b></p>
+
+            <ol>
+                <li><code>npm install &#64;iplab/ngx-file-upload --save</code></li>
+                <li>
+                    <ul>
+                        <li><pre class="prettify">import &#123; bootstrapApplication &#125; from '&#64;angular/platform-browser';
+import &#123; provideAnimations, provideNoopAnimations &#125; from '&#64;angular/platform-browser/animations';
+import &#123; AppComponent &#125; from './example-app/app.component';
+
+bootstrapApplication(AppComponent, &#123;
+    providers: <b>provideAnimations()</b> or <b>provideNoopAnimations()</b>
+&#125;)
+.catch(err => console.log(err));
+                        </pre>
+                        </li>
+                        <li>
+                            <pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '&#64;angular/forms';
+import &#123; FileUploadModule &#125; from '&#64;iplab/ngx-file-upload';
+import &#123; BrowserAnimationsModule &#125; from '&#64;angular/platform-browser/animations';
+...
+...
+
+&#64;Component(&#123;
+    selector: `app-root`,
+    templateUrl: `./app.component.html`,
+    styleUrls: [`./app.component.css`],
+    standalone: true,
+    imports: [
+        <b>ReactiveFormsModule</b> or <b>FormsModule</b> or <b>both</b>, // only if component is in use with angular forms
+        <b>FileUploadModule</b> or <b>any standalone component from library <i>(e.g., FileUploadComponent, SimpleFileUploadComponent...)</i></b>
+    ]
+&#125;)
+export class AppComponent &#123;&#125;</pre>
+                        </li>
+                    </ul>
                 </li>
             </ol>
         </div>
@@ -292,8 +330,11 @@ export class AppComponent &#123;
     template: `
     &lt;file-upload [control]="fileUploadControl"&gt;
         &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
-            &lt;span *ngIf="isFileDragDropAvailable"&gt;drop or click&lt;/span&gt;
-            &lt;span *ngIf="!isFileDragDropAvailable"&gt;click&lt;/span&gt;
+            &#64;if (isFileDragDropAvailable) &#123;
+                drop or click
+            &#125; &#64;else &#123;
+                click
+            &#125;
         &lt;/ng-template&gt;
 
         &lt;ng-template let-i="index" let-file="file" let-control="control" #item&gt;
@@ -308,8 +349,11 @@ export class AppComponent &#123; &#125;</pre>
 
             <file-upload [control]="fileUploadWithTemplate">
                 <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
-                    <span *ngIf="isFileDragDropAvailable">drop or click</span>
-                    <span *ngIf="!isFileDragDropAvailable">click</span>
+                    @if (isFileDragDropAvailable) {
+                        <span>drop or click</span>
+                    } @else {
+                        <span>click</span>
+                    }
                 </ng-template>
 
                 <ng-template let-i="index" let-file="file" let-control="control" #item>
@@ -333,12 +377,11 @@ export class AppComponent &#123; &#125;</pre>
                 &lt;/div&gt;
 
                 &lt;div class="upload-text"&gt;
-                    &lt;ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable"&gt;
+                    &#64;if (isFileDragDropAvailable) &#123;
                         &lt;b&gt;Drag and drop&lt;/b&gt; files&lt;br&gt; or click here
-                    &lt;/ng-container&gt;
-                    &lt;ng-template #isNotDragDropAvailable&gt;
+                    &#125; &#64;else &#123;
                         &lt;b&gt;Click here&lt;/b&gt; to&lt;br&gt; choose a files
-                    &lt;/ng-template&gt;
+                    &#125;
                 &lt;/div&gt;
             &lt;/div&gt;
         &lt;/ng-template&gt;
@@ -348,13 +391,19 @@ export class AppComponent &#123; &#125;</pre>
                 &lt;span class="delete-button" (click)="control.removeFile(file)"&gt;
                     &lt;svg&gt;...&lt;/svg&gt;
                 &lt;/span&gt;
-                &lt;img *ngIf="control.valid" [src]="uploadedFile | async"&gt;
+                &#64;if (control.valid) &#123;
+                    &lt;img [src]="uploadedFile | async"&gt;
+                &#125;
             &lt;/div&gt;
         &lt;/ng-template&gt;
     &lt;/file-upload&gt;
     `,
     styles: [
         ...src/file-upload-wrapper/check file-upload-wrapper.component.scss file
+    ],
+    standalone: true,
+    imports: [
+        FileUploadComponent
     ]
 &#125;)
 export class FileUploadWrapperComponent implements OnInit, OnDestroy &#123;
@@ -403,12 +452,11 @@ export class FileUploadWrapperComponent implements OnInit, OnDestroy &#123;
     &lt;file-upload [control]="fileUploadControl"&gt;
         &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
             &lt;file-upload-drop-zone&gt;
-                &lt;ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable"&gt;
+                &#64;if (isFileDragDropAvailable) &#123;
                     Ziehen Sie Dateien per &lt;b&gt;Drag & Drop&lt;/b&gt;&lt;br&gt; oder klicken Sie hier
-                &lt;/ng-container&gt;
-                &lt;ng-template #isNotDragDropAvailable&gt;
+                &#125; &#64;else &#123;
                     &lt;b&gt;Klicken Sie hier&lt;/b&gt; um&lt;br&gt; eine Datei auszuwählen
-                &lt;/ng-template&gt;
+                &#125;
             &lt;/file-upload-drop-zone&gt;
         &lt;/ng-template&gt;
 
@@ -423,12 +471,11 @@ export class AppComponent &#123; &#125;</pre>
             <file-upload [control]="fileUploadWithTemplate">
                 <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
                     <file-upload-drop-zone>
-                        <ng-container *ngIf="isFileDragDropAvailable; else isNotDragDropAvailable">
+                        @if (isFileDragDropAvailable) {
                             Ziehen Sie Dateien per <b>Drag & Drop</b><br> oder klicken Sie hier
-                        </ng-container>
-                        <ng-template #isNotDragDropAvailable>
+                        } @else {
                             <b>Klicken Sie hier</b> um<br> eine Datei auszuwählen
-                        </ng-template>
+                        }
                     </file-upload-drop-zone>
                 </ng-template>
 
@@ -452,13 +499,16 @@ export class AppComponent &#123; &#125;</pre>
     template: `
         &lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;
 
-        &lt;div class="file-list" *ngIf="fileUploadControl.value.length > 0"&gt;
-            &lt;div class="file-item" 
-                *ngFor="let file of fileUploadControl.value"
-                (click)="fileUploadControl.removeFile(file)"&gt;
-                {{ file.name }}
+        &#64;if (fileUploadControl.value.length > 0) &#123;
+            &lt;div class="file-list"&gt;
+                &#64;for (file of fileUploadControl.value; track file) &#123;
+                    &lt;div class="file-item" 
+                        (click)="fileUploadControl.removeFile(file)"&gt;
+                        {{ file.name }}
+                    &lt;/div&gt;
+                &#125;
             &lt;/div&gt;
-        &lt;/div&gt;
+        &#125;
     `
 &#125;)
 export class AppComponent &#123;
@@ -469,20 +519,23 @@ export class AppComponent &#123;
             <div class="custom-zone">
                 <file-upload [control]="customFileUploadControl"></file-upload>
 
-                <div class="file-list" *ngIf="customFileUploadControl.value.length > 0">
-                    <div class="file-item" 
-                        *ngFor="let file of customFileUploadControl.value"
-                        (click)="customFileUploadControl.removeFile(file)">
-                        <svg viewBox="0 0 48 48">
-                            <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
-                                c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
-                                c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
-                                C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
-                                c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
-                                C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
-                        </svg> {{ file.name }}
+                @if (customFileUploadControl.value.length > 0) {
+                    <div class="file-list">
+                        @for (file of customFileUploadControl.value; track file) {
+                            <div class="file-item" 
+                            (click)="customFileUploadControl.removeFile(file)">
+                            <svg viewBox="0 0 48 48">
+                                <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
+                                    c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
+                                    c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
+                                    C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
+                                    c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
+                                    C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
+                            </svg> {{ file.name }}
+                        </div>
+                        }
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -503,19 +556,21 @@ export class AppComponent &#123;
         &lt;div class="files-row"&gt;
             &lt;div class="file-list"&gt;
                 &lt;h6&gt;Uploaded files&lt;/h6&gt;
-                &lt;div class="file-item" 
-                    *ngFor="let file of fileUploadControl.value"
-                    (click)="fileUploadControl.removeFile(file)"&gt;
-                    {{ file.name }}
-                &lt;/div&gt;
+                &#64;for (file of fileUploadControl.value; track file) &#123;
+                    &lt;div class="file-item" 
+                        (click)="fileUploadControl.removeFile(file)"&gt;
+                        {{ file.name }}
+                    &lt;/div&gt;
+                &#125;
             &lt;/div&gt;
 
             &lt;div class="file-list"&gt;
                 &lt;h6&gt;Discarded files&lt;/h6&gt;
-                &lt;div class="file-item" 
-                    *ngFor="let discarded of fileUploadControl.discardedValueChanges | async"&gt;
-                    {{ discarded.file.name }}
-                &lt;/div&gt;
+                &#64;for (file of fileUploadControl.discardedValueChanges | async; track file) &#123;
+                    &lt;div class="file-item" 
+                        {{ discarded.file.name }}
+                    &lt;/div&gt;
+                &#125;
             &lt;/div&gt;
         &lt;/div&gt;
     `
@@ -537,32 +592,34 @@ export class AppComponent &#123;
                 <div class="files-row">
                     <div class="file-list">
                         <h6>Uploaded files</h6>
-                        <div class="file-item" 
-                            *ngFor="let file of fileUploaddiscardInvalidControl.value"
-                            (click)="fileUploaddiscardInvalidControl.removeFile(file)">
-                            <svg viewBox="0 0 48 48">
-                                <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
-                                    c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
-                                    c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
-                                    C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
-                                    c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
-                                    C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
-                            </svg> {{ file.name }}
-                        </div>
+                        @for (file of fileUploaddiscardInvalidControl.value; track file) {
+                            <div class="file-item" 
+                                (click)="fileUploaddiscardInvalidControl.removeFile(file)">
+                                <svg viewBox="0 0 48 48">
+                                    <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
+                                        c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
+                                        c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
+                                        C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
+                                        c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
+                                        C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
+                                </svg> {{ file.name }}
+                            </div>
+                        }
                     </div>
                     <div class="file-list">
                         <h6>Discarded files</h6>
-                        <div class="file-item" 
-                            *ngFor="let discarded of fileUploaddiscardInvalidControl.discardedValueChanges | async">
-                            <svg viewBox="0 0 48 48">
-                                <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
-                                    c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
-                                    c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
-                                    C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
-                                    c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
-                                    C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
-                            </svg> {{ discarded.file.name }}
-                        </div>
+                        @for (discarded of fileUploaddiscardInvalidControl.discardedValueChanges | async; track discarded) {
+                            <div class="file-item">
+                                <svg viewBox="0 0 48 48">
+                                    <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
+                                        c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
+                                        c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
+                                        C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
+                                        c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
+                                        C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
+                                </svg> {{ discarded.file.name }}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -598,13 +655,17 @@ export class AppComponent &#123; &#125;</pre>
         &lt;ng-template #placeholder&gt;
             &lt;span&gt;File can be dropped here&lt;/span&gt;
         &lt;/ng-template&gt;
-    &lt;/div&gt;
+    &lt;/div&gt;https://pivan.github.io/file-upload/
 
-    &lt;div class="file-list" *ngIf="fileUploadControl.value.length > 0"&gt;
-        &lt;div class="file-item" *ngFor="let file of dropZone.control.value"&gt;
-           {{ file.name }}
+    &#64;if (fileUploadControl.value.length > 0) &#123;
+        &lt;div class="file-list"&gt;
+            &#64;for (file of fileUploadControl.value; track file) &#123;
+                &lt;div class="file-item"&gt;
+                    {{ file.name }}
+                &lt;/div&gt;
+            &#125;
         &lt;/div&gt;
-    &lt;/div&gt;
+    &#125;
     `
 &#125;)
 export class AppComponent &#123; &#125;</pre>
@@ -612,13 +673,18 @@ export class AppComponent &#123; &#125;</pre>
             <div class="message-wrapper" #dropZone [control]="fileUploadControl" file-drop-zone>
                 <textarea>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
             </div>
-            <div class="file-list" *ngIf="dropZone.control.value.length > 0">
-                <div class="file-item" *ngFor="let file of dropZone.control.value">
-                    <svg enable-background="new 0 0 48 48" viewBox="0 0 48 48">
-                        <path clip-rule="evenodd" d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973  c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021  c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11  C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18  c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1  C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z" fill-rule="evenodd"/>
-                    </svg> {{ file.name }}
+            @if (dropZone.control.value.length > 0) {
+                <div class="file-list">
+                    @for (file of dropZone.control.value; track file) {
+                        <div class="file-item">
+                            <svg enable-background="new 0 0 48 48" viewBox="0 0 48 48">
+                                <path clip-rule="evenodd" d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973  c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021  c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11  C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18  c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1  C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z" fill-rule="evenodd"/>
+                            </svg> {{ file.name }}
+                        </div>
+                    }
                 </div>
-            </div>
+            }
+            
         </div>
     </div>
     <br>

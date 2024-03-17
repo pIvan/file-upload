@@ -1,12 +1,18 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FileUploadControl } from '@iplab/ngx-file-upload';
+import { AsyncPipe } from '@angular/common'
+import { FileUploadComponent, FileUploadControl } from '@iplab/ngx-file-upload';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 
 @Component({
     selector: 'file-upload-wrapper-component',
     templateUrl: './file-upload-wrapper.component.html',
-    styleUrls: ['./file-upload-wrapper.component.scss']
+    styleUrls: ['./file-upload-wrapper.component.scss'],
+    standalone: true,
+    imports: [
+        FileUploadComponent,
+        AsyncPipe
+    ]
 })
 export class FileUploadWrapperComponent implements OnInit, OnDestroy {
 

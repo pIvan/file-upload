@@ -9,10 +9,11 @@ import { FileUploadWrapperComponent } from './../file-upload-wrapper/file-upload
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FileUploadWrapperComponent
+    // AppComponent,
   ],
   imports: [
+    FileUploadWrapperComponent,
+
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
@@ -20,6 +21,6 @@ import { FileUploadWrapperComponent } from './../file-upload-wrapper/file-upload
     BrowserAnimationsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  // bootstrap: [AppComponent]
 })
 export class AppModule { }

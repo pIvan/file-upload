@@ -6,7 +6,6 @@
  * See https://github.com/pIvan/file-upload/blob/master/README.md
  */
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { FileUploadComponent } from './components/multiple-file-upload/file-upload.component';
 import { FileUploadDropZoneComponent } from './components/drop-zone/file-upload-drop-zone.component';
