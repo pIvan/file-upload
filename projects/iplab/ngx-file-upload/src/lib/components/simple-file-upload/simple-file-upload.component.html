@@ -4,7 +4,7 @@
     }
 
     <ng-template #defaultPlaceholderTemplate let-files="files">
-        @for (file of files; track trackByFn($index, file); let i = $index;) {
+        @for (file of files; track trackByFn(i, file); let i = $index;) {
             @if (i > 0) { <span>,&nbsp;</span> } <span class="file-name">{{ file.name }}</span>
         } @empty {
             Select a file...
