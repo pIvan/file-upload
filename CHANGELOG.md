@@ -4,6 +4,7 @@
 ### Features
 * **control flow** - New control flow implemented
 * **standalone components** - All components are now standalone
+* **DEMO update** - Updated to standalone-oriented application
 
 
 <a name="17.0.0"></a>
