@@ -1,3 +1,11 @@
+
+<a name="18.0.0"></a>
+## [18.0.0](https://github.com/pIvan/file-upload/commit/82cf9fc3d613ea563f72872b204416f58dee997b) (2024-06-12)
+
+### Support
+* **angular update** - build and version update
+
+
 <a name="17.1.0"></a>
 ## [17.1.0](https://github.com/pIvan/file-upload/commit/) (2024-03-14)
 
