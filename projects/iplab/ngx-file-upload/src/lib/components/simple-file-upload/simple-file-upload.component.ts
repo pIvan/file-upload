@@ -29,7 +29,6 @@ import { FileUploadAbstract } from './../file-upload-abstract.component';
         }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [AsyncPipe, NgTemplateOutlet]
 })
 export class SimpleFileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {

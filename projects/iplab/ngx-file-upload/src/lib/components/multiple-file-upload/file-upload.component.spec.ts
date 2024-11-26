@@ -40,7 +40,8 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
     <file-upload id="fileUploadMultipleFalseCheck" [control]="fileUploadMultipleFalseCheck"></file-upload>
 
     <file-upload id="acceptCheck" [control]="acceptCheck" accept="image/*"></file-upload>
-    `
+    `,
+    standalone: false
 })
 export class FileUploadComponentHost {
 

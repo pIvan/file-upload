@@ -41,7 +41,8 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
     <file-upload simple id="standAloneWithAccept" accept="image/*" [control]="fileUploadControl"></file-upload>
 
     <file-upload simple id="standAloneWithDiscard" discard="true" [control]="fileUploadControl"></file-upload>
-    `
+    `,
+    standalone: false
 })
 export class FileUploadComponentHost {
 

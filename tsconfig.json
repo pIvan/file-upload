@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "importHelpers": true,
+    "esModuleInterop": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": true,

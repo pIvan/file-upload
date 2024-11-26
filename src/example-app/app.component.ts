@@ -7,17 +7,16 @@ import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 import { FileUploadWrapperComponent } from 'src/file-upload-wrapper/file-upload-wrapper.component';
 
 @Component({
-  selector: `app-root`,
-  templateUrl: `./app.component.html`,
-  styleUrls: [`./app.component.css`],
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    ReactiveFormsModule,
-    FormsModule,
-    FileUploadModule,
-    FileUploadWrapperComponent
-  ]
+    selector: `app-root`,
+    templateUrl: `./app.component.html`,
+    styleUrls: [`./app.component.css`],
+    imports: [
+        AsyncPipe,
+        ReactiveFormsModule,
+        FormsModule,
+        FileUploadModule,
+        FileUploadWrapperComponent
+    ]
 })
 export class AppComponent implements AfterViewInit {
 

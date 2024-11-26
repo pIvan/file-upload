@@ -53,8 +53,7 @@ import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-ab
     imports: [
         NgTemplateOutlet,
         FileUploadDropZoneComponent
-    ],
-    standalone: true
+    ]
 })
 export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDestroy {
 

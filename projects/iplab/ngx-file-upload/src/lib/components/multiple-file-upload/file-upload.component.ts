@@ -1,6 +1,5 @@
 import {
     Component,
-    Input,
     HostListener,
     HostBinding,
     Inject,
@@ -42,7 +41,6 @@ import { FileUploadListItemComponent } from './../file-list/file-upload-list-ite
         ZoomAnimation,
         InsertAnimation
     ],
-    standalone: true,
     imports: [
         AsyncPipe,
         NgTemplateOutlet,

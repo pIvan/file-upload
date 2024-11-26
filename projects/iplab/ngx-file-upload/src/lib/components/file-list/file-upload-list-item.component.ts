@@ -28,7 +28,6 @@ import { FileUploadIconComponent } from './file-upload-icon.component';
     </div>
     `,
     styleUrls: [`./file-upload-list-item.component.scss`],
-    standalone: true,
     imports: [FileUploadIconComponent]
 })
 export class FileUploadListItemComponent {

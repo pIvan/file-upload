@@ -8,7 +8,6 @@ import { BehaviorSubject, Subscription } from 'rxjs';
     selector: 'file-upload-wrapper-component',
     templateUrl: './file-upload-wrapper.component.html',
     styleUrls: ['./file-upload-wrapper.component.scss'],
-    standalone: true,
     imports: [
         FileUploadComponent,
         AsyncPipe
