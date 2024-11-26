@@ -35,7 +35,7 @@ import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-ab
         @if (fileUploadService.isFileDragDropAvailable()) {
             <div #overlay class="overlay">
                 <div class="upload-input">
-                    <ng-container *ngTemplateOutlet="templateRef ? templateRef : defaultTemplate"></ng-container>
+                    <ng-container *ngTemplateOutlet="templateRef() ? templateRef() : defaultTemplate"></ng-container>
 
                     <ng-template #defaultTemplate>
                         <file-upload-drop-zone>

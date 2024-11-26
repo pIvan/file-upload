@@ -1,8 +1,8 @@
-import { Component, AfterViewInit, ElementRef, inject } from '@angular/core';
+import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormControl, FormGroup } from '@angular/forms';
 import { FileUploadModule, FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
 import { AsyncPipe } from '@angular/common';
-import * as prettify from 'google-code-prettify/bin/prettify.min.js';
+// import prettify from 'google-code-prettify/bin/prettify.min.js';
 
 import { FileUploadWrapperComponent } from 'src/file-upload-wrapper/file-upload-wrapper.component';
 
@@ -51,6 +51,7 @@ export class AppComponent implements AfterViewInit {
   public acceptFiles: string = 'image/*';
 
   public readonly ANGULAR_COMPATIBILITY: { ng: string; lib: string }[] = [
+    { ng: '19.x.x', lib: '19.x.x' },
     { ng: '18.x.x', lib: '18.x.x' },
     { ng: '17.x.x', lib: '17.x.x' },
     { ng: '16.x.x', lib: '16.x.x' },
@@ -66,8 +67,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.elRef.nativeElement.querySelectorAll('.prettify')
-      .forEach((el: HTMLElement) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
+    // this.elRef.nativeElement.querySelectorAll('.prettify')
+    //   .forEach((el: HTMLElement) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
   }
 
   public toggleStatus(): void {
