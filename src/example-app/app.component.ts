@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, inject } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormControl, FormGroup } from '@angular/forms';
 import { FileUploadModule, FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
 import { AsyncPipe } from '@angular/common';
@@ -25,7 +25,7 @@ export class AppComponent implements AfterViewInit {
     [FileUploadValidators.fileSize(80000), FileUploadValidators.reject([FileUploadTypes.txt])]);
 
   public readonly simpleFileUploadControl = new FileUploadControl({ multiple: false },
-      [FileUploadValidators.fileSize(1000000), FileUploadValidators.reject([FileUploadTypes.txt])]);
+    [FileUploadValidators.fileSize(1000000), FileUploadValidators.reject([FileUploadTypes.txt])]);
 
   public readonly fileUploadWithTemplate = new FileUploadControl({ accept: ['image/*'] }, FileUploadValidators.accept(['image/*']));
 

@@ -14,8 +14,13 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
 
         <file-upload id="dataBindingAttribute" formControlName="fileUploadWithTemplate" [multiple]="multiple">
             <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
-                <span *ngIf="isFileDragDropAvailable">drop or click</span>
-                <span *ngIf="!isFileDragDropAvailable">click</span>
+                <span>
+                @if (isFileDragDropAvailable) {
+                    drop or click
+                } @else {
+                    click
+                }
+                </span>
             </ng-template>
 
             <ng-template let-i="index" let-file="file" let-control="control" #item>
@@ -216,6 +221,7 @@ describe('FileUpload', () => {
          */
         const fileUploadMultipleFalseCheckEl = hostComponentEl.querySelector('#fileUploadMultipleFalseCheck input');
         const isFileUploadMultipleFalseEnabled = fileUploadMultipleFalseCheckEl["multiple"];
+
         expect(hostComp.fileUploadMultipleFalseCheck.isMultiple).toBe(false);
         expect(isFileUploadMultipleFalseEnabled).toBe(false);
     }));

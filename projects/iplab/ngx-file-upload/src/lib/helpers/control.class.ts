@@ -144,11 +144,11 @@ export class FileUploadControl {
         return Array.from(this.files.values());
     }
 
-    public setValue(files: Array<File>): this {
+    public setValue(files: Array<File>, opts: { emitEvent?: boolean } = {}): this {
         this.files.clear();
 
         if (files instanceof Array) {
-            this.addMultipleFiles(files);
+            this.addMultipleFiles(files, opts);
         } else {
             throw Error(`FormControl.setValue was provided with wrong argument type, ${files} was provided instead Array<File>`);
         }
@@ -288,10 +288,12 @@ export class FileUploadControl {
      * used to prevent valueChanges emit more times
      * when multiple files are uploaded
      */
-    private addMultipleFiles(files: Array<File>): this {
+    private addMultipleFiles(files: Array<File>, { emitEvent }: { emitEvent?: boolean } = {}): this {
         if (IsNullOrEmpty(files)) {
             this.validate();
-            this.valueChanges.next(Array.from(this.files.values()));
+            if (emitEvent != false) {
+                this.valueChanges.next(Array.from(this.files.values()));
+            }
             return this;
         }
 
@@ -323,7 +325,9 @@ export class FileUploadControl {
             this.validate();
         }
 
-        this.valueChanges.next(Array.from(this.files.values()));
+        if (emitEvent != false) {
+            this.valueChanges.next(Array.from(this.files.values()));
+        }
         return this;
     }
 

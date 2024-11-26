@@ -11,13 +11,18 @@ import {
     TemplateRef,
     Component,
     AfterViewInit,
+    viewChild,
+    Signal,
+    contentChild,
+    InputSignal,
+    input,
 } from '@angular/core';
 import { DOCUMENT, NgTemplateOutlet, NgComponentOutlet } from '@angular/common';
 
 import { FileUploadControl } from '../../helpers/control.class';
 import { IsNullOrEmpty } from '../../helpers/helpers.class';
 import { FileUploadService } from '../../services/file-upload.service';
-import { DRAGOVER_CLASS_NAME, TOUCHED_CLASS_NAME } from './../multiple-file-upload/file-upload.component';
+import { DRAGOVER_CLASS_NAME, TOUCHED_CLASS_NAME } from './../file-upload-abstract.component';
 import { Subscription, merge } from 'rxjs';
 import { FileUploadDropZoneComponent } from './../drop-zone/file-upload-drop-zone.component';
 import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-abstract.component';
@@ -47,21 +52,17 @@ import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-ab
     ],
     imports: [
         NgTemplateOutlet,
-        NgComponentOutlet,
         FileUploadDropZoneComponent
     ],
     standalone: true
 })
 export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    @Input()
-    public control: FileUploadControl = null;
+    public control: InputSignal<FileUploadControl> = input<FileUploadControl>(new FileUploadControl());
 
-    @ViewChild('overlay')
-    public overlay: ElementRef<HTMLDivElement>;
+    public overlay: Signal<ElementRef<HTMLDivElement>> = viewChild<ElementRef<HTMLDivElement>>('overlay');
 
-    @ContentChild('placeholder')
-    public templateRef: TemplateRef<any> = null;
+    public templateRef: Signal<TemplateRef<any>> = contentChild('placeholder', { read: TemplateRef });
 
     private hooks: Array<Function> = [];
 
@@ -75,22 +76,20 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
     ) {}
 
     public ngOnInit() {
-        if (IsNullOrEmpty(this.control)) {
-            this.control = new FileUploadControl();
-        }
+        const control = this.control();
 
         this.subscriptions.push(
             merge(
-                this.control.listVisibilityChanges,
-                this.control.valueChanges
+                control.listVisibilityChanges,
+                control.valueChanges
             )
             .subscribe(() => this.checkAndSetFilesClass())
         );
 
         this.subscriptions.push(
             merge(
-                this.control.statusChanges,
-                this.control.valueChanges
+                control.statusChanges,
+                control.valueChanges
             )
             .subscribe(() => this.checkAndSetInvalidClass())
         );
@@ -111,6 +110,8 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
     }
 
     private setEvents(): void {
+        const control = this.control();
+
         ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
             this.hooks.push(
                 this.renderer.listen(this.document, eventName, (event: any) => this.preventDragEvents(event))
@@ -126,7 +127,7 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
         ['dragleave', 'dragend', 'drop'].forEach((eventName) => {
             this.hooks.push(
                 this.renderer.listen(this.hostElementRef.nativeElement, eventName, (event: any) => {
-                    if(this.control.disabled && eventName === 'dragleave' || eventName !== 'dragleave') {
+                    if(control.disabled && eventName === 'dragleave' || eventName !== 'dragleave') {
                         this.onDragLeave(event);
                     }
                 })
@@ -135,21 +136,23 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
 
         ['dragleave'].forEach((eventName) => {
             this.hooks.push(
-                this.renderer.listen(this.overlay.nativeElement, eventName, (event: any) => this.onDragLeave(event))
+                this.renderer.listen(this.overlay().nativeElement, eventName, (event: any) => this.onDragLeave(event))
             );
         });
 
         this.subscriptions.push(
-            this.control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
+            control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
         );
     }
 
     private hasFiles(): boolean {
-        return this.control.isListVisible && this.control.size > 0;
+        const control = this.control();
+        return control.isListVisible && control.size > 0;
     }
 
     private isInvalid(): boolean {
-        return !this.control.disabled && this.control.invalid;
+        const control = this.control();
+        return !control.disabled && control.invalid;
     }
 
     private checkAndSetFilesClass(): void {
@@ -169,7 +172,8 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
     }
 
     private checkAndMarkAsDisabled(): void {
-        if (this.control.disabled) {
+        const control = this.control();
+        if (control.disabled) {
             this.renderer.addClass(this.hostElementRef.nativeElement, 'disabled');
         } else {
             this.renderer.removeClass(this.hostElementRef.nativeElement, 'disabled');
@@ -197,11 +201,12 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
 
     @HostListener('drop', ['$event'])
     public onDrop(event: Event): void {
-        if (this.control.disabled) {
+        const control = this.control();
+        if (control.disabled) {
             return;
         }
         const files = (event as any).dataTransfer.files;
-        this.control.addFiles(files);
+        control.addFiles(files);
         this.onTouch();
     }
 

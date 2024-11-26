@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Signal, input } from '@angular/core';
 import { FileUploadControl } from '../../helpers/control.class';
 import { FileUploadService } from '../../services/file-upload.service';
 import { FileUploadIconComponent } from './file-upload-icon.component';
@@ -6,12 +6,12 @@ import { FileUploadIconComponent } from './file-upload-icon.component';
 @Component({
     selector: `file-upload-list-item`,
     template: `
-    <file-upload-icon [file]="file"></file-upload-icon>
+    <file-upload-icon [file]="file()"></file-upload-icon>
     <div class="file-info">
-        <span class="file-name">{{ file.name }}</span> ({{ calculateSize( file.size ) }})
+        <span class="file-name">{{ file().name }}</span> ({{ calculateSize( file().size ) }})
     </div>
     <div class="file-buttons">
-        <span class="remove-btn" (click)="removeFile(file)">
+        <span class="remove-btn" (click)="removeFile(file())">
         <svg viewBox="0 0 96 96">
             <g>
                 <path d="M40.5,66.8V39.3c0-0.4-0.1-0.7-0.4-0.9S39.6,38,39.3,38h-2.5c-0.4,0-0.7,0.1-0.9,0.4
@@ -33,20 +33,17 @@ import { FileUploadIconComponent } from './file-upload-icon.component';
 })
 export class FileUploadListItemComponent {
 
-    @Input()
-    public index: number;
+    public index: Signal<number> = input.required<number>();
 
-    @Input()
-    public file: File;
+    public file: Signal<File> = input.required<File>();
 
-    @Input()
-    public control: FileUploadControl;
+    public control: Signal<FileUploadControl> = input.required<FileUploadControl>();
 
     constructor(private fileUploadService: FileUploadService) {
     }
 
     public removeFile(file: File): void {
-        this.control.removeFile(file);
+        this.control().removeFile(file);
     }
 
     public calculateSize(size: number): string {

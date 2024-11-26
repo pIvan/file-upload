@@ -1,4 +1,4 @@
-import { Directive, Input, SimpleChanges, Optional, Host, Self, OnChanges, AfterViewInit } from '@angular/core';
+import { Directive, Optional, Host, Self, InputSignalWithTransform, input, booleanAttribute, effect } from '@angular/core';
 import { FileUploadComponent } from '../components/multiple-file-upload/file-upload.component';
 import { SimpleFileUploadComponent } from '../components/simple-file-upload/simple-file-upload.component';
 
@@ -6,23 +6,12 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 
 @Directive({
     selector: 'file-upload[native]',
-    host: {'[attr.native]': 'native ? native : null'},
+    host: { '[attr.native]': 'native ? native : null' },
     standalone: true
 })
-export class FilesNativeDirective implements AfterViewInit, OnChanges {
+export class FilesNativeDirective {
 
-    private nativeValue: boolean | null = null;
-
-    @Input()
-    public set native(isNative: boolean | string) {
-        if (typeof isNative === 'string' && (isNative === 'true' || isNative === 'false')) {
-            this.nativeValue = JSON.parse(isNative.toLowerCase());
-        } else if (typeof isNative === 'boolean') {
-            this.nativeValue = isNative;
-        } else {
-            throw Error(`Provided value in directive [native]="${isNative}" is not boolean.`);
-        }
-    }
+    public native: InputSignalWithTransform<boolean, boolean | string | null> = input<boolean, boolean | string | null>(true, { transform: booleanAttribute });
 
     private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent = null;
 
@@ -30,21 +19,15 @@ export class FilesNativeDirective implements AfterViewInit, OnChanges {
         @Optional() @Host() @Self() fileUpload: FileUploadComponent,
         @Optional() @Host() @Self() simpleFileUpload: SimpleFileUploadComponent) {
         this.fileUpload = fileUpload || simpleFileUpload;
-    }
-
-    public ngAfterViewInit(): void {
-        this.enableNative(this.nativeValue);
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if ('native' in changes && changes['native'].currentValue !== changes['native'].previousValue) {
-            this.enableNative(this.nativeValue);
-        }
+        effect(() => {
+            this.enableNative(this.native());
+        })
     }
 
     private enableNative(isNative: boolean): void {
-        if (this.fileUpload && this.fileUpload.control) {
-            this.fileUpload.control.native(isNative);
+        const control = this.fileUpload?.control();
+        if (control) {
+            control.native(isNative);
         }
     }
 }

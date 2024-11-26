@@ -1,6 +1,6 @@
 <div class="upload-text">
-    @if (control.valueChanges | async) {
-        <ng-container *ngTemplateOutlet="placeholderRef ? placeholderRef : defaultPlaceholderTemplate; context: { $implicit: control.value, control: control, files: control.value }" />
+    @if (getControlInstance().valueChanges | async) {
+        <ng-container *ngTemplateOutlet="placeholderRef() ? placeholderRef() : defaultPlaceholderTemplate; context: { $implicit: getControlInstance().value, control: getControlInstance(), files: getControlInstance().value }" />
     }
 
     <ng-template #defaultPlaceholderTemplate let-files="files">
@@ -13,7 +13,7 @@
 </div>
 
 <label #labelRef class="upload-button" tabindex="0" (keydown)="onKeyDown($event)">
-    <ng-container *ngTemplateOutlet="buttonRef ? buttonRef : defaultButtonTemplate; context: { control: control }"></ng-container>
+    <ng-container *ngTemplateOutlet="buttonRef() ? buttonRef() : defaultButtonTemplate; context: { control: getControlInstance() }"></ng-container>
 
     <ng-template #defaultButtonTemplate>
         <div class="button">

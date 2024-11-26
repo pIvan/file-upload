@@ -16,7 +16,9 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
             <ng-template let-files #placeholder>
                 <ng-container *ngIf="files.length; else emptyList">
                     <ng-template ngFor let-file let-i="index" [ngForOf]="files">
-                        <span *ngIf="i > 0">,&nbsp;</span> <span class="file-name">{{ file.name }}</span>
+                        @if (i > 0) {
+                            <span>,&nbsp;</span> <span class="file-name">{{ file.name }}</span>
+                        }
                     </ng-template>
                 </ng-container>
                 <ng-template #emptyList>

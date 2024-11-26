@@ -1,32 +1,29 @@
 import {
     Component,
     Input,
-    ElementRef,
     HostListener,
     HostBinding,
     Inject,
     TemplateRef,
-    ViewChild,
     ChangeDetectionStrategy,
-    ContentChild,
     forwardRef,
-    booleanAttribute
+    booleanAttribute,
+    contentChild,
+    Signal,
+    input,
+    InputSignalWithTransform,
+    effect
 } from '@angular/core';
 import { DOCUMENT, AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { FileUploadControl } from './../../helpers/control.class';
 import { FileUploadService } from './../../services/file-upload.service';
 import { InsertAnimation } from './../../animations/insert.animation';
 import { ZoomAnimation } from './../../animations/zoom.animation';
-import { FileUploadAbstract } from './../file-upload-abstract.component';
+import { FileUploadAbstract, DRAGOVER_CLASS_NAME } from './../file-upload-abstract.component';
 import { FileUploadDropZoneComponent } from './../drop-zone/file-upload-drop-zone.component';
 import { FileUploadListItemComponent } from './../file-list/file-upload-list-item.component';
-
-export const DRAGOVER_CLASS_NAME = 'dragover';
-export const TOUCHED_CLASS_NAME = 'ng-touched';
 
 @Component({
     selector: `file-upload:not([simple])`,
@@ -55,29 +52,11 @@ export const TOUCHED_CLASS_NAME = 'ng-touched';
 })
 export class FileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
 
-    @Input()
-    public control: FileUploadControl = null;
+    public animation: InputSignalWithTransform<boolean, boolean | string> = input<boolean, boolean | string>(true, { transform: booleanAttribute });
 
-    @Input({ transform: booleanAttribute })
-    public animation: boolean | string = true;
+    public templateRef: Signal<TemplateRef<any>> = contentChild('placeholder', { read: TemplateRef });
 
-    @Input('multiple')
-    public set multiple(isMultiple: boolean | string) {
-        this.isMultiple = isMultiple;
-        this.checkAndSetMultiple();
-    }
-
-    @ContentChild('placeholder')
-    public templateRef: TemplateRef<any> = null;
-
-    @ContentChild('item')
-    public listItem: TemplateRef<any> = null;
-
-    @ViewChild('inputRef', { static: true })
-    public input: ElementRef<HTMLInputElement>;
-
-    @ViewChild('labelRef', { static: true })
-    public label: ElementRef<HTMLLabelElement>;
+    public listItem: Signal<TemplateRef<any>> = contentChild('item', { read: TemplateRef });;
 
     public templateContext = {
         $implicit: this.fileUploadService.isFileDragDropAvailable(),
@@ -93,19 +72,22 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
         @Inject(DOCUMENT) private document,
     ) {
         super();
+        effect(() => {
+            this.checkAndSetMultiple();
+        });
     }
 
     @HostBinding('@.disabled')
     public get isAnimationDisabled(): boolean {
-        return this.animation === false;
+        return this.animation() === false;
     }
 
     protected trackByFn(index: number, item: File): string {
         return item.name;
     }
 
-    protected setEvents(): void {
-        super.setEvents();
+    protected registerEvents(): void {
+        super.registerEvents();
         ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach((eventName) => {
             this.hooks.push(
                 this.renderer.listen(this.document, eventName, (event: any) => this.preventDragEvents(event))
@@ -124,19 +106,21 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
             );
         });
 
+        const control = this.getControlInstance();
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((files) => this.renderView())
+            control.valueChanges.subscribe((files) => this.renderView())
         );
 
         this.subscriptions.push(
-            this.control.listVisibilityChanges.subscribe((status) => this.toggleListVisibility())
+            control.listVisibilityChanges.subscribe((status) => this.toggleListVisibility())
         );
     }
 
     public onKeyDown(event: KeyboardEvent): void {
         if (event.keyCode === 13 || event.keyCode === 32) {
             event.preventDefault();
-            this.control.click();
+            const control = this.getControlInstance();
+            control.click();
         }
     }
 
@@ -147,9 +131,10 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
 
     private renderView(): void {
         if (!this.listVisible) {
-            this.zoomText = this.control.isListVisible && this.control.size > 0 ? 'zoomOut' : 'static';
+            const control = this.getControlInstance();
+            this.zoomText = control.isListVisible && control.size > 0 ? 'zoomOut' : 'static';
         }
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
     }
 
     private showList(): void {
@@ -163,12 +148,13 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     }
 
     private toggleListVisibility(): void {
-        this.listVisible = this.control.isListVisible && this.control.size > 0;
+        const control = this.getControlInstance();
+        this.listVisible = control.isListVisible && control.size > 0;
         if (this.listVisible) {
             this.renderer.addClass(this.hostElementRef.nativeElement, 'list-visible');
             this.zoomText = 'static';
         }
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
     }
 
     /**
@@ -187,20 +173,22 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
 
     @HostListener('drop', ['$event'])
     public onDrop(event: Event): void {
-        if (this.control.disabled) {
+        const control = this.getControlInstance();
+        if (control.disabled) {
             return;
         }
         // There is some issue with DragEvent in typescript lib.dom.d.ts
         const files = (event as any).dataTransfer.files;
-        this.control.addFiles(files);
+        control.addFiles(files);
         this.onTouch();
     }
 
     public onInputChange(event: Event): void {
         const input = (event.target) as HTMLInputElement;
+        const control = this.getControlInstance();
 
-        if (!this.control.disabled && input.files.length > 0) {
-            this.control.addFiles(input.files);
+        if (!control.disabled && input.files.length > 0) {
+            control.addFiles(input.files);
             this.clearInputEl();
         }
 
@@ -212,32 +200,20 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
       */
     public writeValue(files: any): void {
         if (files != null) {
-            this.control.setValue(files);
+            const control = this.getControlInstance();
+            control.setValue(files, { emitEvent: false });
+            this.renderView();
         }
     }
 
-    /**
-     * register function which will be called on UI change
-     * to update view -> model
-     */
-    public registerOnChange(fn: (v: Array<File>) => void): void {
-        this.onChange = fn;
-    }
-
-    private onTouch: () => void = () => {
-        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED_CLASS_NAME);
-    };
-
-    public registerOnTouched(fn: any): void {
-        this.onTouch = fn;
-    }
-
     public setDisabledState(isDisabled: boolean): void {
-        this.control.disable(isDisabled);
+        const control = this.getControlInstance();
+        control.disable(isDisabled);
     }
 
     public zoomAnimationDone(event: AnimationEvent): void {
-        if (this.control.isListVisible && this.control.size > 0) {
+        const control = this.getControlInstance();
+        if (control.isListVisible && control.size > 0) {
             this.showList();
         } else {
             this.hideList();

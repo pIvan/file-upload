@@ -1,19 +1,18 @@
 import {
     Component,
-    Input,
-    ElementRef,
     TemplateRef,
-    ViewChild,
     ChangeDetectionStrategy,
-    ContentChild,
-    forwardRef
+    forwardRef,
+    Signal,
+    contentChild,
+    InputSignalWithTransform,
+    booleanAttribute,
+    input
 } from '@angular/core';
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
-import { FileUploadControl } from './../../helpers/control.class';
 import { FileUploadService } from './../../services/file-upload.service';
-import { TOUCHED_CLASS_NAME } from './../multiple-file-upload/file-upload.component';
 import { FileUploadAbstract } from './../file-upload-abstract.component';
 
 
@@ -35,22 +34,9 @@ import { FileUploadAbstract } from './../file-upload-abstract.component';
 })
 export class SimpleFileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
 
-    @Input()
-    public control: FileUploadControl = null;
+    public buttonRef: Signal<TemplateRef<any>> = contentChild('button', { read: TemplateRef });
 
-    @ContentChild('button')
-    public buttonRef: TemplateRef<any> = null;
-
-    @ContentChild('placeholder')
-    public placeholderRef: TemplateRef<any> = null;
-
-    @ViewChild('inputRef', { static: true })
-    public input: ElementRef<HTMLInputElement>;
-
-    @ViewChild('labelRef', { static: true })
-    public label: ElementRef<HTMLLabelElement>;
-
-    protected isMultiple: boolean | string = null;
+    public placeholderRef: Signal<TemplateRef<any>> = contentChild('placeholder', { read: TemplateRef });
 
     constructor(public fileUploadService: FileUploadService) {
         super();
@@ -58,9 +44,10 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
 
     public onInputChange(event: Event): void {
         const input = (event.target) as HTMLInputElement;
+        const control = this.control();
 
-        if (!this.control.disabled && input.files.length > 0) {
-            this.control.setValue(Array.from(input.files));
+        if (!control.disabled && input.files.length > 0) {
+            control.setValue(Array.from(input.files));
             this.clearInputEl();
         }
 
@@ -72,7 +59,8 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
       */
     public writeValue(files: any): void {
         if (files != null) {
-            this.control.setValue(files);
+            const control = this.control();
+            control.setValue(files, { emitEvent: false });
         }
     }
 
@@ -93,17 +81,15 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     }
 
     public setDisabledState(isDisabled: boolean): void {
-        this.control.disable(isDisabled);
+        const control = this.control();
+        control.disable(isDisabled);
     }
 
     public onKeyDown(event: KeyboardEvent): void {
         if (event.keyCode === 13 || event.keyCode === 32) {
             event.preventDefault();
-            this.control.click();
+            const control = this.control();
+            control.click();
         }
-    }
-
-    private onTouch: () => void = () => {
-        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED_CLASS_NAME);
     }
 }

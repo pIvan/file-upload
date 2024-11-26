@@ -1,21 +1,37 @@
 import { FileEvent, FileUploadControl } from './../helpers/control.class';
-import { ElementRef, OnDestroy, Renderer2, ChangeDetectorRef, OnInit, Directive, AfterContentInit, inject } from '@angular/core';
+import {
+    ElementRef,
+    OnDestroy,
+    Renderer2,
+    ChangeDetectorRef,
+    OnInit,
+    Directive,
+    inject,
+    input,
+    InputSignal,
+    Signal,
+    viewChild,
+    InputSignalWithTransform,
+    booleanAttribute
+} from '@angular/core';
 import { Subscription, merge } from 'rxjs';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
 
 export const HAS_FILES_CLASS_NAME = 'has-files';
 export const IS_INVALID_CLASS_NAME = 'ng-invalid';
+export const DRAGOVER_CLASS_NAME = 'dragover';
+export const TOUCHED_CLASS_NAME = 'ng-touched';
 
 @Directive()
 export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
-    public control: FileUploadControl = null;
+    public control: InputSignal<FileUploadControl> = input<FileUploadControl>(new FileUploadControl());
 
-    public abstract input: ElementRef<HTMLInputElement>;
+    public input: Signal<ElementRef<HTMLInputElement>> = viewChild.required('inputRef', { read: ElementRef<HTMLInputElement> });
 
-    public abstract label: ElementRef<HTMLLabelElement>;
+    public label: Signal<ElementRef<HTMLLabelElement>> = viewChild.required('labelRef', { read: ElementRef<HTMLLabelElement> });
 
-    protected isMultiple: boolean | string = null;
+    protected isMultiple: InputSignalWithTransform<boolean, boolean | string> = input<boolean, boolean | string>(null, { transform: booleanAttribute, alias: 'multiple' });
 
     protected readonly hooks: Array<Function> = [];
 
@@ -27,14 +43,22 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
     protected readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-    protected onChange: (v: Array<File>) => void = () => {};
+    protected onChange: (v: Array<File>) => void = () => { };
+
+    protected onTouch: () => void = () => {
+        this.renderer.addClass(this.hostElementRef.nativeElement, TOUCHED_CLASS_NAME);
+    };
+
+    constructor() {
+        /**
+         * TODO -> on input(control) change
+         * unsubscribe from all events and register new one,
+         * and run ngOnInit again
+         */
+    }
 
     public ngOnInit(): void {
-        if (IsNullOrEmpty(this.control)) {
-            this.control = new FileUploadControl();
-        }
-
-        this.setEvents();
+        this.registerEvents();
         this.checkAndMarkAsDisabled();
         this.checkAndSetMultiple();
         this.connectToForm();
@@ -44,46 +68,63 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         this.cdr.detach();
         this.hooks.forEach((hook) => hook());
         this.hooks.length = 0;
+        this.unregisterEvents();
+    }
+
+    /**
+     * register function which will be called on UI change
+     * to update view -> model
+     */
+    public registerOnChange(fn: (v: Array<File>) => void): void {
+        this.onChange = fn;
+    }
+
+    public registerOnTouched(fn: any): void {
+        this.onTouch = fn;
+    }
+
+    protected unregisterEvents(): void {
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
     }
 
-    protected setEvents(): void {
+    protected registerEvents(): void {
+        const control = this.getControlInstance();
         this.subscriptions.push(
-            this.control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
+            control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())
         );
 
         this.subscriptions.push(
-            this.control.eventsChanges.subscribe((event: FileEvent) => this.triggerEvent(event))
+            control.eventsChanges.subscribe((event: FileEvent) => this.triggerEvent(event))
         );
 
         this.subscriptions.push(
-            this.control.acceptChanges.subscribe((accept: string) => this.updateAcceptAttr(accept))
+            control.acceptChanges.subscribe((accept: string) => this.updateAcceptAttr(accept))
         );
 
         this.subscriptions.push(
-            this.control.multipleChanges.subscribe((isMultiple: boolean) => this.toggleMultiple(isMultiple))
-        );
-
-        this.subscriptions.push(
-            merge(
-                this.control.listVisibilityChanges,
-                this.control.valueChanges
-            )
-            .subscribe(() => this.checkAndSetFilesClass())
+            control.multipleChanges.subscribe((isMultiple: boolean) => this.toggleMultiple(isMultiple))
         );
 
         this.subscriptions.push(
             merge(
-                this.control.statusChanges,
-                this.control.valueChanges
+                control.listVisibilityChanges,
+                control.valueChanges
             )
-            .subscribe(() => this.checkAndSetInvalidClass())
+                .subscribe(() => this.checkAndSetFilesClass())
+        );
+
+        this.subscriptions.push(
+            merge(
+                control.statusChanges,
+                control.valueChanges
+            )
+                .subscribe(() => this.checkAndSetInvalidClass())
         );
     }
 
     protected clearInputEl(): void {
-        this.input.nativeElement.value = null;
+        this.input().nativeElement.value = null;
     }
 
     /**
@@ -91,22 +132,30 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
      * or in case of simple-file-upload to override user value
      */
     protected checkAndSetMultiple(): void {
-        if (!this.control || this.isMultiple == null) {
+        const control = this.getControlInstance();
+        const isMultiple = this.isMultiple();
+
+        if (!control || isMultiple == null) {
             return;
         }
 
-        const isMultiple = this.isMultiple === true || (this.isMultiple as string) === 'true';
-        if (isMultiple !== this.control.isMultiple) {
-            this.control.multiple(isMultiple);
+        if (isMultiple !== control.isMultiple) {
+            control.multiple(isMultiple);
         }
     }
 
+    protected getControlInstance(): FileUploadControl {
+        return this.control();
+    }
+
     private hasFiles(): boolean {
-        return this.control.isListVisible && this.control.size > 0;
+        const control = this.getControlInstance();
+        return control.isListVisible && control.size > 0;
     }
 
     private isInvalid(): boolean {
-        return !this.control.disabled && this.control.invalid;
+        const control = this.getControlInstance();
+        return !control.disabled && control.invalid;
     }
 
     private checkAndSetFilesClass(): void {
@@ -126,34 +175,35 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
     }
 
     private triggerEvent(event: FileEvent): void {
-        if (typeof this.label.nativeElement[event] === 'function') {
-            this.label.nativeElement[event]();
+        if (typeof this.label().nativeElement[event] === 'function') {
+            this.label().nativeElement[event]();
         }
     }
 
     private updateAcceptAttr(accept: string): void {
         if (!IsNullOrEmpty(accept)) {
-            this.renderer.setAttribute(this.input.nativeElement, 'accept', accept);
+            this.renderer.setAttribute(this.input().nativeElement, 'accept', accept);
         } else {
-            this.renderer.removeAttribute(this.input.nativeElement, 'accept');
+            this.renderer.removeAttribute(this.input().nativeElement, 'accept');
         }
     }
 
     private checkAndMarkAsDisabled(): void {
-        if (this.control.disabled) {
+        const control = this.getControlInstance();
+        if (control?.disabled) {
             this.renderer.addClass(this.hostElementRef.nativeElement, 'disabled');
-            this.renderer.setProperty(this.input.nativeElement, 'disabled', true);
+            this.renderer.setProperty(this.input().nativeElement, 'disabled', true);
         } else {
             this.renderer.removeClass(this.hostElementRef.nativeElement, 'disabled');
-            this.renderer.setProperty(this.input.nativeElement, 'disabled', false);
+            this.renderer.setProperty(this.input().nativeElement, 'disabled', false);
         }
     }
 
     private toggleMultiple(isMultiple: boolean): void {
         if (isMultiple) {
-            this.renderer.setAttribute(this.input.nativeElement, 'multiple', '');
+            this.renderer.setAttribute(this.input().nativeElement, 'multiple', '');
         } else {
-            this.renderer.removeAttribute(this.input.nativeElement, 'multiple');
+            this.renderer.removeAttribute(this.input().nativeElement, 'multiple');
         }
     }
 
@@ -161,8 +211,9 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
      * ControlValueAccessor implementation
      */
     private connectToForm(): void {
+        const control = this.getControlInstance();
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((v) => this.onChange(v))
+            control.valueChanges.subscribe((v) => this.onChange(v))
         );
     }
 }
