@@ -25,13 +25,13 @@ export const TOUCHED_CLASS_NAME = 'ng-touched';
 @Directive()
 export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
-    public control: InputSignal<FileUploadControl> = input<FileUploadControl>(new FileUploadControl());
+    public readonly control: InputSignal<FileUploadControl> = input<FileUploadControl>(new FileUploadControl());
 
-    public input: Signal<ElementRef<HTMLInputElement>> = viewChild.required('inputRef', { read: ElementRef<HTMLInputElement> });
+    public readonly input: Signal<ElementRef<HTMLInputElement>> = viewChild.required('inputRef', { read: ElementRef<HTMLInputElement> });
 
-    public label: Signal<ElementRef<HTMLLabelElement>> = viewChild.required('labelRef', { read: ElementRef<HTMLLabelElement> });
+    public readonly label: Signal<ElementRef<HTMLLabelElement>> = viewChild.required('labelRef', { read: ElementRef<HTMLLabelElement> });
 
-    protected isMultiple: InputSignalWithTransform<boolean, boolean | string> = input<boolean, boolean | string>(null, { transform: booleanAttribute, alias: 'multiple' });
+    public readonly isMultiple: InputSignalWithTransform<boolean, boolean | string> = input<boolean, boolean | string>(null, { transform: booleanAttribute, alias: 'multiple' });
 
     protected readonly hooks: Array<Function> = [];
 
