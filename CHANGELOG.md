@@ -1,6 +1,23 @@
+<a name="19.0.1"></a>
+## [19.0.1](https://github.com/pIvan/file-upload/commit/c0d296f0a18c2762b27ec0ceaadf2080f2b79ea5) (2024-11-28)
+
+### Bug Fix
+* **isMultiple property access** - Property 'isMultiple' is protected and only accessible within class 'FileUploadAbstract' fixed
+
+<a name="19.0.0"></a>
+## [19.0.0](https://github.com/pIvan/file-upload/commit/b814be7d67fdf40db3b72967f941d244162c3869) (2024-11-26)
+
+### Support
+* **angular update** - build and version update
+
+<a name="18.1.1"></a>
+## [18.1.1](https://github.com/pIvan/file-upload/commit/c0d296f0a18c2762b27ec0ceaadf2080f2b79ea5) (2024-11-28)
+
+### Bug Fix
+* **isMultiple property access** - Property 'isMultiple' is protected and only accessible within class 'FileUploadAbstract' fixed
 
 <a name="18.1.0"></a>
-## [18.0.1](https://github.com/pIvan/file-upload/commit/82cf9fc3d613ea563f72872b204416f58dee997b) (2024-06-20)
+## [18.1.0](https://github.com/pIvan/file-upload/commit/4c642852b67f2ef0bb4c793f932c032927a5bad2) (2024-11-26)
 
 ### Bug Fix
 * **Value changes** - preventing valueChanges event emit on model->view update

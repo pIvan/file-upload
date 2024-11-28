@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
     "bootstrap": "4.3.1",
-    "google-code-prettify": "1.0.5",
+    "highlight.js": "^11.10.0",
     "rxjs": "^7.5.3",
     "tslib": "^2.3.1",
     "zone.js": "~0.15.0"

@@ -2,7 +2,10 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormControl, FormGroup } from '@angular/forms';
 import { FileUploadModule, FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
 import { AsyncPipe } from '@angular/common';
-// import prettify from 'google-code-prettify/bin/prettify.min.js';
+// import hljs from 'highlight.js';
+// import typescript from 'highlight.js/lib/languages/typescript';
+
+// hljs.registerLanguage('typescript', typescript);
 
 import { FileUploadWrapperComponent } from 'src/file-upload-wrapper/file-upload-wrapper.component';
 
@@ -67,8 +70,11 @@ export class AppComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    // this.elRef.nativeElement.querySelectorAll('.prettify')
-    //   .forEach((el: HTMLElement) => el.innerHTML = prettify.prettyPrintOne(el.innerHTML));
+  //   this.elRef.nativeElement.querySelectorAll('.prettify')
+  //     .forEach((el: HTMLElement) => {
+  //       console.log(hljs.highlight(el.innerHTML, { language: 'typescript' }));
+  //       el.innerHTML = hljs.highlight(el.innerHTML, { language: 'xml' }).value;
+  // });
   }
 
   public toggleStatus(): void {
