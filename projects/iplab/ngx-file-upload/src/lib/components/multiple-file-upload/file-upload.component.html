@@ -18,7 +18,7 @@
 @if ((getControlInstance().listVisibilityChanges | async) && getControlInstance().size > 0 && listVisible) {
     <div class="upload-list" [@insertAnimation]="getControlInstance().size" (@insertAnimation.done)="animationListFinished($event)">
         @for (file of getControlInstance().valueChanges | async; track trackByFn(i, file); let i = $index;) {
-            <ng-container *ngTemplateOutlet="listItem() ? listItem() : defaultItemTemplate; context: { $implicit: file, file: file, index: i, control: getControlInstance() }" />
+            <ng-container *ngTemplateOutlet="listItem() ? listItem() : defaultItemTemplate; context: getListItemTemplateContext(i, file) " />
         }
     </div>
 

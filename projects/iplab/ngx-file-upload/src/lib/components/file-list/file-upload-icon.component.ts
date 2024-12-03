@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Signal, input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, InputSignal, input } from '@angular/core';
 import { FileUploadService } from '../../services/file-upload.service';
 
 
@@ -14,7 +14,7 @@ export type IFileType = 'text' | 'audio' | 'video' | 'image';
 })
 export class FileUploadIconComponent implements OnInit {
 
-    public file: Signal<File> = input.required<File>();
+    public file: InputSignal<File> = input.required<File>();
 
     private fileType: string = 'unknown';
 

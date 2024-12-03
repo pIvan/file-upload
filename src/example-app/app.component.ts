@@ -13,6 +13,7 @@ import { FileUploadWrapperComponent } from 'src/file-upload-wrapper/file-upload-
     selector: `app-root`,
     templateUrl: `./app.component.html`,
     styleUrls: [`./app.component.css`],
+    standalone: true,
     imports: [
         AsyncPipe,
         ReactiveFormsModule,

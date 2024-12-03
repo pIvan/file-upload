@@ -1,4 +1,4 @@
-import { Component, Signal, input } from '@angular/core';
+import { Component, InputSignal, input } from '@angular/core';
 import { FileUploadControl } from '../../helpers/control.class';
 import { FileUploadService } from '../../services/file-upload.service';
 import { FileUploadIconComponent } from './file-upload-icon.component';
@@ -28,15 +28,16 @@ import { FileUploadIconComponent } from './file-upload-icon.component';
     </div>
     `,
     styleUrls: [`./file-upload-list-item.component.scss`],
+    standalone: true,
     imports: [FileUploadIconComponent]
 })
 export class FileUploadListItemComponent {
 
-    public index: Signal<number> = input.required<number>();
+    public index: InputSignal<number> = input.required<number>();
 
-    public file: Signal<File> = input.required<File>();
+    public file: InputSignal<File> = input.required<File>();
 
-    public control: Signal<FileUploadControl> = input.required<FileUploadControl>();
+    public control: InputSignal<FileUploadControl> = input.required<FileUploadControl>();
 
     constructor(private fileUploadService: FileUploadService) {
     }

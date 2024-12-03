@@ -23,6 +23,7 @@ import { ZoomAnimation } from './../../animations/zoom.animation';
 import { FileUploadAbstract, DRAGOVER_CLASS_NAME } from './../file-upload-abstract.component';
 import { FileUploadDropZoneComponent } from './../drop-zone/file-upload-drop-zone.component';
 import { FileUploadListItemComponent } from './../file-list/file-upload-list-item.component';
+import { FileUploadControl } from './../../helpers/control.class';
 
 @Component({
     selector: `file-upload:not([simple])`,
@@ -41,6 +42,7 @@ import { FileUploadListItemComponent } from './../file-list/file-upload-list-ite
         ZoomAnimation,
         InsertAnimation
     ],
+    standalone: true,
     imports: [
         AsyncPipe,
         NgTemplateOutlet,
@@ -78,6 +80,16 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     @HostBinding('@.disabled')
     public get isAnimationDisabled(): boolean {
         return this.animation() === false;
+    }
+
+    protected getListItemTemplateContext(index: number, item: File):
+        { $implicit: File, file: File, index: number, control: FileUploadControl } {
+        return {
+            $implicit: item,
+            file: item,
+            index,
+            control: this.getControlInstance()
+        };
     }
 
     protected trackByFn(index: number, item: File): string {
