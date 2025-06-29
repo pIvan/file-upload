@@ -1,3 +1,10 @@
+<a name="19.0.3"></a>
+## [19.0.3](https://github.com/pIvan/file-upload/commit/1c2ac251472694b79f4c269bb859562ab88de9a2) (2025-06-29)
+
+### Bug Fix
+* **input error type** - file-upload-list-item input error fixed
+
+
 <a name="19.0.1"></a>
 ## [19.0.1](https://github.com/pIvan/file-upload/commit/c0d296f0a18c2762b27ec0ceaadf2080f2b79ea5) (2024-11-28)
 
