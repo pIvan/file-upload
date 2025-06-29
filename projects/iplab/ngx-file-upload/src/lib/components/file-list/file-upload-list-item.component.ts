@@ -1,4 +1,4 @@
-import { Component, InputSignal, input } from '@angular/core';
+import { Component, InputSignal, InputSignalWithTransform, input, numberAttribute } from '@angular/core';
 import { FileUploadControl } from '../../helpers/control.class';
 import { FileUploadService } from '../../services/file-upload.service';
 import { FileUploadIconComponent } from './file-upload-icon.component';
@@ -33,7 +33,7 @@ import { FileUploadIconComponent } from './file-upload-icon.component';
 })
 export class FileUploadListItemComponent {
 
-    public index: InputSignal<number> = input.required<number>();
+    public index: InputSignalWithTransform<number, number | string> = input.required<number, number | string>({ transform: numberAttribute });
 
     public file: InputSignal<File> = input.required<File>();
 
