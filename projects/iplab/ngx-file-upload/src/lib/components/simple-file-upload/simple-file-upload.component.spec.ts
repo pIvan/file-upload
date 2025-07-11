@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -124,7 +124,7 @@ describe('FileUpload[simple]', () => {
         expect(notButtonCustomEl).toBe(null);
     });
 
-    it('should disable all components', fakeAsync(() => {
+    it('should disable all components', async() => {
         // FileUploadControl
         hostComp.fileUploadControl.disable();
 
@@ -155,37 +155,35 @@ describe('FileUpload[simple]', () => {
         // template driven
         hostComp.isDisabled = true;
         hostFixture.detectChanges();
-        tick();
+        await setTimeout(() => Promise.resolve(), 0);
 
         const templateDriven = hostComponentEl.querySelector('#templateDrivenForm file-upload');
         const templateDrivenInput = hostComponentEl.querySelector('#templateDrivenForm file-upload input');
         expect(templateDriven.className).toContain('disabled');
         expect(templateDrivenInput.disabled).toBe(true);
 
-    }));
+    });
 
     it('should get accept value', () => {
         const standAloneInput = hostComponentEl.querySelector('#standAloneWithAccept input');
         expect(standAloneInput.accept).toBe('image/*');
     });
 
-    it('should discard value', fakeAsync(() => {
+    it('should discard value', () => {
         hostComp.fileUploadControl.setValue([file]);
 
         hostFixture.detectChanges();
-        tick();
         expect(hostComp.fileUploadControl.value.length).toEqual(0);
 
         hostFixture.detectChanges();
-        tick();
 
         hostComp.fileUploadControl.discardInvalid(false);
         hostComp.fileUploadControl.setValue([file]);
         hostFixture.detectChanges();
-        tick();
+
         expect(hostComp.fileUploadControl.value.length).toEqual(1);
         expect(hostComp.fileUploadControl.invalid).toEqual(true);
-    }));
+    });
 
 });
 

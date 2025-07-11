@@ -1,6 +1,5 @@
 import { FileUploadValidators } from './validators.class';
 import { FileUploadControl } from './control.class';
-import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('FileUploadValidators', () => {
 
@@ -54,12 +53,12 @@ describe('FileUploadValidators', () => {
         expect(control.valid).toBe(true);
     });
 
-    it('should test csv file type', fakeAsync(() => {
+    it('should test csv file type', () => {
         control.setValidators(FileUploadValidators.accept(['.txt', '.csv']));
         const csvFile = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.csv", {type: "application/vnd.ms-excel"});
         control.addFile(csvFile);
         expect(control.valid).toBe(true);
-    }));
+    });
 
     it('should test multiple types and extensions', () => {
         control.setValidators(FileUploadValidators.accept(['.png', 'audio/*', 'text/*', '.mp3']));

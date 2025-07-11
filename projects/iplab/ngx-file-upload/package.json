@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/file-upload",
   "bugs": "https://github.com/pIvan/file-upload/issues",
-  "version": "19.0.4",
+  "version": "20.0.0",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -25,10 +25,10 @@
     "url": "https://github.com/pIvan/file-upload.git"
   },
   "peerDependencies": {
-    "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0",
-    "@angular/animations": "^19.0.0",
-    "@angular/forms": "^19.0.0",
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/animations": "^20.0.0",
+    "@angular/forms": "^20.0.0",
     "rxjs": "^7.0.0"
   }
 }

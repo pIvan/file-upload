@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -133,7 +133,7 @@ describe('FileUpload', () => {
         expect(customItemElement).toBeDefined();
     });
 
-    it('should disable all components', fakeAsync(() => {
+    it('should disable all components', async() => {
         // FileUploadControl
         hostComp.fileUploadControl.disable();
 
@@ -164,17 +164,17 @@ describe('FileUpload', () => {
         // template driven
         hostComp.isDisabled = true;
         hostFixture.detectChanges();
-        tick();
+        await setTimeout(() => Promise.resolve(), 0);
 
         const templateDriven = hostComponentEl.querySelector('#templateDrivenForm file-upload');
         const templateDrivenInput = hostComponentEl.querySelector('#templateDrivenForm file-upload input');
         expect(templateDriven.className).toContain('disabled');
         expect(templateDrivenInput.disabled).toBe(true);
 
-    }));
+    });
 
 
-    it('should accept files', fakeAsync(() => {
+    it('should accept files', () => {
         /**
          * initialy set accept attribute
          */
@@ -188,14 +188,11 @@ describe('FileUpload', () => {
         expect(standAloneInput.accept).toBe('');
 
         hostComp.fileUploadControl.acceptFiles('text/*');
-        tick();
         expect(standAloneInput.accept).toBe('text/*');
 
-    }));
+    });
 
-    it('should initially be multiple', fakeAsync(() => {
-        tick();
-        tick();
+    it('should initially be multiple', () => {
         /**
          * attribute test
          */
@@ -225,10 +222,10 @@ describe('FileUpload', () => {
 
         expect(hostComp.fileUploadMultipleFalseCheck.isMultiple).toBe(false);
         expect(isFileUploadMultipleFalseEnabled).toBe(false);
-    }));
+    });
 
 
-    it('should toggle multiple selection', fakeAsync(() => {
+    it('should toggle multiple selection', () => {
         /**
          * attribute test
          */
@@ -245,7 +242,7 @@ describe('FileUpload', () => {
 
         hostComp.multiple = true;
         hostFixture.detectChanges();
-        tick();
+
         const isEnabled = dataBindingAttributeCheckEl["multiple"];
         expect(isEnabled).toBe(true);
 
@@ -257,11 +254,10 @@ describe('FileUpload', () => {
         expect(isstandAloneEnabled).toBe(true);
 
         hostComp.fileUploadControl.multiple(false);
-        tick();
         const isstandAloneDisabled = standAloneEl["multiple"];
 
         expect(hostComp.fileUploadControl.isMultiple).toBe(false);
         expect(isstandAloneDisabled).toBe(false);
-    }));
+    });
 
 });

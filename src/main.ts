@@ -1,4 +1,4 @@
-import { enableProdMode, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { enableProdMode, provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 // import { provideAnimations, provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -14,7 +14,7 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimationsAsync('animations')
-    ,provideExperimentalZonelessChangeDetection()
+    ,provideZonelessChangeDetection()
   ]
 })
 .catch(err => console.log(err));

@@ -1,19 +1,20 @@
 import {
-    Component,
-    HostListener,
-    HostBinding,
-    Inject,
-    TemplateRef,
-    ChangeDetectionStrategy,
-    forwardRef,
-    booleanAttribute,
-    contentChild,
-    Signal,
-    input,
-    InputSignalWithTransform,
-    effect
+  Component,
+  HostListener,
+  HostBinding,
+  Inject,
+  TemplateRef,
+  ChangeDetectionStrategy,
+  forwardRef,
+  booleanAttribute,
+  contentChild,
+  Signal,
+  input,
+  InputSignalWithTransform,
+  effect,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT, AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { AnimationEvent } from '@angular/animations';
 

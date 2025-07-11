@@ -81,14 +81,14 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     }
 
     public setDisabledState(isDisabled: boolean): void {
-        const control = this.control();
+        const control = this.getControlInstance();
         control.disable(isDisabled);
     }
 
     public onKeyDown(event: KeyboardEvent): void {
         if (event.keyCode === 13 || event.keyCode === 32) {
             event.preventDefault();
-            const control = this.control();
+            const control = this.getControlInstance();
             control.click();
         }
     }

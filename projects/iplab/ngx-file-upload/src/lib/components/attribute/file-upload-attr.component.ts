@@ -1,23 +1,24 @@
 import {
-    Input,
-    OnInit,
-    ElementRef,
-    HostListener,
-    Renderer2,
-    OnDestroy,
-    Inject,
-    ViewChild,
-    ContentChild,
-    TemplateRef,
-    Component,
-    AfterViewInit,
-    viewChild,
-    Signal,
-    contentChild,
-    InputSignal,
-    input,
+  Input,
+  OnInit,
+  ElementRef,
+  HostListener,
+  Renderer2,
+  OnDestroy,
+  Inject,
+  ViewChild,
+  ContentChild,
+  TemplateRef,
+  Component,
+  AfterViewInit,
+  viewChild,
+  Signal,
+  contentChild,
+  InputSignal,
+  input,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT, NgTemplateOutlet, NgComponentOutlet } from '@angular/common';
+import { NgTemplateOutlet, NgComponentOutlet } from '@angular/common';
 
 import { FileUploadControl } from '../../helpers/control.class';
 import { IsNullOrEmpty } from '../../helpers/helpers.class';
