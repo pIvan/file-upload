@@ -1,3 +1,9 @@
+<a name="20.0.0"></a>
+## [20.0.0](https://github.com/pIvan/file-upload/commit/b2616688cc8ab8c57413c33ab675f84bea48eaa6) (2025-07-11)
+
+### Support
+* **angular update** - build and version update
+
 <a name="19.0.3"></a>
 ## [19.0.3](https://github.com/pIvan/file-upload/commit/1c2ac251472694b79f4c269bb859562ab88de9a2) (2025-06-29)
 

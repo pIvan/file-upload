@@ -55,6 +55,7 @@ export class AppComponent implements AfterViewInit {
   public acceptFiles: string = 'image/*';
 
   public readonly ANGULAR_COMPATIBILITY: { ng: string; lib: string }[] = [
+    { ng: '20.x.x', lib: '20.x.x' },
     { ng: '19.x.x', lib: '19.x.x' },
     { ng: '18.x.x', lib: '18.x.x' },
     { ng: '17.x.x', lib: '17.x.x' },
