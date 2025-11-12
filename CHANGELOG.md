@@ -1,3 +1,9 @@
+<a name="20.0.1"></a>
+## [20.0.1](https://github.com/pIvan/file-upload/commit/8af545b9fc1a6181e7d0123bb218772e8a269bd6) (2025-11-12)
+
+### Support
+* **angular animation** - Removed the dependency on the Angular animations module — animations are now optional and can be used without importing BrowserAnimationsModule or NoopAnimationsModule, as they are purely CSS-based animations.
+
 <a name="20.0.0"></a>
 ## [20.0.0](https://github.com/pIvan/file-upload/commit/b2616688cc8ab8c57413c33ab675f84bea48eaa6) (2025-07-11)
 
