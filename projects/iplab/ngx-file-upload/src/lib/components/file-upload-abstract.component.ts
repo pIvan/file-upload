@@ -21,6 +21,7 @@ export const HAS_FILES_CLASS_NAME = 'has-files';
 export const IS_INVALID_CLASS_NAME = 'ng-invalid';
 export const DRAGOVER_CLASS_NAME = 'dragover';
 export const TOUCHED_CLASS_NAME = 'ng-touched';
+export const HAS_ANIMATION_CLASS_NAME = 'animated';
 
 @Directive()
 export abstract class FileUploadAbstract implements OnInit, OnDestroy {

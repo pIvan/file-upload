@@ -59,7 +59,6 @@
     outline: none;
 }
 
-
 :host(.disabled) .upload-input {
     cursor: not-allowed;
 }
@@ -74,6 +73,10 @@
 
 :host(.hide-text) .upload-input {
     opacity: 0;
+}
+
+:host(.hide-text) .upload-input.static {
+    opacity: 1;
 }
 
 :host(.dragover:not(.disabled)) .upload-input,
@@ -94,4 +97,61 @@ file-upload-list-item {
 
 file-upload-list-item:first-child {
     padding: 0;
+}
+
+
+@keyframes zoom-in {
+  from {
+    left: '50%';
+    margin: 0;
+    opacity: 0;
+    top: '50%';
+    transform: translate(-50%, -50%) scale(.2, .2);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+}
+
+@keyframes zoom-out {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2, 2);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+:host(.animated) .zoom-in {
+    // duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name
+    animation: 250ms ease-in 50ms zoom-in;
+}
+
+:host(.animated) .zoom-out {
+    animation: zoom-out 250ms ease-out;
+}
+
+:host(.animated) .fade-in {
+    animation: 300ms ease-in fade-in;
+}
+
+:host(.animated) .fade-out {
+    animation: 300ms ease-in fade-out;
 }

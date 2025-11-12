@@ -11,7 +11,7 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 })
 export class FilesAcceptDirective {
 
-    public accept: InputSignal<string> = input.required();
+    public readonly accept: InputSignal<string> = input.required();
 
     private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent = null;
 
