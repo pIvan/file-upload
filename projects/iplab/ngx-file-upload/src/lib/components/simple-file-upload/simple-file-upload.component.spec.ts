@@ -9,36 +9,35 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
 @Component({
     template: `
     <form [formGroup]="demoForm" id="reactiveForm">
-        <file-upload simple accept="image" formControlName="files"></file-upload>
-
-        <file-upload simple formControlName="fileUploadWithTemplate">
-            <ng-template let-files #placeholder>
-                <ng-container *ngIf="files.length; else emptyList">
-                    <ng-template ngFor let-file let-i="index" [ngForOf]="files">
-                        @if (i > 0) {
-                            <span>,&nbsp;</span> <span class="file-name">{{ file.name }}</span>
-                        }
-                    </ng-template>
-                </ng-container>
-                <ng-template #emptyList>
-                    Choose a file...
-                </ng-template>
-            </ng-template>
-
-            <ng-template let-control="control" #button>
-                Browse for file
-            </ng-template>
-        </file-upload>
+      <file-upload simple accept="image" formControlName="files"></file-upload>
+    
+      <file-upload simple formControlName="fileUploadWithTemplate">
+        <ng-template let-files #placeholder>
+          @if (files.length) {
+            @for (file of files; track file; let i = $index) {
+              @if (i > 0) {
+                <span>,&nbsp;</span> <span class="file-name">{{ file.name }}</span>
+              }
+            }
+          } @else {
+            Choose a file...
+          }
+        </ng-template>
+    
+        <ng-template let-control="control" #button>
+          Browse for file
+        </ng-template>
+      </file-upload>
     </form>
-
+    
     <form #templateDrForm="ngForm" id="templateDrivenForm">
-        <file-upload simple [(ngModel)]="uploadedFiles" [filesize]="100000" [disabled]="isDisabled" name="uploadFiles"></file-upload>
+      <file-upload simple [(ngModel)]="uploadedFiles" [filesize]="100000" [disabled]="isDisabled" name="uploadFiles"></file-upload>
     </form>
-
+    
     <file-upload simple id="standAlone" [control]="fileUploadControl"></file-upload>
-
+    
     <file-upload simple id="standAloneWithAccept" accept="image/*" [control]="fileUploadControl"></file-upload>
-
+    
     <file-upload simple id="standAloneWithDiscard" discard="true" [control]="fileUploadControl"></file-upload>
     `,
     standalone: false

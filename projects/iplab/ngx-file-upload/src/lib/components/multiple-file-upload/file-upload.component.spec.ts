@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../../file-upload.module';
@@ -11,7 +11,7 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
     <form [formGroup]="demoForm" id="reactiveForm">
         <file-upload id="simpleAttribute" formControlName="files" multiple="false"></file-upload>
 
-        <file-upload id="dataBindingAttribute" formControlName="fileUploadWithTemplate" [multiple]="multiple">
+        <file-upload id="dataBindingAttribute" formControlName="fileUploadWithTemplate" [multiple]="multiple()">
             <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
                 <span>
                 @if (isFileDragDropAvailable) {
@@ -56,7 +56,7 @@ export class FileUploadComponentHost {
 
     public fileUploadMultipleFalseCheck = new FileUploadControl({ multiple: false });
 
-    public multiple = false;
+    public multiple = signal(false);
 
     /**
      * reactive form control
@@ -235,10 +235,11 @@ describe('FileUpload', () => {
          * attribute two way data binding
          */
         const dataBindingAttributeCheckEl = hostComponentEl.querySelector('#dataBindingAttribute input');
+
         const isDisabled = dataBindingAttributeCheckEl["multiple"];
         expect(isDisabled).toBe(false);
 
-        hostComp.multiple = true;
+        hostComp.multiple.set(true);
         hostFixture.detectChanges();
 
         const isEnabled = dataBindingAttributeCheckEl["multiple"];
