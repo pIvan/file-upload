@@ -32,7 +32,7 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
 
     public readonly label: Signal<ElementRef<HTMLLabelElement>> = viewChild.required('labelRef', { read: ElementRef<HTMLLabelElement> });
 
-    public readonly isMultiple: InputSignalWithTransform<boolean, boolean | string> = input<boolean, boolean | string>(null, { transform: booleanAttribute, alias: 'multiple' });
+    public readonly isMultiple: InputSignalWithTransform<boolean | null, boolean | string> = input<boolean | null, boolean | string>(null, { transform: booleanAttribute, alias: 'multiple' });
 
     protected readonly hooks: Array<Function> = [];
 
@@ -100,7 +100,7 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         );
 
         this.subscriptions.push(
-            control.acceptChanges.subscribe((accept: string) => this.updateAcceptAttr(accept))
+            control.acceptChanges.subscribe((accept: string | null) => this.updateAcceptAttr(accept))
         );
 
         this.subscriptions.push(
@@ -125,7 +125,10 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
     }
 
     protected clearInputEl(): void {
-        this.input().nativeElement.value = null;
+        const input = this.input().nativeElement;
+        if (input) {
+            input.value = '';
+        }
     }
 
     /**
@@ -181,7 +184,7 @@ export abstract class FileUploadAbstract implements OnInit, OnDestroy {
         }
     }
 
-    private updateAcceptAttr(accept: string): void {
+    private updateAcceptAttr(accept: string | null): void {
         if (!IsNullOrEmpty(accept)) {
             this.renderer.setAttribute(this.input().nativeElement, 'accept', accept);
         } else {

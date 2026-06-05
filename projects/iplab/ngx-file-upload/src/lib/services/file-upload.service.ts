@@ -19,7 +19,7 @@ export class FileUploadService {
         return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div));
     }
 
-    public parseSize(value: string | number): number {
+    public parseSize(value: string | number | undefined | null): number {
         if (IsNullOrEmpty(value)) {
             return 0;
         }
@@ -50,7 +50,7 @@ export class FileUploadService {
         return this.calculateSize(size / 1024, extensionIndex + 1);
     }
 
-    public getFileType(file: File): string {
-        return Object.keys(FileUploadTypes).find((key) => FileUploadTypes[key] === file.type);
+    public getFileType(file: File): string | undefined {
+        return Object.keys(FileUploadTypes).find((key) => FileUploadTypes[key as keyof typeof FileUploadTypes] === file.type);
     }
 }

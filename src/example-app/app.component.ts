@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormControl, FormGroup } from '@angular/forms';
 import { FileUploadModule, FileUploadControl, FileUploadValidators, FileUploadTypes } from '@iplab/ngx-file-upload';
 import { AsyncPipe } from '@angular/common';
@@ -14,6 +14,7 @@ import { FileUploadWrapperComponent } from 'src/file-upload-wrapper/file-upload-
     templateUrl: `./app.component.html`,
     styleUrls: [`./app.component.css`],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         AsyncPipe,
         ReactiveFormsModule,
@@ -32,7 +33,7 @@ export class AppComponent implements AfterViewInit {
 
   public readonly fileUploadWithTemplate = new FileUploadControl({ accept: ['image/*'] }, FileUploadValidators.accept(['image/*']));
 
-  public readonly filesControl = new FormControl<File[]>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
+  public readonly filesControl = new FormControl<File[] | null>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
 
   public readonly demoForm = new FormGroup({
     files: this.filesControl
@@ -55,6 +56,8 @@ export class AppComponent implements AfterViewInit {
   public acceptFiles: string = 'image/*';
 
   public readonly ANGULAR_COMPATIBILITY: { ng: string; lib: string }[] = [
+    { ng: '22.x.x', lib: '22.x.x' },
+    { ng: '21.x.x', lib: '21.x.x' },
     { ng: '20.x.x', lib: '20.x.x' },
     { ng: '19.x.x', lib: '19.x.x' },
     { ng: '18.x.x', lib: '18.x.x' },

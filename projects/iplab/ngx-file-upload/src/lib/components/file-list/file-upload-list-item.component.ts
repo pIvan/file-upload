@@ -1,4 +1,4 @@
-import { Component, InputSignal, InputSignalWithTransform, input, numberAttribute } from '@angular/core';
+import { Component, InputSignal, InputSignalWithTransform, input, numberAttribute, ChangeDetectionStrategy } from '@angular/core';
 import { FileUploadControl } from '../../helpers/control.class';
 import { FileUploadService } from '../../services/file-upload.service';
 import { FileUploadIconComponent } from './file-upload-icon.component';
@@ -29,6 +29,7 @@ import { FileUploadIconComponent } from './file-upload-icon.component';
     `,
     styleUrls: [`./file-upload-list-item.component.scss`],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FileUploadIconComponent]
 })
 export class FileUploadListItemComponent {

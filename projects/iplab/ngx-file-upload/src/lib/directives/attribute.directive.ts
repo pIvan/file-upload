@@ -6,14 +6,14 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 
 @Directive({
     selector: 'file-upload[accept]',
-    host: { '[attr.accept]': 'accept ? accept : null' },
+    host: { '[attr.accept]': 'accept() ? accept() : null' },
     standalone: true
 })
 export class FilesAcceptDirective {
 
     public readonly accept: InputSignal<string> = input.required();
 
-    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent = null;
+    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent;
 
     constructor(
         @Optional() @Host() @Self() fileUpload: FileUploadComponent,

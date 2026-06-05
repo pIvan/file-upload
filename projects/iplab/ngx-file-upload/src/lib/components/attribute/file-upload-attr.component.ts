@@ -16,12 +16,12 @@ import {
   contentChild,
   InputSignal,
   input,
-  DOCUMENT
+  DOCUMENT,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NgTemplateOutlet, NgComponentOutlet } from '@angular/common';
 
 import { FileUploadControl } from '../../helpers/control.class';
-import { IsNullOrEmpty } from '../../helpers/helpers.class';
 import { FileUploadService } from '../../services/file-upload.service';
 import { DRAGOVER_CLASS_NAME, TOUCHED_CLASS_NAME } from './../file-upload-abstract.component';
 import { Subscription, merge } from 'rxjs';
@@ -52,6 +52,7 @@ import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-ab
         FileUploadService,
     ],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         NgTemplateOutlet,
         FileUploadDropZoneComponent
@@ -61,9 +62,9 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
 
     public control: InputSignal<FileUploadControl> = input<FileUploadControl>(new FileUploadControl());
 
-    public overlay: Signal<ElementRef<HTMLDivElement>> = viewChild<ElementRef<HTMLDivElement>>('overlay');
+    public overlay: Signal<ElementRef<HTMLDivElement> | undefined> = viewChild<ElementRef<HTMLDivElement>>('overlay');
 
-    public templateRef: Signal<TemplateRef<any>> = contentChild('placeholder', { read: TemplateRef });
+    public templateRef: Signal<TemplateRef<any> | undefined> = contentChild('placeholder', { read: TemplateRef });
 
     private hooks: Array<Function> = [];
 
@@ -73,7 +74,7 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
         public fileUploadService: FileUploadService,
         private readonly hostElementRef: ElementRef,
         private renderer: Renderer2,
-        @Inject(DOCUMENT) private document
+        @Inject(DOCUMENT) private document: Document
     ) {}
 
     public ngOnInit() {
@@ -135,11 +136,14 @@ export class FileUploadAttributeComponent implements OnInit, AfterViewInit, OnDe
             );
         });
 
-        ['dragleave'].forEach((eventName) => {
-            this.hooks.push(
-                this.renderer.listen(this.overlay().nativeElement, eventName, (event: any) => this.onDragLeave(event))
-            );
-        });
+        let overlay = this.overlay();
+        if (!!overlay) {
+            ['dragleave'].forEach((eventName) => {
+                this.hooks.push(
+                    this.renderer.listen(overlay.nativeElement, eventName, (event: any) => this.onDragLeave(event))
+                );
+            });
+        }
 
         this.subscriptions.push(
             control.statusChanges.subscribe((status) => this.checkAndMarkAsDisabled())

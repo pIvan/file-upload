@@ -6,14 +6,14 @@ import { SimpleFileUploadComponent } from '../components/simple-file-upload/simp
 
 @Directive({
     selector: 'file-upload[native]',
-    host: { '[attr.native]': 'native ? native : null' },
+    host: { '[attr.native]': 'native() ? native() : null' },
     standalone: true
 })
 export class FilesNativeDirective {
 
     public native: InputSignalWithTransform<boolean, boolean | string | null> = input<boolean, boolean | string | null>(true, { transform: booleanAttribute });
 
-    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent = null;
+    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent;
 
     constructor(
         @Optional() @Host() @Self() fileUpload: FileUploadComponent,

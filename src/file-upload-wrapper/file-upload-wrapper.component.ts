@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AsyncPipe } from '@angular/common'
 import { FileUploadComponent, FileUploadControl } from '@iplab/ngx-file-upload';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
     templateUrl: './file-upload-wrapper.component.html',
     styleUrls: ['./file-upload-wrapper.component.scss'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         FileUploadComponent,
         AsyncPipe
@@ -16,12 +17,12 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class FileUploadWrapperComponent implements OnInit, OnDestroy {
 
-    public readonly uploadedFile: BehaviorSubject<string|ArrayBuffer> = new BehaviorSubject(null);
+    public readonly uploadedFile: BehaviorSubject<string | ArrayBuffer | null> = new BehaviorSubject<string | ArrayBuffer | null>(null);
 
-    private subscription: Subscription;
+    private subscription!: Subscription;
 
     @Input()
-    public control: FileUploadControl;
+    public control!: FileUploadControl;
 
     public ngOnInit(): void {
         if (this.control) {
@@ -38,7 +39,7 @@ export class FileUploadWrapperComponent implements OnInit, OnDestroy {
     private getImage(file: File): void {
         if (FileReader && file) {
             const fr = new FileReader();
-            fr.onload = (e) => this.uploadedFile.next(e.target.result);
+            fr.onload = (e: ProgressEvent<FileReader>) => this.uploadedFile.next(e.target?.result ?? null);
             fr.readAsDataURL(file);
         } else {
             this.uploadedFile.next(null);

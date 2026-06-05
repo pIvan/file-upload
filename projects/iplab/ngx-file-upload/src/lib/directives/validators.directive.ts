@@ -1,4 +1,4 @@
-import { Directive, forwardRef, Input, OnChanges, SimpleChanges, Host, Self, Optional, HostBinding } from '@angular/core';
+import { Directive, forwardRef, Input, OnChanges, SimpleChanges, Host, Self, Optional, HostBinding, input, InputSignal } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { ValidationErrors, ValidatorFn, FileUploadValidators } from './../helpers/validators.class';
 import { IsNullOrEmpty } from './../helpers/helpers.class';
@@ -37,28 +37,25 @@ import { FileUploadService } from './../services/file-upload.service';
         multi: true
     }],
     host: {
-        '[attr.filesize]': 'filesize ? filesize : null',
-        '[attr.minsize]': 'minsize ? minsize : null',
-        '[attr.maxsize]': 'maxsize ? maxsize : null'
+        '[attr.filesize]': 'filesize() ? filesize() : null',
+        '[attr.minsize]': 'minsize() ? minsize() : null',
+        '[attr.maxsize]': 'maxsize() ? maxsize() : null'
     },
     standalone: true
 })
 export class FileSizeValidator implements Validator, OnChanges {
 
-    @Input()
-    public filesize: string|number;
+    public filesize: InputSignal<string|number|undefined> = input<string|number|undefined>();
 
-    @Input()
-    public minsize: string|number;
+    public minsize: InputSignal<string|number|undefined> = input<string|number|undefined>();
 
-    @Input()
-    public maxsize: string|number;
+    public maxsize: InputSignal<string|number|undefined> = input<string|number|undefined>();
 
-    private validator: ValidatorFn;
+    private validator: ValidatorFn = () => null;
 
     constructor(private readonly fileUploadService: FileUploadService){}
 
-    private onChange: () => void;
+    private onChange?: () => void;
 
     public ngOnChanges(changes: SimpleChanges): void {
         if ('filesize' in changes 
@@ -80,14 +77,16 @@ export class FileSizeValidator implements Validator, OnChanges {
     }
 
     private _createValidator(): void {
-        let maxSize = null;
-        if (!IsNullOrEmpty(this.maxsize)) {
-            maxSize = this.fileUploadService.parseSize(this.maxsize);
-        } else if (!IsNullOrEmpty(this.filesize)) {
-            maxSize = this.fileUploadService.parseSize(this.filesize);
+        let maxSize = undefined;
+        let filesize = this.filesize();
+
+        if (!IsNullOrEmpty(this.maxsize())) {
+            maxSize = this.fileUploadService.parseSize(this.maxsize());
+        } else if (!IsNullOrEmpty(filesize)) {
+            maxSize = this.fileUploadService.parseSize(filesize);
         }
 
-        const minSize = this.fileUploadService.parseSize(this.minsize);
+        const minSize = this.fileUploadService.parseSize(this.minsize());
         this.validator = FileUploadValidators.sizeRange({ maxSize, minSize });
     }
 }
@@ -112,17 +111,16 @@ export class FileSizeValidator implements Validator, OnChanges {
         useExisting: forwardRef(() => FilesLimitValidator),
         multi: true
     }],
-    host: {'[attr.fileslimit]': 'fileslimit ? fileslimit : null'},
+    host: {'[attr.fileslimit]': 'fileslimit() ? fileslimit() : null'},
     standalone: true
 })
 export class FilesLimitValidator implements Validator, OnChanges {
 
-    @Input()
-    public fileslimit: string|number;
+    public fileslimit: InputSignal<string|number|undefined> = input<string|number|undefined>();
 
-    private validator: ValidatorFn;
+    private validator: ValidatorFn = () => null;
 
-    private onChange: () => void;
+    private onChange?: () => void;
 
     public ngOnChanges(changes: SimpleChanges): void {
         if ('fileslimit' in changes) {
@@ -142,7 +140,8 @@ export class FilesLimitValidator implements Validator, OnChanges {
     }
 
     private _createValidator(): void {
-        this.validator = FileUploadValidators.filesLimit(typeof this.fileslimit === 'string' ? parseInt(this.fileslimit, 10) : this.fileslimit);
+        let fileslimit = this.fileslimit();
+        this.validator = FileUploadValidators.filesLimit(typeof fileslimit === 'string' ? parseInt(fileslimit, 10) : fileslimit);
     }
 }
 
@@ -167,17 +166,16 @@ export class FilesLimitValidator implements Validator, OnChanges {
         useExisting: forwardRef(() => FilesAcceptValidator),
         multi: true
     }],
-    host: {'[attr.accept]': 'accept ? accept : null'},
+    host: {'[attr.accept]': 'accept() ? accept() : null'},
     standalone: true
 })
 export class FilesAcceptValidator implements Validator, OnChanges {
 
-    @Input()
-    public accept: string;
+    public accept: InputSignal<string|undefined> = input<string|undefined>();
 
-    private validator: ValidatorFn;
+    private validator: ValidatorFn = () => null;
 
-    private onChange: () => void;
+    private onChange?: () => void;
 
     public ngOnChanges(changes: SimpleChanges): void {
         if ('accept' in changes) {
@@ -197,9 +195,10 @@ export class FilesAcceptValidator implements Validator, OnChanges {
     }
 
     private _createValidator(): void {
-        if (IsNullOrEmpty(this.accept)) {
+        let accept = this.accept();
+        if (IsNullOrEmpty(accept)) {
             return;
         }
-        this.validator = FileUploadValidators.accept(this.accept.split(','));
+        this.validator = FileUploadValidators.accept(accept.split(','));
     }
 }

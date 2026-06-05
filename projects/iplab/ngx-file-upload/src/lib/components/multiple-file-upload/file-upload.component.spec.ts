@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { Component, ViewChild, ElementRef, signal } from '@angular/core';
+import { Component, ViewChild, ElementRef, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../../file-upload.module';
@@ -40,6 +40,7 @@ import { FileUploadModule, FileUploadControl, FileUploadValidators } from './../
 
     <file-upload id="acceptCheck" [control]="acceptCheck" accept="image/*"></file-upload>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FileUploadComponentHost {
@@ -47,7 +48,7 @@ export class FileUploadComponentHost {
     /**
      * custom control
      */
-    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.fileSize(80000));
+    public fileUploadControl = new FileUploadControl(undefined, FileUploadValidators.fileSize(80000));
 
     /**
      * custom control
@@ -61,8 +62,8 @@ export class FileUploadComponentHost {
     /**
      * reactive form control
      */
-    public fileUploadWithTemplate = new FormControl<File[]>(null);
-    public filesControl = new FormControl<File[]>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
+    public fileUploadWithTemplate = new FormControl<File[] | null>(null);
+    public filesControl = new FormControl<File[] | null>(null, FileUploadValidators.accept(['video/*', 'image/*', '.mp3']));
     public demoForm = new FormGroup({
         files: this.filesControl,
         fileUploadWithTemplate: this.fileUploadWithTemplate
@@ -75,7 +76,7 @@ export class FileUploadComponentHost {
     public isDisabled: boolean = false;
 
     @ViewChild('templateDrForm', { static: true })
-    public templateDrForm: ElementRef;
+    public templateDrForm: ElementRef<HTMLFormElement> | undefined;
 
     constructor() {
         const file = new File(["f sda fsadfdsaf sadfdsaf asdfsdaafasd fd dasd"], "filename.txt", {type: "text/plain"});

@@ -16,7 +16,7 @@ export class FileUploadIconComponent implements OnInit {
 
     public file: InputSignal<File> = input.required<File>();
 
-    private fileType: string = 'unknown';
+    private fileType: string | undefined = 'unknown';
 
     constructor(private fileUploadService: FileUploadService) {
     }
@@ -25,7 +25,7 @@ export class FileUploadIconComponent implements OnInit {
         this.fileType = this.fileUploadService.getFileType(this.file());
     }
 
-    public comparationType(): IFileType {
+    public comparationType(): IFileType | null {
         if (this.isIcon('image')) {
             return 'image';
         } else if (this.isIcon('text')) {

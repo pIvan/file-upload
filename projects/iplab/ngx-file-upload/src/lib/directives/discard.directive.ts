@@ -1,4 +1,4 @@
-import { Directive, Input, SimpleChanges, Optional, Host, Self, OnChanges, AfterViewInit, input, InputSignalWithTransform, booleanAttribute, effect } from '@angular/core';
+import { Directive, Optional, Host, Self, input, InputSignalWithTransform, booleanAttribute, effect } from '@angular/core';
 import { FileUploadComponent } from '../components/multiple-file-upload/file-upload.component';
 import { SimpleFileUploadComponent } from '../components/simple-file-upload/simple-file-upload.component';
 
@@ -16,14 +16,14 @@ export function booleanTransform(value: unknown): boolean {
 
 @Directive({
     selector: 'file-upload[discard]',
-    host: { '[attr.discard]': 'discard ? discard : null' },
+    host: { '[attr.discard]': 'discard() ? discard() : null' },
     standalone: true
 })
 export class FilesDiscardDirective {
 
     public discard: InputSignalWithTransform<boolean, boolean | string | null> = input<boolean, boolean | string | null>(true, { transform: booleanAttribute });
 
-    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent = null;
+    private readonly fileUpload: FileUploadComponent | SimpleFileUploadComponent;
 
     constructor(
         @Optional() @Host() @Self() fileUpload: FileUploadComponent,

@@ -68,11 +68,11 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
 
     public animation: InputSignalWithTransform<boolean, boolean | string> = input<boolean, boolean | string>(true, { transform: booleanAttribute });
 
-    protected templateRef: Signal<TemplateRef<any>> = contentChild('placeholder', { read: TemplateRef });
+    protected templateRef: Signal<TemplateRef<any> | undefined> = contentChild('placeholder', { read: TemplateRef });
 
-    protected listItem: Signal<TemplateRef<any>> = contentChild('item', { read: TemplateRef });
+    protected listItem: Signal<TemplateRef<any> | undefined> = contentChild('item', { read: TemplateRef });
 
-    protected listContainerRef: Signal<ElementRef<any>> = viewChild('listContainerRef');
+    protected listContainerRef: Signal<ElementRef<any> | undefined> = viewChild('listContainerRef');
 
     protected templateContext = {
         $implicit: this.fileUploadService.isFileDragDropAvailable(),
@@ -86,7 +86,7 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
 
     constructor(
         private readonly fileUploadService: FileUploadService,
-        @Inject(DOCUMENT) private readonly document,
+        @Inject(DOCUMENT) private readonly document: Document,
     ) {
         super();
 
@@ -146,9 +146,10 @@ export class FileUploadComponent extends FileUploadAbstract implements ControlVa
     public onInputChange(event: Event): void {
         const input = (event.target) as HTMLInputElement;
         const control = this.getControlInstance();
+        const files = input.files;
 
-        if (!control.disabled && input.files.length > 0) {
-            control.addFiles(input.files);
+        if (!control.disabled && files && files.length > 0) {
+            control.addFiles(files);
             this.clearInputEl();
         }
 

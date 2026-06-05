@@ -43,7 +43,7 @@ export class FileUploadControl {
 
     private discard: boolean = false;
 
-    private readonly acceptChanged: BehaviorSubject<string> = new BehaviorSubject(this.accept);
+    private readonly acceptChanged: BehaviorSubject<string | null> = new BehaviorSubject(this.accept);
 
     /**
      * track status `VALID`, `INVALID` or `DISABLED`
@@ -55,7 +55,7 @@ export class FileUploadControl {
      * changes.
      * Initially returns last value
      */
-    public readonly valueChanges: BehaviorSubject<Array<File>> = new BehaviorSubject([]);
+    public readonly valueChanges: BehaviorSubject<Array<File>> = new BehaviorSubject<Array<File>>([]);
 
     /**
      * @internal
@@ -66,7 +66,7 @@ export class FileUploadControl {
     /**
      * track changed on accept attribute
      */
-    public readonly acceptChanges: Observable<string> = this.acceptChanged.asObservable();
+    public readonly acceptChanges: Observable<string | null> = this.acceptChanged.asObservable();
 
     /**
      * emit an event every time user programmatically ask for certain event
@@ -277,7 +277,7 @@ export class FileUploadControl {
         }
     }
 
-    private defineValidators(validators: ValidatorFn | Array<ValidatorFn>): void {
+    private defineValidators(validators: ValidatorFn | Array<ValidatorFn> | undefined): void {
         if (!IsNullOrEmpty(validators)) {
             this.validators = Array.isArray(validators) ? [...validators] : [validators];
         }
@@ -341,7 +341,7 @@ export class FileUploadControl {
 
         while (validators.length) {
             const validator = validators.shift();
-            const error = validator(this);
+            const error = validator ? validator(this) : null;
 
             if (error) {
                 this.discardFile(error, deletedFiles);
@@ -370,7 +370,9 @@ export class FileUploadControl {
     private validate(): void {
         if (this.status !== STATUS.DISABLED) {
             const currentState = this.valid;
-            this.errors = this.validators.map((validator) => validator(this)).filter((isInvalid) => isInvalid);
+            this.errors = this.validators
+                .map((validator) => validator(this))
+                .filter((isInvalid): isInvalid is ValidationErrors => isInvalid !== null);
 
             if (currentState !== this.valid) {
                 this.statusChanged.next(this.valid ? STATUS.VALID : STATUS.INVALID);

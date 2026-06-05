@@ -18,18 +18,19 @@ export type  ValidatorFn = (c: AbstractControl | FileUploadControl) => Validatio
 /**
  * function used to check file size
  */
-const checkFileSize = (actualSize: number, maxSize: number, minSize: number = 0, file?: File): ValidationErrors | null => {
-    return (!IsNullOrEmpty(maxSize) && actualSize > maxSize) || actualSize < minSize ?
+const checkFileSize = (actualSize: number, maxSize?: number, minSize: number = 0, file?: File): ValidationErrors | null => {
+    const hasMaxSize = typeof maxSize === 'number' && !IsNullOrEmpty(maxSize);
+    return (hasMaxSize && actualSize > maxSize) || actualSize < minSize ?
         {maxSize, minSize, actual: actualSize, file} : null;
 };
 
-const getFileType = (file: File, fileExtension: string): FileUploadTypes => {
-    const type = file.type;
+const getFileType = (file: File, fileExtension: string | undefined): FileUploadTypes | undefined => {
+    const type = file?.type;
     if (!IsNullOrEmpty(type)) {
         return type as FileUploadTypes;
     }
 
-    return FileUploadTypes[fileExtension];
+    return FileUploadTypes[fileExtension as keyof typeof FileUploadTypes];
 };
 
 enum CheckType {
@@ -45,8 +46,8 @@ const FILE_EXT_REG = /(^[.]\w*)$/m;
  * file_extension|audio/*|video/*|image/*|media_type
  */
 const checkFileTypes = (file: File, types: Array<string>, checkType: CheckType): ValidationErrors | null => {
-    const fileExtension = file.name.split('.').pop().toLowerCase();
-    const fileType = getFileType(file, fileExtension);
+    const fileExtension = file?.name?.split('.')?.pop()?.toLowerCase();
+    const fileType = getFileType(file, fileExtension) || '';
 
     for (const type of types) {
         const isFound = FILE_EXT_REG.test(type) ? type === `.${fileExtension}` : new RegExp(type).test(fileType);
@@ -90,13 +91,13 @@ export class FileUploadValidators {
      * @dynamic
      */
     public static fileSize(maxSize: number): ValidatorFn {
-        return (control: AbstractControl | FileUploadControl): {fileSize: Array<ValidationErrors>} => {
+        return (control: AbstractControl | FileUploadControl): ({fileSize: Array<ValidationErrors>} | null) => {
             const files: Array<File> = control.value;
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
             const toLargeFiles = files.map((file) => checkFileSize(file.size, maxSize, 0, file))
-                                        .filter((error) => error);
+                                        .filter((error) => !!error);
 
             return toLargeFiles.length > 0 ?
                     {'fileSize': toLargeFiles} : null;
@@ -108,13 +109,13 @@ export class FileUploadValidators {
      * @dynamic
      */
     public static sizeRange({ minSize, maxSize }: { minSize?: number; maxSize?: number }): ValidatorFn {
-        return (control: AbstractControl | FileUploadControl): {sizeRange: Array<ValidationErrors>} => {
+        return (control: AbstractControl | FileUploadControl): {sizeRange: Array<ValidationErrors>} | null => {
             const files: Array<File> = control.value;
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
             const sizeMismatch = files.map((file) => checkFileSize(file.size, maxSize, minSize, file))
-                                        .filter((error) => error);
+                                        .filter((error) => !!error);
 
             return sizeMismatch.length > 0 ?
                     {'sizeRange': sizeMismatch} : null;
@@ -125,16 +126,16 @@ export class FileUploadValidators {
      * validator that requires control to have limit on files number
      * @dynamic
      */
-    public static filesLimit(numFiles: number): ValidatorFn {
-        return (control: AbstractControl | FileUploadControl): ValidationErrors => {
+    public static filesLimit(numFiles: number | undefined | null): ValidatorFn {
+        return (control: AbstractControl | FileUploadControl): ValidationErrors | null => {
             const files: Array<File> = control.value;
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
 
-            const filesLimit = files.slice(-1 * (files.length - numFiles))
+            const filesLimit = files.slice(-1 * (files.length - (numFiles ?? 0)))
                                     .map(file => ({'max': numFiles, 'actual': files.length, file }));
 
-            return files.length > numFiles ?
+            return files.length > (numFiles ?? 0) ?
                 {'filesLimit': filesLimit} : null;
         };
     }
@@ -157,7 +158,7 @@ export class FileUploadValidators {
      * @dynamic
      */
     public static accept(allowedFileTypes: Array<string>): ValidatorFn {
-        return (control: AbstractControl | FileUploadControl): ValidationErrors => {
+        return (control: AbstractControl | FileUploadControl): ValidationErrors | null => {
             const files: Array<File> = control.value;
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);
@@ -188,7 +189,7 @@ export class FileUploadValidators {
      * @dynamic
      */
     public static reject(rejectFileTypes: Array<string>): ValidatorFn {
-        return (control: AbstractControl | FileUploadControl): ValidationErrors => {
+        return (control: AbstractControl | FileUploadControl): ValidationErrors | null => {
             const files: Array<File> = control.value;
             if (IsNullOrEmpty(files)) { return null; }
             checkValueType(files);

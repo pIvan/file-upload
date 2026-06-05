@@ -34,9 +34,9 @@ import { FileUploadAbstract } from './../file-upload-abstract.component';
 })
 export class SimpleFileUploadComponent extends FileUploadAbstract implements ControlValueAccessor {
 
-    public buttonRef: Signal<TemplateRef<any>> = contentChild('button', { read: TemplateRef });
+    public buttonRef: Signal<TemplateRef<any> | undefined> = contentChild('button', { read: TemplateRef });
 
-    public placeholderRef: Signal<TemplateRef<any>> = contentChild('placeholder', { read: TemplateRef });
+    public placeholderRef: Signal<TemplateRef<any> | undefined> = contentChild('placeholder', { read: TemplateRef });
 
     constructor(public fileUploadService: FileUploadService) {
         super();
@@ -45,9 +45,10 @@ export class SimpleFileUploadComponent extends FileUploadAbstract implements Con
     public onInputChange(event: Event): void {
         const input = (event.target) as HTMLInputElement;
         const control = this.control();
+        const files = input.files;
 
-        if (!control.disabled && input.files.length > 0) {
-            control.setValue(Array.from(input.files));
+        if (!control.disabled && files && files.length > 0) {
+            control.setValue(Array.from(files));
             this.clearInputEl();
         }
 
