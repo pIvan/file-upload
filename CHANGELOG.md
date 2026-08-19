@@ -1,3 +1,16 @@
+<a name="22.1.0"></a>
+## [22.1.0](https://github.com/pIvan/file-upload/commit/9944e5cb5ff65d1cab1defe68ee72947e3599ab9) (2026-08-19)
+
+### Features
+* **theming** - Added default CSS custom properties for surfaces, text, borders, accents, icons, danger states, radius, shadows and the simple upload button.
+* **project-level theme overrides** - CSS custom properties can be overridden on the `file-upload` host element or an ancestor wrapper.
+
+<a name="22.0.0"></a>
+## [22.0.0](https://github.com/pIvan/file-upload/commit/eef06d75dce566c6c2d927d56fc94c623a00edaf) (2026-07-06)
+
+### Support
+* **angular update** - Updated the workspace and library build to Angular 22 and TypeScript 6.
+
 <a name="20.0.1"></a>
 ## [20.0.1](https://github.com/pIvan/file-upload/commit/8af545b9fc1a6181e7d0123bb218772e8a269bd6) (2025-11-12)
 
