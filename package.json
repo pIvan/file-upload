@@ -18,7 +18,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^22.0.0",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
     "@angular/core": "^22.0.0",
@@ -39,7 +38,7 @@
     "@angular/language-service": "^22.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "^24.0.0",
     "codelyzer": "^6.0.0",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~3.8.0",

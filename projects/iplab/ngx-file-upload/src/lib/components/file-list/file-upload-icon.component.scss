@@ -1,11 +1,11 @@
 :host {
     display: block;
-    border: 1px solid #eaeaea;
+    border: var(--ngx-file-upload-border, 1px solid #eaeaea);
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    border-radius: 4px;
+    border-radius: var(--ngx-file-upload-radius, 4px);
 }
 
 :host svg {
-    fill: #909293;
+    fill: var(--ngx-file-upload-icon-color, #909293);
 }
