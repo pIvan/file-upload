@@ -6,10 +6,10 @@
 :host {
     overflow: hidden;
     display: block;
-    background: #fafafa;
+    background: var(--ngx-file-upload-surface-subtle, #fafafa);
     padding: 20px 66px 20px 20px;
     min-height: 140px;
-    outline: 1px dashed #92b0b3;
+    outline: var(--ngx-file-upload-dashed-border, 1px dashed #92b0b3);
     outline-offset: -10px;
     position: relative;
 }
@@ -50,7 +50,7 @@
 .upload-input {
     cursor: pointer;
     display: inline-block;
-    color: #646464;
+    color: var(--ngx-file-upload-text, #646464);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -79,13 +79,13 @@
 :host(.dragover:not(.disabled)) .upload-input,
 :host(:not(.disabled)) .upload-input:hover,
 :host(:not(.disabled)) .upload-input:focus {
-    color: #80a9d2;
+    color: var(--ngx-file-upload-accent, #80a9d2);
 }
 
 :host(.dragover:not(.disabled)) .icon svg,
 :host(:not(.disabled)) .upload-input:hover svg,
 :host(:not(.disabled)) .upload-input:focus svg {
-    fill: #80a9d2;
+    fill: var(--ngx-file-upload-accent, #80a9d2);
 }
 
 file-upload-list-item {

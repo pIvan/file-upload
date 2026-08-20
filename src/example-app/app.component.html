@@ -672,9 +672,9 @@ export class AppComponent &#123; &#125;</pre>
             <div class="message-wrapper" #dropZone [control]="fileUploadControl" file-drop-zone>
                 <textarea>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
             </div>
-            @if (dropZone.control.value.length > 0) {
+            @if (dropZone.control().value.length > 0) {
                 <div class="file-list">
-                    @for (file of dropZone.control.value; track file) {
+                    @for (file of dropZone.control().value; track file) {
                         <div class="file-item">
                             <svg enable-background="new 0 0 48 48" viewBox="0 0 48 48">
                                 <path clip-rule="evenodd" d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973  c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021  c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11  C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18  c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1  C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z" fill-rule="evenodd"/>
@@ -722,6 +722,57 @@ export class AppComponent &#123; &#125;</pre>
             </div>
         </div>
         <br>
+
+    <div class="card" id="theming">
+        <div class="card-header">Theming</div>
+        <div class="card-block">
+            <div class="row align-items-center">
+                <div class="col col-lg-4">
+                    <file-upload class="theme-demo-file-upload" />
+                </div>
+                <div class="col col-lg-8">
+                    <p>Customize the file upload through CSS custom properties on its host element:</p>
+                    <div class="theme-color-list" aria-label="File upload theme colors">
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-surface"></span>
+                            <code>--ngx-file-upload-surface: #202124</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-surface-subtle"></span>
+                            <code>--ngx-file-upload-surface-subtle: #2b2d31</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-border"></span>
+                            <code>--ngx-file-upload-border: 1px solid #4b4d52</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-accent"></span>
+                            <code>--ngx-file-upload-accent: #62c7b5</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-text"></span>
+                            <code>--ngx-file-upload-text: #f1f3f4</code>
+                        </div>
+                    </div>
+                    <pre class="prettify">.theme-demo-picker &#123;
+    --ngx-file-upload-surface: #202124;
+    --ngx-file-upload-surface-subtle: #2b2d31;
+    --ngx-file-upload-text: #f1f3f4;
+    --ngx-file-upload-radius: 8px;
+    --ngx-file-upload-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-file-upload-border-strong: #62c7b5;
+    --ngx-file-upload-accent: #62c7b5;
+    --ngx-file-upload-border: 1px solid #4b4d52;
+    --ngx-file-upload-dashed-border: 1px dashed #62c7b5;
+    --ngx-file-upload-icon-color: #9adbd1;
+    --ngx-file-upload-danger: #ff8a80;
+    --ngx-simple-file-upload-button-surface: #35383e;
+&#125;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
 
 
 

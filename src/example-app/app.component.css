@@ -54,3 +54,44 @@ file-upload.ng-touched.ng-invalid {
 .files-row .file-list {
     width: 50%;
 }
+
+.theme-demo-file-upload {
+    --ngx-file-upload-surface: #202124;
+    --ngx-file-upload-surface-subtle: #2b2d31;
+    --ngx-file-upload-text: #f1f3f4;
+    --ngx-file-upload-radius: 8px;
+    --ngx-file-upload-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-file-upload-border-strong: #62c7b5;
+    --ngx-file-upload-accent: #62c7b5;
+    --ngx-file-upload-border: 1px solid #4b4d52;
+    --ngx-file-upload-dashed-border: 1px dashed #62c7b5;
+    --ngx-file-upload-icon-color: #9adbd1;
+    --ngx-file-upload-danger: #ffd1cd;
+    --ngx-simple-file-upload-button-surface: #35383e;
+}
+
+.theme-color-list {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.theme-color-item {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.theme-color-swatch {
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    display: inline-block;
+    flex: 0 0 28px;
+    height: 28px;
+}
+
+.theme-surface { background-color: #202124; }
+.theme-surface-subtle { background-color: #2b2d31; }
+.theme-border { background-color: #4b4d52; }
+.theme-accent { background-color: #62c7b5; }
+.theme-text { background-color: #f1f3f4; }
