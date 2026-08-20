@@ -1,5 +1,5 @@
 <a name="18.2.0"></a>
-## [18.2.0](https://github.com/pIvan/file-upload/commit/9944e5cb5ff65d1cab1defe68ee72947e3599ab9) (2026-08-19)
+## [18.2.0](https://github.com/pIvan/file-upload/commit/f7425cfa0befc3e890a218b7608b3dd59ed0bd88) (2026-08-20)
 
 ### Features
 * **theming** - Added default CSS custom properties for surfaces, text, borders, accents, icons, danger states, radius, shadows and the simple upload button.
