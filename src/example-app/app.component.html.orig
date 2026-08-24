@@ -1,0 +1,971 @@
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">&#64;iplab/ngx-file-upload</h1>
+                <br>
+                <a href="https://github.com/pIvan/file-upload" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">GitHub</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <div class="card-header">Compatibility with angular</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Angular</th>
+                        <th>&#64;ngx-file-upload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for( element of ANGULAR_COMPATIBILITY; track element.ng ) {
+                    <tr>
+                        <td>{{ element.ng }}</td>
+                        <td>{{ element.lib }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-header">Getting started</div>
+        <div class="card-block">
+            <ol>
+                <li>Fork and clone this repo</li>
+                <li>npm install</li>
+                <li>Open a terminal and type "npm run start"</li>
+            </ol>
+            <p style="padding:0 0 0 40px"><b>or</b></p>
+            <ol>
+                <li>npm install &#64;iplab/ngx-file-upload --save</li>
+                <li>ng serve --open</li>
+            </ol>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="installation">
+        <div class="card-header">Installation</div>
+        <div class="card-block">
+            <p>To install this component to an external project, follow the procedure:</p>
+            <ol>
+                <li><code>npm install &#64;iplab/ngx-file-upload --save</code></li>
+                <li><pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '&#64;angular/forms';
+import &#123; FileUploadModule &#125; from '&#64;iplab/ngx-file-upload';
+import &#123; BrowserAnimationsModule &#125; from '&#64;angular/platform-browser/animations';
+...
+...
+
+
+&#64;NgModule(&#123;
+    imports: [
+        BrowserModule,
+        <b>ReactiveFormsModule</b> or <b>FormsModule</b> or <b>both</b> // only if component is in use with angular forms,
+        FileUploadModule,
+        <b>BrowserAnimationsModule</b> or <b>NoopAnimationsModule</b> // need to be included
+    ],
+    bootstrap: [AppComponent]
+&#125;)
+export class AppModule &#123;&#125;</pre>
+                </li>
+            </ol>
+
+            <p><b>or standalone component</b></p>
+
+            <ol>
+                <li><code>npm install &#64;iplab/ngx-file-upload --save</code></li>
+                <li>
+                    <ul>
+                        <li><pre class="prettify">import &#123; bootstrapApplication &#125; from '&#64;angular/platform-browser';
+import &#123; provideAnimations, provideNoopAnimations &#125; from '&#64;angular/platform-browser/animations';
+import &#123; AppComponent &#125; from './example-app/app.component';
+
+bootstrapApplication(AppComponent, &#123;
+    providers: <b>provideAnimations()</b> or <b>provideNoopAnimations()</b>
+&#125;)
+.catch(err => console.log(err));
+                        </pre>
+                        </li>
+                        <li>
+                            <pre class="prettify">import &#123; ReactiveFormsModule, FormsModule  &#125; from '&#64;angular/forms';
+import &#123; FileUploadModule &#125; from '&#64;iplab/ngx-file-upload';
+import &#123; BrowserAnimationsModule &#125; from '&#64;angular/platform-browser/animations';
+...
+...
+
+&#64;Component(&#123;
+    selector: `app-root`,
+    templateUrl: `./app.component.html`,
+    styleUrls: [`./app.component.css`],
+    standalone: true,
+    imports: [
+        <b>ReactiveFormsModule</b> or <b>FormsModule</b> or <b>both</b>, // only if component is in use with angular forms
+        <b>FileUploadModule</b> or <b>any standalone component from library <i>(e.g., FileUploadComponent, SimpleFileUploadComponent...)</i></b>
+    ]
+&#125;)
+export class AppComponent &#123;&#125;</pre>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="reactive">
+        <div class="card-header">Reactive Forms</div>
+        <div class="card-block">
+            <pre class="prettify">import &#123; FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
+          
+
+&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+    &lt;form [formGroup]="demoForm"&gt;
+        &lt;file-upload formControlName="files" [multiple]="multiple" [animation]="animation"&gt;&lt;/file-upload&gt;
+    &lt;/form&gt;`
+&#125;)
+export class AppComponent &#123;
+
+    public animation: boolean = false;
+    public multiple: boolean = false;
+
+    private filesControl = new FormControl&lt;File[]&gt;(null, FileUploadValidators.filesLimit(2));
+
+    public demoForm = new FormGroup(&#123;
+        files: this.filesControl
+    &#125;);
+
+    constructor() &#123;
+        /**
+         * pay attention, value type is Array&lt;File&gt;
+         * this.filesControl.setValue([File])
+         */
+    &#125;
+
+    public toggleStatus(): void &#123;
+        this.filesControl.disabled ? this.filesControl.enable() : this.filesControl.disable();
+    &#125;
+
+    public toggleMultiple() &#123;
+        this.multiple = !this.multiple;
+    &#125;
+
+    public clear(): void &#123;
+        this.filesControl.setValue([]);
+    &#125;
+
+&#125;</pre>
+            <h5>Example:</h5>
+
+            <button (click)="toggleStatus()" class="btn btn-secondary">{{ filesControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="clearReactive()" class="btn btn-secondary">Clear</button> &nbsp; <button (click)="toggleReactiveMultiple()" class="btn btn-secondary">{{ multiple ? 'Disable multiple' : 'Enable multiple' }}</button>
+            <br>
+            <br>
+            <span>Is valid: {{ filesControl.valid }}</span>
+            <br>
+            <form [formGroup]="demoForm">
+                <file-upload formControlName="files" [multiple]="multiple" [animation]="animation"></file-upload>
+            </form>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="template-driven">
+        <div class="card-header">Template-driven forms</div>
+        <div class="card-block">
+            <pre class="prettify">&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+    &lt;form #demoForm="ngForm"&gt;
+        &lt;file-upload [(ngModel)]="uploadedFiles" [disabled]="isDisabled" name="files"&gt;&lt;/file-upload&gt;
+    &lt;/form&gt;`
+&#125;)
+export class AppComponent &#123;
+    
+    public uploadedFiles: Array&lt;File&gt; = [];
+
+    public clear(): void &#123;
+        this.uploadedFiles = [];
+    &#125;
+
+&#125;</pre>
+        <h5>Example:</h5>
+        <button (click)="isDisabled=!isDisabled" class="btn btn-secondary">{{ isDisabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="clearTemplateDriven()" class="btn btn-secondary">Clear</button>
+        <br>
+        <br>
+
+        <form #demoForm2="ngForm">
+            <file-upload [(ngModel)]="uploadedFiles" minsize="20" accept="text/*" [disabled]="isDisabled" name="uploadFiles"></file-upload>
+        </form>
+        <br>
+        <p>Custom form validation is also available over related directives</p>
+        <pre class="prettify">
+&lt;file-upload ngModel [filesize]="100000" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel filesize="100000" name="files"&gt;&lt;/file-upload&gt;
+
+&lt;file-upload ngModel [minsize]="20" [maxsize]="10000" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel minsize="20" maxsize="10000" name="files"&gt;&lt;/file-upload&gt;
+
+&lt;file-upload ngModel [minsize]="20KB" [maxsize]="10000KB" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel minsize="20 MB" maxsize="10000 MB" name="files"&gt;&lt;/file-upload&gt;
+
+<b>provided file size can be with or without unit.</b>
+
+&lt;file-upload ngModel [fileslimit]="2" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel fileslimit="2" name="files"&gt;&lt;/file-upload&gt;
+
+&lt;file-upload ngModel [accept]="file_extension|audio/*|video/*|image/*|media_type" name="files"&gt;&lt;/file-upload&gt;
+&lt;file-upload ngModel accept="file_extension|audio/*|video/*|image/*|media_type" name="files"&gt;&lt;/file-upload&gt;
+
+To specify more than one value, separate the values with a comma 
+(e.g. &lt;file-upload accept="audio/*,video/*,image/*"&gt;&lt;/file-upload&gt;.
+
+file_extension	A file extension starting with the STOP character, e.g: .gif, .jpg, .png, .doc
+audio/*	        All sound files are accepted
+video/*	        All video files are accepted
+image/*	        All image files are accepted
+media_type      A valid media type, with no parameters. Look at <a target="_blank" href="http://www.iana.org/assignments/media-types/"><b>IANA Media Types</b></a>
+                for a complete list of standard media types
+</pre>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="stand-alone">
+        <div class="card-header">Stand alone</div>
+        <div class="card-block">
+            <pre class="prettify">import &#123; FileUploadControl, FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
+                         
+
+&#64;Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123;
+    
+    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.fileSize(80000));
+
+    public toggleStatus() &#123;
+        this.fileUploadControl.disable(!this.fileUploadControl.disabled);
+    &#125;
+
+    public toggleListVisibility() &#123;
+        this.fileUploadControl.setListVisibility(!this.fileUploadControl.isListVisible);
+    &#125;
+
+    public toggleMultiple() &#123;
+        this.fileUploadControl.multiple(!this.fileUploadControl.isMultiple);
+    &#125;
+
+    public clear(): void &#123;
+        this.fileUploadControl.clear();
+    &#125;
+        
+&#125;</pre>
+            <h5>Example:</h5>
+            <button (click)="toggleStandAloneStatus()" class="btn btn-secondary">{{ fileUploadControl.disabled ? 'Enable' : 'Disable' }}</button> &nbsp; <button (click)="toggleListVisibility()" class="btn btn-secondary">{{ fileUploadControl.isListVisible ? 'Hide files list' : 'Show files list' }}</button> &nbsp; <button (click)="clearStandAlone()" class="btn btn-secondary">Clear</button> &nbsp; <button (click)="toggleMultiple()" class="btn btn-secondary">{{ fileUploadControl.isMultiple ? 'Disable multiple' : 'Enable multiple' }}</button>
+            <br>
+            <br>
+            <span>Is valid: {{ fileUploadControl.valid }}</span>
+            <br>
+
+            <file-upload [control]="fileUploadControl" [accept]="acceptFiles"></file-upload>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="animation">
+        <div class="card-header">Disable component animation</div>
+        <div class="card-block">
+            <pre class="prettify">
+&#64;Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload [animation]="animation"&gt;&lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123;
+    public animation: boolean = false;
+&#125;</pre>
+<p>or</p>
+<pre class="prettify">
+&#64;Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload animation="false"&gt;&lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123;
+&#125;</pre>
+            <h5>Example:</h5>
+            <button (click)="animation=!animation" class="btn btn-secondary">{{ animation ? 'Disable animation' : 'Enable animation' }}</button>
+            <br>
+            <br>
+
+            <file-upload [animation]="animation"></file-upload>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="template">
+        <div class="card-header">Custom templates</div>
+        <div class="card-block">
+            <p>It is possible to make custom template for placeholder and/or template for items in list.<br>
+                For each template is important to use <a href="https://angular.io/guide/structural-directives#the-ng-template" target="_blank">ng-template</a> and to add <a href="https://angular.io/guide/template-syntax#ref-vars" target="_blank">template reference variable</a><br>
+                <b>#placeholder</b> for placeholder template and <b>#item</b> for list items
+            </p>
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+    &lt;file-upload [control]="fileUploadControl"&gt;
+        &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
+            &#64;if (isFileDragDropAvailable) &#123;
+                drop or click
+            &#125; &#64;else &#123;
+                click
+            &#125;
+        &lt;/ng-template&gt;
+
+        &lt;ng-template let-i="index" let-file="file" let-control="control" #item&gt;
+            &lt;div class="file-info" (click)="control.removeFile(file)"&gt;
+                &lt;span class="file-name"&gt;{{ file.name }}&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/ng-template&gt;
+    &lt;/file-upload&gt;
+    `
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+
+            <file-upload [control]="fileUploadWithTemplate">
+                <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+                    @if (isFileDragDropAvailable) {
+                        <span>drop or click</span>
+                    } @else {
+                        <span>click</span>
+                    }
+                </ng-template>
+
+                <ng-template let-i="index" let-file="file" let-control="control" #item>
+                    <div class="file-info" (click)="control.removeFile(file)">
+                        <span class="file-name">{{ file.name }}</span>
+                    </div>
+                </ng-template>
+            </file-upload>
+
+            <br>
+            <p>Single Image upload/preview based on <b>custom template</b></p>
+
+<pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `file-upload-wrapper-component`,
+    template: `
+    &lt;file-upload [control]="control"&gt;
+        &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
+            &lt;div *ngIf="control.size === 0"&gt;
+                &lt;div class="icon"&gt;
+                    &lt;svg&gt;...&lt;/svg&gt;
+                &lt;/div&gt;
+
+                &lt;div class="upload-text"&gt;
+                    &#64;if (isFileDragDropAvailable) &#123;
+                        &lt;b&gt;Drag and drop&lt;/b&gt; files&lt;br&gt; or click here
+                    &#125; &#64;else &#123;
+                        &lt;b&gt;Click here&lt;/b&gt; to&lt;br&gt; choose a files
+                    &#125;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/ng-template&gt;
+
+        &lt;ng-template let-i="index" let-file="file" let-control="control" #item&gt;
+            &lt;div class="overlay"&gt;
+                &lt;span class="delete-button" (click)="control.removeFile(file)"&gt;
+                    &lt;svg&gt;...&lt;/svg&gt;
+                &lt;/span&gt;
+                &#64;if (control.valid) &#123;
+                    &lt;img [src]="uploadedFile | async"&gt;
+                &#125;
+            &lt;/div&gt;
+        &lt;/ng-template&gt;
+    &lt;/file-upload&gt;
+    `,
+    styles: [
+        ...src/file-upload-wrapper/check file-upload-wrapper.component.scss file
+    ],
+    standalone: true,
+    imports: [
+        FileUploadComponent
+    ]
+&#125;)
+export class FileUploadWrapperComponent implements OnInit, OnDestroy &#123;
+
+    public readonly uploadedFile: BehaviorSubject&lt;string&gt; = new BehaviorSubject(null);
+
+    private subscription: Subscription;
+
+    public readonly control = new FileUploadControl(
+        &#123; listVisible: true, accept: ['image/*'], discardInvalid: true, multiple: false &#125;,
+        [FileUploadValidators.accept(['image/*']), FileUploadValidators.filesLimit(1)]
+    );
+
+    public ngOnInit(): void &#123;
+        this.subscription = this.control.valueChanges.subscribe((values: Array&lt;File&gt;) => this.getImage(values[0]));
+    &#125;
+
+    public ngOnDestroy(): void &#123;
+        this.subscription.unsubscribe();
+    &#125;
+
+    private getImage(file: File): void &#123;
+        if (FileReader && file) &#123;
+            const fr = new FileReader();
+            fr.onload = (e) => this.uploadedFile.next(e.target.result);
+            fr.readAsDataURL(file);
+        &#125; else &#123;
+            this.uploadedFile.next(null);
+        &#125;
+    &#125;
+
+&#125;</pre>
+            <file-upload-wrapper-component [control]="customTemplateWrapperFileUploadControl"></file-upload-wrapper-component>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="template-reuse">
+        <div class="card-header">Localize built-in templates</div>
+        <div class="card-block">
+            <p>It is possible to localize built-in templates.</p>
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+    &lt;file-upload [control]="fileUploadControl"&gt;
+        &lt;ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder&gt;
+            &lt;file-upload-drop-zone&gt;
+                &#64;if (isFileDragDropAvailable) &#123;
+                    Ziehen Sie Dateien per &lt;b&gt;Drag & Drop&lt;/b&gt;&lt;br&gt; oder klicken Sie hier
+                &#125; &#64;else &#123;
+                    &lt;b&gt;Klicken Sie hier&lt;/b&gt; um&lt;br&gt; eine Datei auszuwählen
+                &#125;
+            &lt;/file-upload-drop-zone&gt;
+        &lt;/ng-template&gt;
+
+        &lt;ng-template let-i="index" let-file="file" let-control="control" #item&gt;
+            &lt;file-upload-list-item  [index]="i" [file]="file" [control]="control"&gt;Entfernen&lt;/file-upload-list-item&gt;
+        &lt;/ng-template&gt;
+    &lt;/file-upload&gt;
+    `
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+
+            <file-upload [control]="fileUploadWithTemplate">
+                <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+                    <file-upload-drop-zone>
+                        @if (isFileDragDropAvailable) {
+                            Ziehen Sie Dateien per <b>Drag & Drop</b><br> oder klicken Sie hier
+                        } @else {
+                            <b>Klicken Sie hier</b> um<br> eine Datei auszuwählen
+                        }
+                    </file-upload-drop-zone>
+                </ng-template>
+
+                <ng-template let-i="index" let-file="file" let-control="control" #item>
+                    <file-upload-list-item  [index]="i" [file]="file" [control]="control">Entfernen</file-upload-list-item>
+                </ng-template>
+            </file-upload>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="custom">
+        <div class="card-header">Separate list</div>
+        <div class="card-block">
+
+            <pre class="prettify" ngNonBindable>import &#123; FileUploadControl, FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
+
+&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+        &lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;
+
+        &#64;if (fileUploadControl.value.length > 0) &#123;
+            &lt;div class="file-list"&gt;
+                &#64;for (file of fileUploadControl.value; track file) &#123;
+                    &lt;div class="file-item" 
+                        (click)="fileUploadControl.removeFile(file)"&gt;
+                        {{ file.name }}
+                    &lt;/div&gt;
+                &#125;
+            &lt;/div&gt;
+        &#125;
+    `
+&#125;)
+export class AppComponent &#123;
+    
+    public fileUploadControl = new FileUploadControl(&#123; listVisible: false &#125;);
+        
+&#125;</pre>
+            <div class="custom-zone">
+                <file-upload [control]="customFileUploadControl"></file-upload>
+
+                @if (customFileUploadControl.value?.length > 0) {
+                    <div class="file-list">
+                        @for (file of customFileUploadControl.value; track file) {
+                            <div class="file-item" 
+                            (click)="customFileUploadControl.removeFile(file)">
+                            <svg viewBox="0 0 48 48">
+                                <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
+                                    c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
+                                    c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
+                                    C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
+                                    c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
+                                    C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
+                            </svg> {{ file.name }}
+                        </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="discard">
+        <div class="card-header">Discard files</div>
+        <div class="card-block">
+
+            <pre class="prettify" ngNonBindable>import &#123; FileUploadControl, FileUploadValidators &#125; from '&#64;iplab/ngx-file-upload';
+
+&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+        &lt;file-upload [control]="fileUploadControl"&gt;&lt;/file-upload&gt;
+
+        &lt;div class="files-row"&gt;
+            &lt;div class="file-list"&gt;
+                &lt;h6&gt;Uploaded files&lt;/h6&gt;
+                &#64;for (file of fileUploadControl.value; track file) &#123;
+                    &lt;div class="file-item" 
+                        (click)="fileUploadControl.removeFile(file)"&gt;
+                        {{ file.name }}
+                    &lt;/div&gt;
+                &#125;
+            &lt;/div&gt;
+
+            &lt;div class="file-list"&gt;
+                &lt;h6&gt;Discarded files&lt;/h6&gt;
+                &#64;for (file of fileUploadControl.discardedValueChanges | async; track file) &#123;
+                    &lt;div class="file-item" 
+                        {{ discarded.file.name }}
+                    &lt;/div&gt;
+                &#125;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    `
+&#125;)
+export class AppComponent &#123;
+    
+    public fileUploadControl = new FileUploadControl(
+        // control configuration
+        &#123; listVisible: false, discardInvalid: true, accept: ['image/*'], &#125;,
+
+        // validator used to discard files
+        [FileUploadValidators.accept(['image/*']), FileUploadValidators.fileSize(80000)]
+    );
+        
+&#125;</pre>
+            <div class="custom-zone">
+                <file-upload [control]="fileUploaddiscardInvalidControl"></file-upload>
+
+                <div class="files-row">
+                    <div class="file-list">
+                        <h6>Uploaded files</h6>
+                        @for (file of fileUploaddiscardInvalidControl.value; track file) {
+                            <div class="file-item" 
+                                (click)="fileUploaddiscardInvalidControl.removeFile(file)">
+                                <svg viewBox="0 0 48 48">
+                                    <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
+                                        c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
+                                        c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
+                                        C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
+                                        c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
+                                        C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
+                                </svg> {{ file.name }}
+                            </div>
+                        }
+                    </div>
+                    <div class="file-list">
+                        <h6>Discarded files</h6>
+                        @for (discarded of fileUploaddiscardInvalidControl.discardedValueChanges | async; track discarded) {
+                            <div class="file-item">
+                                <svg viewBox="0 0 48 48">
+                                    <path d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973 
+                                        c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021
+                                        c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11
+                                        C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18
+                                        c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1
+                                        C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z"/>
+                                </svg> {{ discarded.file.name }}
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <p>File discard is also available over related directives</p>
+            <pre class="prettify">&lt;file-upload [discard]="true"&gt;&lt;/file-upload&gt;
+&lt;file-upload discard="true"&gt;&lt;/file-upload&gt;</pre>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="attribute">
+        <div class="card-header">Attribute component</div>
+        <div class="card-block">
+            <p>It is possible to transform any block element to file drop zone.</p>
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `app-root`,
+    template: `&lt;div file-drop-zone [control]="fileUploadControl"&gt;
+    ...
+    &lt;/div&gt;`
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+            <p>and in same way as is the case with standard component it is possible to change drop zone placeholder</p>
+            <pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+    &lt;div file-drop-zone [control]="fileUploadControl"&gt;
+        ...
+        &lt;textarea&gt;&lt;/textarea&gt;
+        ...
+        &lt;ng-template #placeholder&gt;
+            &lt;span&gt;File can be dropped here&lt;/span&gt;
+        &lt;/ng-template&gt;
+    &lt;/div&gt;https://pivan.github.io/file-upload/
+
+    &#64;if (fileUploadControl.value.length > 0) &#123;
+        &lt;div class="file-list"&gt;
+            &#64;for (file of fileUploadControl.value; track file) &#123;
+                &lt;div class="file-item"&gt;
+                    {{ file.name }}
+                &lt;/div&gt;
+            &#125;
+        &lt;/div&gt;
+    &#125;
+    `
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+                   
+            <div class="message-wrapper" #dropZone [control]="fileUploadControl" file-drop-zone>
+                <textarea>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
+            </div>
+<<<<<<< ours
+            @if (fileUploadControl.value?.length > 0) {
+=======
+            @if (dropZone.control().value.length > 0) {
+>>>>>>> theirs
+                <div class="file-list">
+                    @for (file of dropZone.control().value; track file) {
+                        <div class="file-item">
+                            <svg enable-background="new 0 0 48 48" viewBox="0 0 48 48">
+                                <path clip-rule="evenodd" d="M37,47H11c-2.209,0-4-1.791-4-4V5c0-2.209,1.791-4,4-4h18.973  c0.002,0,0.005,0,0.007,0h0.02H30c0.32,0,0.593,0.161,0.776,0.395l9.829,9.829C40.84,11.407,41,11.68,41,12l0,0v0.021  c0,0.002,0,0.003,0,0.005V43C41,45.209,39.209,47,37,47z M31,4.381V11h6.619L31,4.381z M39,13h-9c-0.553,0-1-0.448-1-1V3H11  C9.896,3,9,3.896,9,5v38c0,1.104,0.896,2,2,2h26c1.104,0,2-0.896,2-2V13z M33,39H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18  c0.553,0,1,0.448,1,1C34,38.553,33.553,39,33,39z M33,31H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1  C34,30.553,33.553,31,33,31z M33,23H15c-0.553,0-1-0.447-1-1c0-0.552,0.447-1,1-1h18c0.553,0,1,0.448,1,1C34,22.553,33.553,23,33,23  z" fill-rule="evenodd"/>
+                            </svg> {{ file.name }}
+                        </div>
+                    }
+                </div>
+            }
+            
+        </div>
+    </div>
+    <br>
+
+
+    <div class="card" id="single-file">
+            <div class="card-header">Simple - single file upload</div>
+            <div class="card-block">
+                <p>It is possible to use simple file upload, layout is similar to default browser</p>
+                <pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `app-root`,
+    template: `&lt;file-upload simple/&gt;`
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+                <p>and in same way as is the case with standard component it is possible to change placeholder and button layout</p>
+                <pre class="prettify" ngNonBindable>&#64;Component(&#123;
+    selector: `app-root`,
+    template: `
+        &lt;file-upload simple&gt;
+            &lt;ng-template let-file #placeholder&gt;
+                &#64;if (file) &#123;
+                    &#123;&#123; file.name &#125;&#125;
+                &#125; &#64;else &#123;
+                    Choose a file...
+                &#125;
+            &lt;/ng-template&gt;
+
+            &lt;ng-template let-control="control" #button&gt;
+                Browse for file
+            &lt;/ng-template&gt;
+        &lt;/file-upload&gt;`
+&#125;)
+export class AppComponent &#123; &#125;</pre>
+                       
+                <file-upload simple [control]="simpleFileUploadControl" [accept]="'image/*'" />
+            </div>
+        </div>
+        <br>
+
+    <div class="card" id="theming">
+        <div class="card-header">Theming</div>
+        <div class="card-block">
+            <div class="row align-items-center">
+                <div class="col col-lg-4">
+                    <file-upload class="theme-demo-file-upload" />
+                </div>
+                <div class="col col-lg-8">
+                    <p>Customize the file upload through CSS custom properties on its host element:</p>
+                    <div class="theme-color-list" aria-label="File upload theme colors">
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-surface"></span>
+                            <code>--ngx-file-upload-surface: #202124</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-surface-subtle"></span>
+                            <code>--ngx-file-upload-surface-subtle: #2b2d31</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-border"></span>
+                            <code>--ngx-file-upload-border: 1px solid #4b4d52</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-accent"></span>
+                            <code>--ngx-file-upload-accent: #62c7b5</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-text"></span>
+                            <code>--ngx-file-upload-text: #f1f3f4</code>
+                        </div>
+                    </div>
+                    <pre class="prettify">.theme-demo-picker &#123;
+    --ngx-file-upload-surface: #202124;
+    --ngx-file-upload-surface-subtle: #2b2d31;
+    --ngx-file-upload-text: #f1f3f4;
+    --ngx-file-upload-radius: 8px;
+    --ngx-file-upload-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-file-upload-border-strong: #62c7b5;
+    --ngx-file-upload-accent: #62c7b5;
+    --ngx-file-upload-border: 1px solid #4b4d52;
+    --ngx-file-upload-dashed-border: 1px dashed #62c7b5;
+    --ngx-file-upload-icon-color: #9adbd1;
+    --ngx-file-upload-danger: #ff8a80;
+    --ngx-simple-file-upload-button-surface: #35383e;
+&#125;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+
+    <div class="card">
+        <div class="card-header">List of all built-in methods</div>
+        <div class="card-block">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>statusChanges</td>
+                        <td><code>Getter.Observable</code></td>
+                        <td>Used to observe component status change</td>
+                    </tr>
+                    <tr>
+                        <td>valueChanges</td>
+                        <td><code>Getter.Observable</code></td>
+                        <td>Used to observe value change, subscription initially return last emitted value</td>
+                    </tr>
+                    <tr>
+                        <td>setValidators</td>
+                        <td><code>Function</code></td>
+                        <td>Method used to set validators functions, signature is same as &#64;angular validators</td>
+                    </tr>
+                    <tr>
+                        <td>addFile</td>
+                        <td><code>Function</code></td>
+                        <td>Used to add File object to existing File list</td>
+                    </tr>
+                    <tr>
+                        <td>removeFile</td>
+                        <td><code>Function</code></td>
+                        <td>Used to remove File object from existing File list</td>
+                    </tr>
+                    <tr>
+                        <td>addFiles</td>
+                        <td><code>Function</code></td>
+                        <td>Used to add multiple File objects</td>
+                    </tr>
+                    <tr>
+                        <td>valid</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Used to get current validity status</td>
+                    </tr>
+                    <tr>
+                        <td>invalid</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>same as `valid`</td>
+                    </tr>
+                    <tr>
+                        <td>getError</td>
+                        <td><code>Function</code></td>
+                        <td>return list of validation errors</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td><code>Getter.Number</code></td>
+                        <td>return list length</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td><code>Getter.Array</code></td>
+                        <td>return list of Files</td>
+                    </tr>
+                    <tr>
+                        <td>setValue</td>
+                        <td><code>Function</code></td>
+                        <td>Set component value, same as FormControl.setValue()</td>
+                    </tr>
+                    <tr>
+                        <td>acceptFiles</td>
+                        <td><code>Function</code></td>
+                        <td>Specify the types of files that the server accepts (audio/*,video/*,image/*)</td>
+                    </tr>
+                    <tr>
+                        <td>acceptAll</td>
+                        <td><code>Function</code></td>
+                        <td>Reset accept attribute</td>
+                    </tr>
+                    <tr>
+                        <td>clear</td>
+                        <td><code>Function</code></td>
+                        <td>Remove all files</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Check is component disabled</td>
+                    </tr>
+                    <tr>
+                        <td>enable</td>
+                        <td><code>Function</code></td>
+                        <td>Enable/Disable file upload</td>
+                    </tr>
+                    <tr>
+                        <td>disable</td>
+                        <td><code>Function</code></td>
+                        <td>Disable/Enable file upload</td>
+                    </tr>
+                    <tr>
+                        <td>isListVisible</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Check is built-in list visible</td>
+                    </tr>
+                    <tr>
+                        <td>setListVisibility</td>
+                        <td><code>Function</code></td>
+                        <td>Hide/Show built-in list</td>
+                    </tr>
+                    <tr>
+                        <td>isMultiple</td>
+                        <td><code>Getter.Boolean</code></td>
+                        <td>Check is multiple selection enabled</td>
+                    </tr>
+                    <tr>
+                        <td>multiple</td>
+                        <td><code>Function</code></td>
+                        <td>Disable/Enable multiple selection</td>
+                    </tr>
+                    <tr>
+                        <td>discardInvalid</td>
+                        <td><code>Function</code></td>
+                        <td>Discard all files that are invalid, depends on the validator</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Constructor</b></td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td>discardInvalid</td>
+                        <td><code>Boolean</code></td>
+                        <td>Discard all files that are invalid, depends on the validator</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td><code>Boolean</code></td>
+                        <td>Disable/Enable file upload</td>
+                    </tr>
+                    <tr>
+                        <td>multiple</td>
+                        <td><code>Boolean</code></td>
+                        <td>Disable/Enable multiple selection</td>
+                    </tr>
+                    <tr>
+                        <td>listVisible</td>
+                        <td><code>Boolean</code></td>
+                        <td>Hide/Show built-in list</td>
+                    </tr>
+                    <tr>
+                        <td>accept</td>
+                        <td><code>Boolean</code></td>
+                        <td>Specify the types of files that the server accepts [audio/*,video/*,image/*]</td>
+                    </tr>
+                    <tr>
+                        <td>native</td>
+                        <td><code>Boolean</code></td>
+                        <td>Enable the same behavior as the native input field when multiple files are added.</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Events</b></td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td>click</td>
+                        <td><code>Function</code></td>
+                        <td>Trigger native click</td>
+                    </tr>
+                    <tr>
+                        <td>focus</td>
+                        <td><code>Function</code></td>
+                        <td>Trigger native focus</td>
+                    </tr>
+                    <tr>
+                        <td>blur</td>
+                        <td><code>Function</code></td>
+                        <td>Trigger native blur</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+</div>
