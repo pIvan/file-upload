@@ -1,13 +1,10 @@
 import {
-    Input,
     OnInit,
     ElementRef,
     HostListener,
     Renderer2,
     OnDestroy,
     Inject,
-    ViewChild,
-    ContentChild,
     TemplateRef,
     Component,
     AfterViewInit,
@@ -46,7 +43,10 @@ import { HAS_FILES_CLASS_NAME, IS_INVALID_CLASS_NAME } from './../file-upload-ab
             </div>
         }
     `,
-    styleUrls: [`./file-upload-attr.component.scss`],
+    styleUrls: [
+        `./../../file-upload-theme.scss`,
+        `./file-upload-attr.component.scss`
+    ],
     providers: [
         FileUploadService,
     ],

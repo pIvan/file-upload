@@ -28,7 +28,10 @@ import { FileUploadControl } from './../../helpers/control.class';
 @Component({
     selector: `file-upload:not([simple])`,
     templateUrl: `./file-upload.component.html`,
-    styleUrls: [`./file-upload.component.scss`],
+    styleUrls: [
+        `./../../file-upload-theme.scss`,
+        `./file-upload.component.scss`
+    ],
     providers: [
         FileUploadService,
         {
