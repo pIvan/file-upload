@@ -1,3 +1,11 @@
+<a name="20.1.0"></a>
+## [20.1.0](https://github.com/pIvan/file-upload/commit/15db0cc891b0b33dad1e6cd96b640ed69b303fe2) (2026-08-25)
+
+### Features
+* **theming** - Added default CSS custom properties for surfaces, text, borders, accents, icons, danger states, radius, shadows and the simple upload button.
+* **project-level theme overrides** - CSS custom properties can be overridden on the `file-upload` host element or an ancestor wrapper.
+
+
 <a name="20.0.1"></a>
 ## [20.0.1](https://github.com/pIvan/file-upload/commit/8af545b9fc1a6181e7d0123bb218772e8a269bd6) (2025-11-12)
 
