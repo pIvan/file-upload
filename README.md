@@ -1,182 +1,254 @@
 # @iplab/ngx-file-upload
-> Angular module used for file upload.
 
-
+Angular file upload components with support for native file selection, drag and drop, Angular forms, validation, custom templates and CSS custom property theming.
 
 [![npm version](https://badge.fury.io/js/%40iplab%2Fngx-file-upload.svg)](https://www.npmjs.com/package/@iplab/ngx-file-upload)
-[![Build Status](https://travis-ci.com/pIvan/file-upload.svg?branch=master)](https://travis-ci.org/pIvan/file-upload)
 
+## Demo
 
+Live demo and complete examples:
 
-# Demo
-more detailed instructions can be found
-[here](https://pivan.github.io/file-upload/)
+<https://pivan.github.io/file-upload/>
 
+The demo covers reactive forms, template-driven forms, standalone controls, custom templates, localized templates, separate file lists, discarded files, attribute drop zones, simple single-file upload and theming.
 
-# Tested with
+## Compatibility
 
-- Firefox (latest)
-- Chrome (latest)
-- Chromium (latest)
-- Edge
+The current package version is `22.0.0` and its peer dependencies require Angular 22:
 
-# Compatible with
+- `@angular/common`: `^22.0.0`
+- `@angular/core`: `^22.0.0`
+- `@angular/forms`: `^22.0.0`
+- `rxjs`: `^7.0.0`
 
-- Angular 20 (@iplab/ngx-file-upload@version >= 20.0.0)
-- Angular 19 (@iplab/ngx-file-upload@version >= 19.0.0)
-- Angular 18 (@iplab/ngx-file-upload@version >= 18.0.0)
-- Angular 17 (@iplab/ngx-file-upload@version >= 17.0.0)
-- Angular 16 (@iplab/ngx-file-upload@version >= 16.0.0)
-- Angular 15 (@iplab/ngx-file-upload@version >= 15.0.0)
-- Angular 14 (@iplab/ngx-file-upload@version >= 14.0.0)
-- Angular 13 (@iplab/ngx-file-upload@version >= 13.0.0)
-- Angular 12 (@iplab/ngx-file-upload@version >= 12.0.0)
-- Angular 11 (@iplab/ngx-file-upload@version >= 11.0.0)
-```shell
-with older version of Angular use @iplab/ngx-file-upload@version < 4.0.0
-```
+The demo compatibility table documents the library's Angular major-version lines from Angular 11 through Angular 22. For older Angular applications, install the matching library major version instead of the current `22.x` release. For example, an Angular 20 application should use the `20.x` library release.
 
-## Installing / Getting started
+Supported browsers are current Firefox, Chrome, Chromium and Edge releases.
 
+## Installation
 
 ```shell
 npm install @iplab/ngx-file-upload
 ```
 
-Use the following snippet inside your app module: 
-```shell
-import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
+### NgModule application
+
+Import `FileUploadModule` together with the Angular forms module required by the application:
+
+```typescript
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
-...
-...
 
 @NgModule({
     imports: [
         BrowserModule,
-        ReactiveFormsModule,
         FormsModule,
-        FileUploadModule,
+        ReactiveFormsModule,
+        FileUploadModule
     ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
 
-Use the following snippet inside your component: 
-```shell
+### Standalone application
+
+Import `FileUploadModule`, or the individual standalone components needed by the application:
+
+```typescript
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
+
+@Component({
+    selector: 'app-root',
+    template: `<file-upload [control]="fileUploadControl"></file-upload>`,
+    standalone: true,
+    imports: [ReactiveFormsModule, FileUploadModule]
+})
+export class AppComponent {}
+```
+
+## Usage
+
+### Standalone control
+
+```typescript
 import { FileUploadControl, FileUploadValidators } from '@iplab/ngx-file-upload';
 
-
-@Component({
-    selector: `app-root`,
-    template: `<file-upload [control]="fileUploadControl"></file-upload>`
-})
 export class AppComponent {
-
-    public fileUploadControl = new FileUploadControl(null, FileUploadValidators.filesLimit(2));
-
-    constructor() {
-    }
+    public readonly fileUploadControl = new FileUploadControl(
+        { multiple: false },
+        FileUploadValidators.fileSize(80000)
+    );
 }
 ```
 
-With angular reactive form you can use the following snippet: 
-```shell
+```html
+<file-upload [control]="fileUploadControl"></file-upload>
+```
+
+### Reactive forms
+
+```typescript
+import { FormControl, FormGroup } from '@angular/forms';
 import { FileUploadValidators } from '@iplab/ngx-file-upload';
 
-
-@Component({
-    selector: `app-root`,
-    template: `
-    <form [formGroup]="demoForm">
-        <file-upload formControlName="files"></file-upload>
-    </form>`
-})
 export class AppComponent {
+    public readonly filesControl = new FormControl<File[] | null>(
+        null,
+        FileUploadValidators.accept(['video/*', 'image/*', '.mp3'])
+    );
 
-    private filesControl = new FormControl(null, FileUploadValidators.filesLimit(2));
-  
-    public demoForm = new FormGroup({
+    public readonly demoForm = new FormGroup({
         files: this.filesControl
     });
-
-    constructor() {
-    }
 }
 ```
 
+```html
+<form [formGroup]="demoForm">
+    <file-upload formControlName="files"></file-upload>
+</form>
+```
 
-With angular template driven form you can use the following snippet: 
-```shell
-@Component({
-    selector: `app-root`,
-    template: `
-    <form #demoForm="ngForm">
-        <file-upload [(ngModel)]="uploadedFiles" name="files" fileslimit="2"></file-upload>
-    </form>`
-})
-export class AppComponent {
+### Template-driven forms
 
-    public uploadedFiles: Array<File> = [];
+```html
+<form #demoForm="ngForm">
+    <file-upload
+        [(ngModel)]="uploadedFiles"
+        [disabled]="isDisabled"
+        name="files"
+        fileslimit="2">
+    </file-upload>
+</form>
+```
+
+## Validation and options
+
+`FileUploadControl` accepts options such as `multiple`, `listVisible`, `accept` and `discardInvalid`. Available validators include:
+
+- `FileUploadValidators.fileSize(size)`
+- `FileUploadValidators.filesLimit(limit)`
+- `FileUploadValidators.accept(types)`
+- `FileUploadValidators.reject(types)`
+
+Accepted types can be file extensions such as `.mp3`, media types such as `image/*`, or complete MIME types. Multiple values can be provided as an array.
+
+The library also provides `filesize`, `fileslimit` and `accept` directives for template-based validation, plus `discard` and `native` behavior directives.
+
+## Custom templates
+
+Use `#placeholder` to replace the upload placeholder and `#item` to replace the file-list item:
+
+```html
+<file-upload [control]="fileUploadControl">
+    <ng-template let-isFileDragDropAvailable="isFileDragDropAvailable" #placeholder>
+        @if (isFileDragDropAvailable) {
+            <span>Drop or click to choose files</span>
+        } @else {
+            <span>Click to choose a file</span>
+        }
+    </ng-template>
+
+    <ng-template let-file="file" let-control="control" #item>
+        <div (click)="control.removeFile(file)">{{ file.name }}</div>
+    </ng-template>
+</file-upload>
+```
+
+Built-in templates can also be localized by using `file-upload-drop-zone` and `file-upload-list-item` directly.
+
+## Theming
+
+The default CSS custom properties are provided by the upload component theme. No application-level stylesheet import is required. Override them on the `file-upload` host element or an ancestor wrapper:
+
+```scss
+file-upload.theme-demo-file-upload {
+    --ngx-file-upload-surface: #202124;
+    --ngx-file-upload-surface-subtle: #2b2d31;
+    --ngx-file-upload-text: #f1f3f4;
+    --ngx-file-upload-radius: 8px;
+    --ngx-file-upload-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-file-upload-border-strong: #62c7b5;
+    --ngx-file-upload-accent: #62c7b5;
+    --ngx-file-upload-border: 1px solid #4b4d52;
+    --ngx-file-upload-dashed-border: 1px dashed #62c7b5;
+    --ngx-file-upload-icon-color: #9adbd1;
+    --ngx-file-upload-danger: #ffd1cd;
+    --ngx-simple-file-upload-button-surface: #35383e;
 }
 ```
 
-## Developing
+Available properties:
 
-### Built With: 
-- Angular
-- RxJS
+`--ngx-file-upload-surface`, `--ngx-file-upload-surface-subtle`, `--ngx-file-upload-text`, `--ngx-file-upload-radius`, `--ngx-file-upload-shadow`, `--ngx-file-upload-border-strong`, `--ngx-file-upload-accent`, `--ngx-file-upload-border`, `--ngx-file-upload-dashed-border`, `--ngx-file-upload-icon-color`, `--ngx-file-upload-danger` and `--ngx-simple-file-upload-button-surface`.
 
-### Setting up Dev
+## Development
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
-
-[Angular CLI](https://github.com/angular/angular-cli) must be installed before building @iplab/ngx-file-upload project.
-
-```shell
-npm install -g @angular/cli
-```
+This repository contains both the demo application and the `ngx-library` Angular library project. The current workspace uses Angular CLI 22, Angular 22 and TypeScript 6.
 
 ```shell
 git clone https://github.com/pIvan/file-upload.git
-cd file-upload/
+cd file-upload
 npm install
+```
+
+Start the demo application:
+
+```shell
 npm run start
 ```
-Open "http://localhost:4200" in browser
 
+The development server uses port `4200` and opens the application at <http://localhost:4200/>. The production demo is generated into the `docs/` directory and uses `/file-upload/` as its base href.
 
-## Versioning
+## Build and test
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [link to tags on this repository](https://github.com/pIvan/file-upload/tags).
-
-## Tests
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
-
-
-[Angular CLI](https://github.com/angular/angular-cli) must be installed before testing @iplab/ngx-file-upload project.
+Build the demo application:
 
 ```shell
-npm install -g @angular/cli
+npm run build
 ```
 
+Build the production demo:
 
 ```shell
-git clone https://github.com/pIvan/file-upload.git
-cd file-upload/
-npm install
+npm run build:git:demo
+```
+
+Build and test the library, copy package documentation and build the demo:
+
+```shell
+npm run build:library
+```
+
+Run the application tests:
+
+```shell
 npm run test
 ```
 
+The library build output is written to `dist/lib`. The demo build output is written to `docs/`.
+
+## Publishing
+
+After a successful library build, publish the generated package with:
+
+```shell
+npm run build:publish
+```
+
+This publishes `dist/lib` as the `latest` npm tag.
+
+## Versioning
+
+The project follows [Semantic Versioning](https://semver.org/). Angular major versions are tracked by matching major versions of `@iplab/ngx-file-upload`.
+
 ## Contributing
 
-### Want to help?
+Bug reports, code contributions and documentation improvements are welcome. See the [contributing guide](https://github.com/pIvan/file-upload/blob/master/CONTRIBUTING.md) and [open issues](https://github.com/pIvan/file-upload/issues).
 
-Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our [contributing guide](https://github.com/pIvan/file-upload/blob/master/CONTRIBUTING.md) and then check out one of our [issues](https://github.com/pIvan/file-upload/issues).
+## License
 
-
-
-## Licensing
-
-@iplab/ngx-file-upload is freely distributable under the terms of the [MIT license](https://github.com/pIvan/file-upload/blob/master/LICENSE).
+`@iplab/ngx-file-upload` is distributed under the [MIT license](https://github.com/pIvan/file-upload/blob/master/LICENSE).

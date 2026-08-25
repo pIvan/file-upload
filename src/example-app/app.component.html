@@ -720,6 +720,57 @@ export class AppComponent &#123; &#125;</pre>
         <br>
 
 
+    <div class="card" id="theming">
+        <div class="card-header">Theming</div>
+        <div class="card-block">
+            <div class="row align-items-center">
+                <div class="col col-lg-4">
+                    <file-upload class="theme-demo-file-upload" />
+                </div>
+                <div class="col col-lg-8">
+                    <p>Customize the file upload through CSS custom properties on its host element:</p>
+                    <div class="theme-color-list" aria-label="File upload theme colors">
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-surface"></span>
+                            <code>--ngx-file-upload-surface: #202124</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-surface-subtle"></span>
+                            <code>--ngx-file-upload-surface-subtle: #2b2d31</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-border"></span>
+                            <code>--ngx-file-upload-border: 1px solid #4b4d52</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-accent"></span>
+                            <code>--ngx-file-upload-accent: #62c7b5</code>
+                        </div>
+                        <div class="theme-color-item">
+                            <span class="theme-color-swatch theme-text"></span>
+                            <code>--ngx-file-upload-text: #f1f3f4</code>
+                        </div>
+                    </div>
+                    <pre class="prettify">.theme-demo-picker &#123;
+    --ngx-file-upload-surface: #202124;
+    --ngx-file-upload-surface-subtle: #2b2d31;
+    --ngx-file-upload-text: #f1f3f4;
+    --ngx-file-upload-radius: 8px;
+    --ngx-file-upload-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    --ngx-file-upload-border-strong: #62c7b5;
+    --ngx-file-upload-accent: #62c7b5;
+    --ngx-file-upload-border: 1px solid #4b4d52;
+    --ngx-file-upload-dashed-border: 1px dashed #62c7b5;
+    --ngx-file-upload-icon-color: #9adbd1;
+    --ngx-file-upload-danger: #ff8a80;
+    --ngx-simple-file-upload-button-surface: #35383e;
+&#125;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    
 
     <div class="card">
         <div class="card-header">List of all built-in methods</div>
