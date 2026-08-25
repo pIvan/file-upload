@@ -19,7 +19,10 @@ import { FileUploadAbstract } from './../file-upload-abstract.component';
 @Component({
     selector: `file-upload[simple]`,
     templateUrl: `./simple-file-upload.component.html`,
-    styleUrls: [`./simple-file-upload.component.scss`],
+    styleUrls: [
+        `../../file-upload-theme.scss`,
+        `./simple-file-upload.component.scss`
+    ],
     providers: [
         FileUploadService,
         {
