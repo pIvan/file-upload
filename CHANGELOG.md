@@ -1,3 +1,15 @@
+<a name="21.1.0"></a>
+## [21.1.0](https://github.com/pIvan/file-upload/commit/80cceb1656c0fef512c11272e447daefb2a06d4f) (2026-08-25)
+
+### Features
+* **theme support** - Added support for themes.
+
+<a name="21.0.0"></a>
+## [21.0.0](https://github.com/pIvan/file-upload/commit/74065c16332c3dbaf3bcd9bc19d96936f8d4c43b) (2025-12-12)
+
+### Support
+* **angular update** - Added Angular 21 support.
+
 <a name="20.0.1"></a>
 ## [20.0.1](https://github.com/pIvan/file-upload/commit/8af545b9fc1a6181e7d0123bb218772e8a269bd6) (2025-11-12)
 
